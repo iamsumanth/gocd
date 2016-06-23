@@ -1,5 +1,6 @@
 package com.thoughtworks.go.config.update;
 
+import com.thoughtworks.go.config.BasicCruiseConfig;
 import com.thoughtworks.go.config.CruiseConfig;
 import com.thoughtworks.go.config.PipelineConfigs;
 import com.thoughtworks.go.config.UpdateConfigCommand;
@@ -34,6 +35,11 @@ public class PipelineConfigsUpdateCommand implements EntityConfigUpdateCommand<P
     public boolean isValid(CruiseConfig preprocessedConfig) {
         updatedConfig = preprocessedConfig.findGroup(groupName);
         return true;
+    }
+
+    @Override
+    public void clearErrors() {
+        BasicCruiseConfig.clearErrors(updatedConfig);
     }
 
     @Override
