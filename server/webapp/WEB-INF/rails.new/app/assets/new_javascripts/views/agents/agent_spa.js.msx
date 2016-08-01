@@ -1,0 +1,136 @@
+/*
+ * Copyright 2016 ThoughtWorks, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+define([
+  'jquery', 'mithril', 'lodash', 'helpers/mrequest',
+  'helpers/form_helper', 'helpers/mithril_component_mixins',
+  'js-routes',
+  'models/agents/agents',
+  'models/agents/resources',
+  'models/agents/environments',
+  'views/agents/agents_widget',
+  'foundation.util.mediaQuery',
+  'foundation.dropdownMenu',
+  'foundation.responsiveToggle',
+  'foundation.dropdown'
+], function ($, m, _, mrequest,
+             f, ComponentMixins,
+             JsRoutes,
+             Agents, Resources, Environments, AgentsWidget) {
+
+  var AgentsSPA = function (url, shouldPoll, callback) {
+    return {
+      controller: function () {
+        var ctrl         = this;
+        window.agentsSPA = m.prop(ctrl);
+
+        this.agents     = m.prop();
+        this.filterText = m.prop('');
+        this.shouldPoll = shouldPoll;
+
+        this.selectAllViewModel = {
+          boxes:              {},
+          allBoxesObj:        m.prop(),
+          checkedAgentsUuids: function () {
+            return _.compact(_.map(ctrl.selectAllViewModel.boxes, function (boxSate, agentId) {
+              if (boxSate()) {
+                return agentId;
+              }
+            }));
+          },
+
+          checkedAgents: function () {
+            return _.map(this.checkedAgentsUuids(), function (uuid) {
+              return ctrl.agents().findAgent(function (agent) {
+                return agent.uuid() == uuid
+              });
+            });
+          },
+
+          allBoxes:    function () {
+            var isChecked = _.every(ctrl.selectAllViewModel.boxes, function (boxState, agentId) {
+              return boxState();
+            });
+
+            ctrl.selectAllViewModel.allBoxesObj(isChecked);
+            return isChecked;
+          },
+          anySelected: function () {
+            return _.some(ctrl.selectAllViewModel.boxes, function (boxState, agentId) {
+              return boxState();
+            });
+          },
+
+          clickAllBoxes: function () {
+            var isChecked = ctrl.selectAllViewModel.allBoxesObj(!ctrl.selectAllViewModel.allBoxesObj());
+
+            _.each(ctrl.selectAllViewModel.boxes, function (boxState, agentId) {
+              boxState(isChecked);
+            });
+          },
+
+          unclickAllBoxes: function () {
+            _.each(ctrl.selectAllViewModel.boxes, function (boxState, agentId) {
+              boxState(false);
+            });
+          }
+        };
+
+        this.setAgentsAndPreserveSelection = function (newAgents) {
+          var oldAgentVMs        = _.keys(ctrl.selectAllViewModel.boxes);
+          var newAgentUUIDs      = newAgents.collectAgentProperty('uuid');
+          var viewModelsToRemove = _.difference(oldAgentVMs, newAgentUUIDs);
+
+          _.each(viewModelsToRemove, function (toRemove) {
+            delete ctrl.selectAllViewModel.boxes[toRemove];
+          });
+
+          ctrl.agents(newAgents);
+        };
+
+        this.fetch = function () {
+          Agents.all(url).then(function (agents) {
+            ctrl.setAgentsAndPreserveSelection(agents);
+          });
+        };
+
+        this.togglePolling = function (value) {
+          ctrl.shouldPoll = value;
+        };
+
+        var poll = function () {
+          if (shouldPoll) {
+            ctrl.fetch();
+          }
+        };
+
+        this.fetch();
+        window.setInterval(poll, 10000);
+      },
+
+      view: function (ctrl, args) {
+        return (<AgentsWidget agents={ctrl.agents}
+                              fetch={ctrl.fetch}
+                              togglePolling={ctrl.togglePolling}
+                              filterText={ctrl.filterText}
+                              setAgentsAndPreserveSelection={ctrl.setAgentsAndPreserveSelection}
+                              selectAllViewModel={ctrl.selectAllViewModel}/>);
+      }
+    };
+  };
+
+  return AgentsSPA;
+});

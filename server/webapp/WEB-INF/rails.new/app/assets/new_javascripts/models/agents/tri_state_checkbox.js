@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-define([], function () {
-  var mrequest = {
-    xhrConfig: {
-      v1: function (xhr) {
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/vnd.go.cd.v1+json");
-      },
-      v2: function (xhr) {
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/vnd.go.cd.v2+json");
-      }
-    }
+define(['mithril'], function (m) {
+  var TriStateCheckbox = function(name, isChecked, isIndeterminate) {
+    this.name = m.prop(name);
+    this.checked = m.prop(isChecked);
+    this.indeterminate = m.prop(isIndeterminate);
   };
-  return mrequest;
+
+  return TriStateCheckbox;
 });

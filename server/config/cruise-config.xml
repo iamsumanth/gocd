@@ -35,5 +35,18 @@
       </stage>
     </pipeline>
   </pipelines>
+  <agents>
+    <agent hostname="foo" ipaddress="10.12.2.2" uuid="a">
+      <resources>
+        <resource>doo</resource>
+      </resources>
+    </agent>
+    <agent hostname="zoo" ipaddress="10.12.2.1" uuid="b">
+      <resources>
+        <resource>zoo</resource>
+        <resource>doo</resource>
+      </resources>
+    </agent>
+  </agents>
 </cruise>
 

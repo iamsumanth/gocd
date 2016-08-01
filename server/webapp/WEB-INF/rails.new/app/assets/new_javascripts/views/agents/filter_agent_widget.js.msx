@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-define([], function () {
-  var mrequest = {
-    xhrConfig: {
-      v1: function (xhr) {
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/vnd.go.cd.v1+json");
-      },
-      v2: function (xhr) {
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Accept", "application/vnd.go.cd.v2+json");
-      }
+define(['mithril'], function (m) {
+  var FilterAgentWidget = {
+    view: function (ctrl, args) {
+      return (
+        <input type="text"
+               oninput={m.withAttr("value", args.filterText)}
+               value={args.filterText()}
+               placeholder="Filter Agents" id="filter_agent"/>
+      );
     }
   };
-  return mrequest;
+
+  return FilterAgentWidget;
 });

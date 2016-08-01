@@ -1,0 +1,69 @@
+define(['mithril', 'lodash', 'jquery', 'helpers/form_helper',
+    'views/agents/resource_checkbox_widget', 'models/agents/resources'],
+  function (m, _, $, f, ResourceCheckboxWidget, Resources) {
+    var foundationReflow = function () {
+      return function (elem, isInitialized) {
+        if (!isInitialized) {
+          new Foundation.Dropdown($(elem));
+        }
+      };
+    };
+
+    var ResourcesListWidget = {
+      controller: function (args) {
+        var self = this;
+
+        this.clearNewResourceField = function () {
+          Resources.newResource('');
+        };
+
+        this.updateResources = function () {
+          selectedAgents       = args.selectAllViewModel.checkedAgentsUuids();
+          resourcesToBeAdded   = [];
+          resourcesToBeRemoved = [];
+
+          _.each(Resources.list, function (resource) {
+            resource.checked() ? resourcesToBeAdded.push(resource.name()) :
+              resource.indeterminate() ? null : resourcesToBeRemoved.push(resource.name());
+          });
+
+          if (Resources.newResource() != "") {
+            resourcesToBeAdded.push(Resources.newResource());
+          }
+
+          args.beforeAction();
+          args.agents().updateResources(selectedAgents, resourcesToBeAdded, resourcesToBeRemoved, args.message);
+          args.afterAction();
+          self.clearNewResourceField();
+        };
+      },
+
+      view: function (ctrl, args) {
+        return (
+          <div id="resources_list"
+               class="dropdown-pane"
+               data-dropdown
+               data-close-on-click
+               config={foundationReflow()}>
+            { _.map(Resources.list, function (resource) {
+                return <ResourceCheckboxWidget resource={resource}/>
+              })
+            }
+
+            <f.input model={Resources}
+                     attrName='newResource'
+                     placeholder='new resource..'>
+            </f.input>
+
+            <f.button onclick={ctrl.updateResources.bind(ctrl)}
+                      class="button"
+                      data-toggle="resources_list">
+              Apply
+            </f.button>
+          </div>
+        );
+      }
+    };
+
+    return ResourcesListWidget;
+  });

@@ -1,0 +1,125 @@
+/*
+ * Copyright 2016 ThoughtWorks, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+define(['mithril', 'lodash', 'jquery', 'js-routes', 'helpers/mrequest',
+    'helpers/form_helper', 'helpers/mithril_component_mixins',
+    'views/agents/resources_list_widget',
+    'views/agents/environments_list_widget',
+    'models/agents/resources', 'models/agents/environments'],
+  function (m, _, $, Routes, mrequest, f, ComponentMixins,
+            ResourcesListWidget,
+            EnvironmentsListWidget,
+            Resources, Environments) {
+    var ButtonRowWidget = {
+      controller: function (args) {
+        this.beforeAction = function () {
+          args.togglePolling(false);
+        };
+
+        this.afterAction = function () {
+          args.fetch();
+          args.selectAllViewModel.unclickAllBoxes();
+          args.togglePolling(true);
+        };
+
+        this.deleteAgents = function () {
+          this.beforeAction();
+          args.agents().deleteAgents(args.selectAllViewModel.checkedAgentsUuids(), args.message);
+          this.afterAction();
+        };
+
+        this.disableAgents = function () {
+          this.beforeAction();
+          args.agents().disableAgents(args.selectAllViewModel.checkedAgentsUuids(), args.message);
+          this.afterAction();
+        };
+
+        this.enableAgents = function () {
+          this.beforeAction();
+          args.agents().enableAgents(args.selectAllViewModel.checkedAgentsUuids(), args.message);
+          this.afterAction();
+        };
+
+        this.fetchResources = function () {
+          Resources.init(args.selectAllViewModel.checkedAgents());
+        };
+
+        this.fetchEnvironments = function () {
+          Environments.init(args.selectAllViewModel.checkedAgents());
+        };
+      },
+
+      view: function (ctrl, args) {
+        return (
+          <f.row class="heading">
+            <f.column size={1}>
+              <h1>
+                Agents
+              </h1>
+            </f.column>
+
+            <div class="button_group">
+              <f.button class="button group-element"
+                        onclick={ctrl.deleteAgents.bind(ctrl)}
+                        disabled={!args.selectAllViewModel.anySelected()}>
+                Delete
+              </f.button>
+
+              <f.button class="button group-element"
+                        onclick={ctrl.disableAgents.bind(ctrl)}
+                        disabled={!args.selectAllViewModel.anySelected()}>
+                Disable
+              </f.button>
+
+              <f.button class="button group-element"
+                        onclick={ctrl.enableAgents.bind(ctrl)}
+                        disabled={!args.selectAllViewModel.anySelected()}>
+                Enable
+              </f.button>
+
+              <f.button class="button group-element"
+                        onclick={ctrl.fetchResources.bind(ctrl)}
+                        disabled={!args.selectAllViewModel.anySelected()}
+                        data-toggle="resources_list">
+                Resources
+              </f.button>
+
+              <ResourcesListWidget agents={args.agents}
+                                   message={args.message}
+                                   afterAction={ctrl.afterAction}
+                                   beforeAction={ctrl.beforeAction}
+                                   selectAllViewModel={args.selectAllViewModel}/>
+
+              <f.button class="button group-element"
+                        onclick={ctrl.fetchEnvironments.bind(ctrl)}
+                        disabled={!args.selectAllViewModel.anySelected()}
+                        data-toggle="environments_list">
+                Environments
+              </f.button>
+
+              <EnvironmentsListWidget agents={args.agents}
+                                      message={args.message}
+                                      afterAction={ctrl.afterAction}
+                                      beforeAction={ctrl.beforeAction}
+                                      selectAllViewModel={args.selectAllViewModel}/>
+            </div>
+
+          </f.row>
+        );
+      }
+    };
+    return ButtonRowWidget
+  });

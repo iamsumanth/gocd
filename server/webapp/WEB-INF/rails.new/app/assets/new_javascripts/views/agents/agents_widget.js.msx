@@ -1,0 +1,87 @@
+/*
+ * Copyright 2016 ThoughtWorks, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+define([
+  'mithril', 'lodash', 'jquery', 'js-routes', 'helpers/mrequest',
+  'helpers/form_helper', 'helpers/mithril_component_mixins',
+  'views/agents/agent_state_count_widget',
+  'views/agents/agent_row_widget',
+  'views/agents/agent_table_header',
+  'views/agents/filter_agent_widget',
+  'views/agents/button_row_widget'
+], function (m, _, $, Routes, mrequest, f, ComponentMixins,
+             AgentStateCountWidget,
+             AgentRowWidget,
+             AgentsTableHeader,
+             FilterAgentWidget,
+             ButtonRowWidget) {
+
+  var AgentsWidget = {
+    controller: function (args) {
+      this.message = m.prop();
+    },
+
+    view: function (ctrl, args) {
+      return (
+        <div>
+          <ButtonRowWidget selectAllViewModel={args.selectAllViewModel}
+                           fetch={args.fetch}
+                           message={ctrl.message}
+                           togglePolling={args.togglePolling}
+                           agents={args.agents}/>
+
+          <div id="message_pane">
+            {ctrl.message()}
+          </div>
+
+          <div>
+            <AgentStateCountWidget agents={args.agents}/>
+
+            <FilterAgentWidget filterText={args.filterText}/>
+          </div>
+
+          <table class="hover responsive all-agents">
+            <AgentsTableHeader onCheckboxClick={args.selectAllViewModel.clickAllBoxes}
+                               checkboxValue={args.selectAllViewModel.allBoxes}/>
+            <tbody>
+            {
+              args.agents().mapAgents(function (agent) {
+                if (!agent.matches(args.filterText())) {
+                  return;
+                }
+                var checkboxModel = args.selectAllViewModel.boxes[agent.uuid()];
+                if (!checkboxModel) {
+                  checkboxModel = args.selectAllViewModel.boxes[agent.uuid()] = m.prop();
+                }
+
+                return (
+                  <AgentRowWidget agent={agent}
+                                  key={agent.uuid()}
+                                  checkBoxModel={checkboxModel}/>
+                );
+              })
+            }
+            </tbody>
+
+          </table>
+
+        </div>
+      );
+    }
+  };
+
+  return AgentsWidget;
+});
