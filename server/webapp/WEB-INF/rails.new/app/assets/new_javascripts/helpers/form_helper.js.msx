@@ -19,7 +19,7 @@ define(['mithril', 'lodash', 'string-plus', 'models/model_mixins'], function (m,
   var deleteKeyAndReturnValue = function (object, key, defaultValue) {
     var value = object[key];
     delete object[key];
-    return value || defaultValue;
+    return _.isNil(value) ? defaultValue : value;
   };
 
   var compactClasses = function (args) {
@@ -109,7 +109,6 @@ define(['mithril', 'lodash', 'string-plus', 'models/model_mixins'], function (m,
               spellcheck="off"
               data-prop-name={attrName}
               data-model-type={modelType}
-              data-model-uuid={model.uuid()}
               value={model[attrName]()}
               type={type}
               placeholder={placeholder}
@@ -172,7 +171,7 @@ define(['mithril', 'lodash', 'string-plus', 'models/model_mixins'], function (m,
           <f.column {...args} class={_.compact([propertyError ? 'is-invalid-label' : null, args.class]).join(' ')}>
             <label
               class={_.compact([propertyError ? 'is-invalid-label' : null, tooltip ? 'has-tooltip' : null]).join(' ')}>
-              {labelText || s.humanize(attrName)}
+              {_.isNil(labelText) ? s.humanize(attrName) : labelText}
             </label>
 
             <f.tooltip tooltip={tooltip} model={model} attrName={attrName}/>
@@ -232,7 +231,7 @@ define(['mithril', 'lodash', 'string-plus', 'models/model_mixins'], function (m,
         return (
           <f.column {...args} class={propertyError ? 'error' : null}>
             <label class={_.compact([propertyError ? 'error' : null, tooltip ? 'has-tooltip' : null]).join(' ')}>
-              {labelText || s.humanize(attrName)}
+              {_.isNil(labelText) ? s.humanize(attrName) : labelText}
             </label>
 
             <f.tooltip tooltip={tooltip} model={model} attrName={attrName}/>
