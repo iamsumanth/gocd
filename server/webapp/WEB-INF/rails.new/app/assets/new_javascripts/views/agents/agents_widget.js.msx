@@ -230,10 +230,15 @@ define([
           return _.map(this.selectedAgentsUuids(), this.findAgent.bind(this));
         },
 
-        filteredAgents: function () {
-          return this.allAgents().filterAgent(function (agent) {
-            return agent.matches(vm.filterText());
-          })
+        filteredAndSortedAgents: function () {
+          var attrName = m.route.param('sortBy') || 'status';
+          var orderBy  = m.route.param('orderBy') || 'asc';
+          return this.allAgents().filterBy(vm.filterText()).sortBy(attrName, orderBy);
+        },
+
+        sortBy: function (sortBy, orderBy) {
+          debugger;
+          m.route('/' + sortBy + '/' + orderBy);
         }
       };
 
@@ -267,7 +272,7 @@ define([
               </f.column>
 
               <f.column size={6} largeSize={8}>
-                <AgentStateCountWidget agents={ctrl.filteredAgents.bind(ctrl)}/>
+                <AgentStateCountWidget agents={ctrl.filteredAndSortedAgents.bind(ctrl)}/>
               </f.column>
 
             </f.row>
@@ -278,10 +283,11 @@ define([
             <table class="go-table">
               <AgentTableHeader
                 onCheckboxClick={ctrl.selectAllAgents.bind(ctrl)}
-                checkboxValue={ctrl.areAllAgentsSelected.bind(ctrl)}/>
+                checkboxValue={ctrl.areAllAgentsSelected.bind(ctrl)}
+                sortBy={ctrl.sortBy}/>
               <tbody>
               {
-                _.map(ctrl.filteredAgents(), function (agent) {
+                ctrl.filteredAndSortedAgents().mapAgents(function (agent) {
                   var checkboxModel = vm.agentsCheckedState[agent.uuid()];
 
                   if (!checkboxModel) {

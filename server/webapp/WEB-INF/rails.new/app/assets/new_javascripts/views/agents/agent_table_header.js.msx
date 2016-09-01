@@ -29,14 +29,37 @@ define(['mithril'], function (m) {
                    })}
             />
           </td>
-          <td width="13%">Agent Name</td>
-          <td width="5%">Sandbox</td>
-          <td width="12%">OS</td>
-          <td width="10%">IP Address</td>
-          <td width="5%">Status</td>
-          <td width="8%">Free Space</td>
-          <td width="25%">Resources</td>
-          <td width="20%">Environments</td>
+          <td width="13%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'hostname', 'asc')}>Agent</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'hostname', 'desc')}>Name</span>
+          </td>
+          <td width="5%" >
+            <span onclick={args.sortBy.bind(args.sortBy, 'sandbox', 'asc')}>Sandbox</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'sandbox', 'desc')}>Sandbox</span>
+          </td>
+          <td width="12%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'operatingSystem', 'asc')}>OS</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'operatingSystem', 'desc')}>OS</span>
+          </td>
+          <td width="10%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'ipAddress', 'asc')}>IP</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'ipAddress', 'desc')}>Address</span></td>
+          <td width="5%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'status', 'asc')}>Status</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'status', 'desc')}>Status</span>
+          </td>
+          <td width="8%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'freeSpace', 'asc')}>Free Space</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'freeSpace', 'desc')}>Free Space</span>
+          </td>
+          <td width="25%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'resources', 'asc')}>Resources</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'resources', 'desc')}>Resources</span>
+          </td>
+          <td width="20%">
+            <span onclick={args.sortBy.bind(args.sortBy, 'environments', 'asc')}>Environments</span>
+            <span onclick={args.sortBy.bind(args.sortBy, 'environments', 'desc')}>Environments</span>
+          </td>
         </tr>
         </thead>
       );
@@ -45,3 +68,12 @@ define(['mithril'], function (m) {
 
   return AgentsTableHeader;
 });
+
+//
+//<th width="5%" onclick={args.sortAgents.sortByAgentLocation('desc')}>Sandbox</th>
+//<th width="12%" onclick={args.sortAgents.sortByOs('desc')}>OS</th>
+//<th width="10%" onclick={args.sortAgents.sortByIpAddress('desc')}>IP Address</th>
+//<th width="5%" onclick={args.sortAgents.sortByStatus('desc')}>Status</th>
+//<th width="8%" onclick={args.sortAgents.sortByFreeSpace('desc')}>Free Space</th>
+//<th width="25%" onclick={args.sortAgents.sortByResources('desc')}>Resources</th>
+//<th width="20%" onclick={args.sortAgents.sortByEnvironments('desc')}>Environments</th>

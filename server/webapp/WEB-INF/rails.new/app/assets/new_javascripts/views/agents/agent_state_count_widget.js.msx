@@ -19,25 +19,25 @@ define(['mithril'], function (m) {
     controller: function (args) {
       return {
         disabledAgentsCount: function () {
-          return _.filter(args.agents(), function (agent) {
+          return args.agents().filterAgent(function (agent) {
             return agent.agentConfigState() == 'Disabled';
           }).length;
         },
 
         enabledAgentsCount: function () {
-          return _.filter(args.agents(), function (agent) {
+          return args.agents().filterAgent(function (agent) {
             return agent.agentConfigState() == 'Enabled';
           }).length;
         },
 
         pendingAgentsCount: function () {
-          return _.filter(args.agents(), function (agent) {
+          return args.agents().filterAgent(function (agent) {
             return agent.agentConfigState() == 'Pending';
           }).length;
         },
 
         totalAgentsCount: function () {
-          return args.agents().length;
+          return args.agents().countAgent();
         }
       }
     },

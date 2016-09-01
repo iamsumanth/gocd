@@ -30,10 +30,12 @@ require([
     Environments.init();
     $(document).foundation();
 
-    var mount = function(){
-      m.mount(document.getElementById('agents'), AgentsWidget);
-    };
+    m.route.mode = "hash";
 
-    mount();
+    m.route(document.getElementById('agents'), '', {
+      '': AgentsWidget,
+      '/:sortBy/:orderBy': AgentsWidget
+    });
   });
 });
+

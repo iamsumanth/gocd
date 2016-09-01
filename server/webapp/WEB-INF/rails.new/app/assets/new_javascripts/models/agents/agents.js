@@ -88,6 +88,27 @@ define(['mithril', 'lodash', 'string-plus',
       });
     };
 
+    this.sortBy = function (attrName, order) {
+
+      var agents = this.sortByAgents(function (agent) {
+        return agent[attrName]();
+      });
+
+      if (order === 'desc') {
+        agents = _.reverse(agents);
+      }
+
+      return new Agents(agents);
+    };
+
+    this.filterBy = function (text) {
+      return new Agents(
+        this.filterAgent(function (agent) {
+          return agent.matches(text)
+        })
+      );
+    };
+
     Mixins.HasMany.call(this, {factory: Agents.Agent.create, as: 'Agent', collection: data, uniqueOn: 'uuid'});
   };
 
