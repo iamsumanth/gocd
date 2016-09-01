@@ -111,7 +111,7 @@ define(['mithril', 'lodash', 'string-plus',
         });
       };
 
-      var sortAgents = _.isEqual(attrName, 'status') ? sortByStatus.bind(this) : sortByAlphaNumeric.bind(this);
+      var sortAgents = _.isEqual(attrName, 'agentState') ? sortByStatus.bind(this) : sortByAlphaNumeric.bind(this);
 
       var agents = sortAgents();
       if (order === 'desc') {

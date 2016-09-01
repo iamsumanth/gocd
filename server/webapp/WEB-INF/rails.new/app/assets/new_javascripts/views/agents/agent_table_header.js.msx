@@ -36,7 +36,6 @@ define(['mithril'], function (m) {
         },
 
         toggleSortingOrder: function (sortBy) {
-          debugger;
           var sortingOrder = _.isEqual(sortBy, sortType()) ? (_.isEqual(orderType(), 'asc') ? 'desc' : 'asc') : 'asc';
           args.sortBy.bind(args.sortBy, sortBy, sortingOrder);
         }

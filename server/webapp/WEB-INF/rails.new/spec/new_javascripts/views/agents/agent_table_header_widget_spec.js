@@ -18,7 +18,7 @@ define(["jquery", "mithril", "views/agents/agent_table_header"], function ($, m,
   describe("Agent Table Header Widget", function () {
     var $root = $('#mithril-mount-point'), root = $root.get(0);
     beforeAll(function () {
-      mount();
+      route();
     });
 
     it('should contain the agents table header information', function () {
@@ -40,18 +40,28 @@ define(["jquery", "mithril", "views/agents/agent_table_header"], function ($, m,
       expect(checkbox.checked).toBe(checkboxValue());
     });
 
-    var mount = function () {
-      m.mount(root,
-        m.component(AgentsTableHeader,
-          {
-            'onCheckboxClick': onCheckboxClick,
-            'checkboxValue':   checkboxValue
-          })
-      );
+    var route = function () {
+      m.route.mode = "hash";
+      m.route(root, '', {
+        '': agentTableHeaderComponent(),
+        '/:sortBy/:orderBy': agentTableHeaderComponent()
+      });
       m.redraw(true);
     };
 
+    var agentTableHeaderComponent = function () {
+      return m.component(AgentsTableHeader,
+        {
+          'onCheckboxClick': onCheckboxClick,
+          'checkboxValue':   checkboxValue,
+          'sortBy':          sortBy
+        });
+    };
+
     var onCheckboxClick = function () {
+    };
+
+    var sortBy = function () {
     };
 
     var checkboxValue = function () {

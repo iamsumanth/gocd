@@ -20,7 +20,7 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agent_state_c
     beforeAll(function () {
       var agents    = m.prop();
       var allAgents = Agents.fromJSON(json());
-      agents(allAgents.toJSON());
+      agents(allAgents);
       mount(agents);
     });
 
