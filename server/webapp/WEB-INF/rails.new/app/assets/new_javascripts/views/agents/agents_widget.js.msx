@@ -237,7 +237,6 @@ define([
         },
 
         sortBy: function (sortBy, orderBy) {
-          debugger;
           m.route('/' + sortBy + '/' + orderBy);
         }
       };
@@ -280,7 +279,7 @@ define([
           <f.flashMessage message={ ctrl.message } type={ ctrl.type } timeout={ 10000 }></f.flashMessage>
           <f.row>
               <div class="container">
-            <table class="go-table">
+            <table class="go-table agents-table">
               <AgentTableHeader
                 onCheckboxClick={ctrl.selectAllAgents.bind(ctrl)}
                 checkboxValue={ctrl.areAllAgentsSelected.bind(ctrl)}

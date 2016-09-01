@@ -90,10 +90,30 @@ define(['mithril', 'lodash', 'string-plus',
 
     this.sortBy = function (attrName, order) {
 
-      var agents = this.sortByAgents(function (agent) {
-        return agent[attrName]();
-      });
+      var sortByStatus = function () {
+        return this.sortByAgents(function (agent) {
+          var rank = {
+            "Pending":     1,
+            "LostContact": 2,
+            "Missing":     3,
+            "Building":    4,
+            "Cancelled":   5,
+            "Idle":        6,
+            "Disabled":    7
+          };
+          return rank[agent[attrName]()];
+        });
+      };
 
+      var sortByAlphaNumeric = function () {
+        return this.sortByAgents(function (agent) {
+          return agent[attrName]();
+        });
+      };
+
+      var sortAgents = _.isEqual(attrName, 'status') ? sortByStatus.bind(this) : sortByAlphaNumeric.bind(this);
+
+      var agents = sortAgents();
       if (order === 'desc') {
         agents = _.reverse(agents);
       }

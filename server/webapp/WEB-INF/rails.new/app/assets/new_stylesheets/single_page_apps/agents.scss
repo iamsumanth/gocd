@@ -242,6 +242,7 @@ span.info {
   }
 }
 
+// search panel
 .search-panel {
   padding: 10px 0;
 }
@@ -313,6 +314,9 @@ span.info {
   }
 }
 
+//table styles
+
+$arrow-color: #000;
 
 .go-table {
   background: transparent;
@@ -343,5 +347,64 @@ span.info {
   }
   input[type="checkbox"] {
     margin: 0;
+  }
+}
+
+.agents-table {
+  thead {
+    tr {
+      background: $tertiary;
+      th {
+        cursor: pointer;
+        color: $dark-grey;
+      }
+    }
+  }
+}
+
+.sort {
+  display: inline-block;
+  width: 10px;
+  height: 14px;
+  position: relative;
+  top: 3px;
+  margin-left: 5px;
+  .up {
+    position: absolute;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 4px 6px 4px;
+    border-color: transparent transparent $arrow-color transparent;
+    transition: all 0.3s ease-in-out;
+  }
+  .down {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 6px 4px 0 4px;
+    border-color: $arrow-color transparent transparent transparent;
+    transition: all 0.3s ease-in-out;
+  }
+  &.desc {
+    .down {
+      display: none;
+    }
+    .up {
+      top: 3px;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+  &.asc {
+    .down {
+      top: 5px;
+      transition: all 0.3s ease-in-out;
+    }
+    .up {
+      display: none;
+    }
   }
 }
