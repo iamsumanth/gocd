@@ -71,7 +71,7 @@ define(['mithril'], function (m) {
               </div>
             </label>
           </th>
-          <th width="12%">
+          <th width="10%">
             <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'operatingSystem')}>OS
               <div class={"sort " + ctrl.sortOrder('operatingSystem')}>
                 <span class="up"></span>
@@ -79,7 +79,7 @@ define(['mithril'], function (m) {
               </div>
             </label>
           </th>
-          <th width="8%">
+          <th width="10%">
             <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'ipAddress')}>IP Address
               <div class={"sort " + ctrl.sortOrder('ipAddress')}>
                 <span class="up"></span>
@@ -95,7 +95,7 @@ define(['mithril'], function (m) {
               </div>
             </label>
           </th>
-          <th width="9%">
+          <th width="11%">
             <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'freeSpace')}>Free Space
               <div class={"sort " + ctrl.sortOrder('freeSpace')}>
                 <span class="up"></span>
@@ -103,7 +103,7 @@ define(['mithril'], function (m) {
               </div>
             </label>
           </th>
-          <th width="24%">
+          <th width="22%">
             <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'resources')}>Resources
               <div class={"sort " + ctrl.sortOrder('resources')}>
                 <span class="up"></span>
