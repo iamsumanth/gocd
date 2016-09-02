@@ -56,13 +56,6 @@ define([
       expect(agent.environments()).toEqual(['staging', 'perf']);
     });
 
-    it('should sort by hostname', function () {
-      var agents                  = Agents.all();
-      var sortedAgents            = agents().sortBy('hostname');
-      var hostnamesOfSortedAgents = sortedAgents.collectAgentProperty('hostname');
-      expect(hostnamesOfSortedAgents).toEqual(['host-0', 'host-1', 'host-10', 'host-2', 'host-4'])
-    });
-
     it("should serialize to JSON", function () {
       var agent = Agents.Agent.fromJSON(agentData[0]);
 
@@ -135,18 +128,17 @@ define([
     describe('sort the agents', function () {
       it("should sort based on OS", function () {
         var agents = Agents.all();
-        debugger;
         var sortedAgents = agents().sortBy('operatingSystem', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-1");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-5");
       });
 
-      //it("should sort based on agent name", function () {
-      //  var agents = Agents.all();
-      //  var sortedAgents = agents().sortBy('hostname', 'asc');
-      //  expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-1");
-      //  expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-2");
-      //});
+      it('should sort based on hostname', function () {
+        var agents                  = Agents.all();
+        var sortedAgents            = agents().sortBy('hostname');
+        var hostnamesOfSortedAgents = sortedAgents.collectAgentProperty('hostname');
+        expect(hostnamesOfSortedAgents).toEqual(['host-0', 'host-1', 'host-10', 'host-2', 'host-4'])
+      });
 
       it("should sort based on agent location", function () {
         var agents = Agents.all();

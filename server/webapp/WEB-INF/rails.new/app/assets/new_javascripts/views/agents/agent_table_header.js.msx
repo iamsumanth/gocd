@@ -36,7 +36,6 @@ define(['mithril'], function (m) {
         },
 
         toggleSortingOrder: function (sortBy) {
-          debugger;
           var sortingOrder = _.isEqual(sortBy, sortType()) ? (_.isEqual(orderType(), 'asc') ? 'desc' : 'asc') : 'asc';
           args.sortBy(sortBy, sortingOrder);
         }
@@ -63,7 +62,7 @@ define(['mithril'], function (m) {
               </div>
             </label>
           </th>
-          <th width="5%">
+          <th width="7%">
             <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'sandbox')}>Sandbox
               <div class={"sort " + ctrl.sortOrder('sandbox')}>
                 <span class="up"></span>
@@ -111,7 +110,7 @@ define(['mithril'], function (m) {
               </div>
             </label>
           </th>
-          <th width="20%">
+          <th width="18%">
             <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'environments')}>Environments
               <div class={"sort " + ctrl.sortOrder('environments')}>
                 <span class="up"></span>

@@ -19,6 +19,25 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
 
     var $root = $('#mithril-mount-point'), root = $root.get(0);
 
+    var route = function () {
+      m.route.mode = "hash";
+      m.route(root, '',
+        {
+          '':                  m.component(AgentsWidget),
+          '/:sortBy/:orderBy': m.component(AgentsWidget)
+        }
+      );
+      m.route('');
+      m.redraw(true);
+    };
+
+    var unmount = function () {
+      m.route('');
+      m.route.mode        = "search";
+      m.mount(root, null);
+      m.redraw(true);
+    };
+
     beforeAll(function () {
       jasmine.Ajax.install();
       jasmine.Ajax.stubRequest(/\/api\/agents/).andReturn({
@@ -27,16 +46,16 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       });
     });
 
+    afterAll(function () {
+      jasmine.Ajax.uninstall();
+    });
+
     beforeEach(function () {
-      mount();
+      route();
     });
 
     afterEach(function () {
       unmount();
-    });
-
-    afterAll(function () {
-      jasmine.Ajax.uninstall();
     });
 
     it('should contain the agents state count information', function () {
@@ -256,58 +275,106 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
     });
 
 
-    var mount = function () {
-      m.mount(root,
-        m.component(AgentsWidget)
-      );
-      m.redraw(true);
-    };
+    it('should sort the agents in ascending order based on hostname', function () {
 
-    var unmount = function () {
-      m.mount(root, null);
+      var agentNameHeader = $root.find("label:contains('Agent Name')");
+      $(agentNameHeader).click();
       m.redraw(true);
-    };
+
+      var hostnameCells = $root.find(".go-table tbody td:nth-child(2)");
+
+      var hostNames = hostnameCells.map(function (i, cell) {
+        return $(cell).text()
+      }).toArray();
+
+      expect(hostNames).toEqual(_.map(agents, 'hostname').sort());
+    });
+
+
+    it('should sort the agents in descending order based on hostname', function () {
+      var agentNameHeader = $root.find("label:contains('Agent Name')");
+      $(agentNameHeader).click();
+      m.redraw(true);
+      agentNameHeader = $root.find("label:contains('Agent Name')");
+      $(agentNameHeader).click();
+      m.redraw(true);
+
+      var hostnameCells = $root.find(".go-table tbody td:nth-child(2)");
+
+      var hostNames = hostnameCells.map(function (i, cell) {
+        return $(cell).text()
+      }).toArray();
+
+      expect(hostNames).toEqual(_.reverse(_.map(agents, 'hostname').sort()));
+    });
 
     /* eslint-disable camelcase */
+    var agents = [
+      {
+        "_links":             {
+          "self": {
+            "href": "https://ci.example.com/go/api/agents/dfdbe0b1-4521-4a52-ac2f-ca0cf6bdaa3e"
+          },
+          "doc":  {
+            "href": "http://api.go.cd/#agents"
+          },
+          "find": {
+            "href": "https://ci.example.com/go/api/agents/:uuid"
+          }
+        },
+        "uuid":               "dfdbe0b1-4521-4a52-ac2f-ca0cf6bdaa3e",
+        "hostname":           "host-1",
+        "ip_address":         "10.12.2.200",
+        "sandbox":            "usr/local/foo",
+        "operating_system":   "Linux",
+        "free_space":         "unknown",
+        "agent_config_state": "Disabled",
+        "agent_state":        "Missing",
+        "build_state":        "Unknown",
+        "resources":          [
+          "Firefox"
+        ],
+        "environments":       [
+          "Dev",
+          "Test"
+        ]
+      },
+      {
+        "_links":             {
+          "self": {
+            "href": "https://ci.example.com/go/api/agents/dfdbe0b1-aa31-4a52-ac42d-ca0cf6bdaa3e"
+          },
+          "doc":  {
+            "href": "http://api.go.cd/#agents"
+          },
+          "find": {
+            "href": "https://ci.example.com/go/api/agents/:uuid"
+          }
+        },
+        "uuid":               "dfdbe0b1-aa31-4a52-ac42d-ca0cf6bdaa3e",
+        "hostname":           "host-2",
+        "ip_address":         "10.12.2.201",
+        "sandbox":            "usr/local/bin",
+        "operating_system":   "Linux",
+        "free_space":         "unknown",
+        "agent_config_state": "Disabled",
+        "agent_state":        "Missing",
+        "build_state":        "Unknown",
+        "resources":          [
+          "Chrome"
+        ],
+        "environments":       [
+          "Test"
+        ]
+      }
+    ];
+
     var agentsData = {
-      _embedded: {
-        agents: [{
-          _links:             {
-            self: {href: "https://ci.example.com/go/api/agents/dfdbe0b1-4521-4a52-ac2f-ca0cf6bdaa3e"},
-            doc:  {href: "http://api.go.cd/#agents"},
-            find: {href: "https://ci.example.com/go/api/agents/:uuid"}
-          },
-          uuid:               "dfdbe0b1-4521-4a52-ac2f-ca0cf6bdaa3e",
-          hostname:           "host-1",
-          ip_address:         "10.12.2.200",
-          sandbox:            "usr/local/foo",
-          operating_system:   "Linux",
-          free_space:         "unknown",
-          agent_config_state: "Disabled",
-          agent_state:        "Missing",
-          build_state:        "Unknown",
-          resources:          ["Firefox"],
-          environments:       ["Dev", "Test"]
-        }, {
-          _links:             {
-            self: {href: "https://ci.example.com/go/api/agents/dfdbe0b1-aa31-4a52-ac42d-ca0cf6bdaa3e"},
-            doc:  {href: "http://api.go.cd/#agents"},
-            find: {href: "https://ci.example.com/go/api/agents/:uuid"}
-          },
-          uuid:               "dfdbe0b1-aa31-4a52-ac42d-ca0cf6bdaa3e",
-          hostname:           "host-2",
-          ip_address:         "10.12.2.201",
-          sandbox:            "usr/local/bin",
-          operating_system:   "Linux",
-          free_space:         "unknown",
-          agent_config_state: "Disabled",
-          agent_state:        "Missing",
-          build_state:        "Unknown",
-          resources:          ["Chrome"],
-          environments:       ["Test"]
-        }]
+      "_embedded": {
+        "agents": agents
       }
     };
+
     /* eslint-enable camelcase */
   });
 });
