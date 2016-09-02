@@ -354,12 +354,15 @@ $arrow-color: #000;
   thead {
     tr {
       background: $tertiary;
-      th {
-        cursor: pointer;
+      th{
         color: $dark-grey;
       }
     }
   }
+}
+.agents-table-header {
+  cursor: pointer;
+  display:inline-block;
 }
 
 .sort {

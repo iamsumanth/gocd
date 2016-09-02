@@ -25,19 +25,20 @@ define(['mithril'], function (m) {
       };
 
       var orderType = function () {
-        m.route.param('orderBy')
+        return m.route.param('orderBy')
       };
 
       return {
         sortOrder: function (sortBy) {
-          var attrName = sortType() || 'status';
+          var attrName = sortType() || 'agentState';
           var orderBy  = orderType() || 'asc';
           return _.isEqual(attrName, sortBy) ? orderBy : '';
         },
 
         toggleSortingOrder: function (sortBy) {
+          debugger;
           var sortingOrder = _.isEqual(sortBy, sortType()) ? (_.isEqual(orderType(), 'asc') ? 'desc' : 'asc') : 'asc';
-          args.sortBy.bind(args.sortBy, sortBy, sortingOrder);
+          args.sortBy(sortBy, sortingOrder);
         }
       }
     },
@@ -55,60 +56,68 @@ define(['mithril'], function (m) {
             />
           </th>
           <th width="13%">
-            <span onclick={ctrl.toggleSortingOrder.bind(ctrl, 'hostname')}>Agent Name</span>
-            <div class={"sort " + ctrl.sortOrder.bind(ctrl, 'hostname')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header"  onclick={ctrl.toggleSortingOrder.bind(ctrl, 'hostname')}>Agent Name
+              <div class={"sort " + ctrl.sortOrder('hostname')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="5%">
-            <span onclick={ctrl.toggleSortingOrder('sandbox')}>Sandbox</span>
-            <div class={"sort " + ctrl.sortOrder.bind(ctrl, 'sandbox')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'sandbox')}>Sandbox
+              <div class={"sort " + ctrl.sortOrder('sandbox')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="12%">
-            OS
-            <div class={"sort " + ctrl.sortOrder('operatingSystem')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'operatingSystem')}>OS
+              <div class={"sort " + ctrl.sortOrder('operatingSystem')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="8%">
-            IP Address
-            <div class={"sort " + ctrl.sortOrder('ipAddress')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'ipAddress')}>IP Address
+              <div class={"sort " + ctrl.sortOrder('ipAddress')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="7%">
-            Status
-            <div class={"sort " + ctrl.sortOrder('status')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'agentState')}>Status
+              <div class={"sort " + ctrl.sortOrder('agentState')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="9%">
-            Free Space
-            <div class={"sort " + ctrl.sortOrder('freeSpace')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'freeSpace')}>Free Space
+              <div class={"sort " + ctrl.sortOrder('freeSpace')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="24%">
-            Resources
-            <div class={"sort " + ctrl.sortOrder('resources')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'resources')}>Resources
+              <div class={"sort " + ctrl.sortOrder('resources')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
           <th width="20%">
-            Environments
-            <div class={"sort " + ctrl.sortOrder('environments')}>
-              <span class="up"></span>
-              <span class="down"></span>
-            </div>
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'environments')}>Environments
+              <div class={"sort " + ctrl.sortOrder('environments')}>
+                <span class="up"></span>
+                <span class="down"></span>
+              </div>
+            </label>
           </th>
         </tr>
         </thead>

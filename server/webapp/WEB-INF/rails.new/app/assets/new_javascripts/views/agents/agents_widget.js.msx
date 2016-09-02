@@ -64,7 +64,6 @@ define([
 
   vm.agentsCheckedState = {};
 
-
   var AgentsWidget = {
     controller: function () {
 
@@ -231,7 +230,7 @@ define([
         },
 
         filteredAndSortedAgents: function () {
-          var attrName = m.route.param('sortBy') || 'status';
+          var attrName = m.route.param('sortBy') || 'agentState';
           var orderBy  = m.route.param('orderBy') || 'asc';
           return this.allAgents().filterBy(vm.filterText()).sortBy(attrName, orderBy);
         },
