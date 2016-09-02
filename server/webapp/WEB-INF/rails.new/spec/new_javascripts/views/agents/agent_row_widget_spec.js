@@ -23,6 +23,10 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agent_row_wid
       allAgents = Agents.fromJSON(json());
     });
 
+    afterAll(function () {
+      unmount();
+    });
+
     it('should contain the agent information', function () {
       agents(allAgents);
       var model = m.prop(true);
@@ -94,6 +98,11 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agent_row_wid
             'checkBoxModel': model
           })
       );
+      m.redraw(true);
+    };
+
+    var unmount = function () {
+      m.mount(root, null);
       m.redraw(true);
     };
 

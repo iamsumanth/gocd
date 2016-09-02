@@ -53,6 +53,7 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
 
     afterAll(function () {
       jasmine.Ajax.uninstall();
+      unmount();
     });
 
     beforeEach(function () {
@@ -187,6 +188,11 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
             'onEnvironmentsUpdate': m.prop()
           })
       );
+      m.redraw(true);
+    };
+
+    var unmount = function () {
+      m.mount(root, null);
       m.redraw(true);
     };
 

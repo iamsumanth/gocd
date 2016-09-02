@@ -36,6 +36,9 @@ define(["jquery", "mithril", 'models/agents/environments', "views/agents/environ
     vm.dropdown.states['environment'] = m.prop(false);
     vm.dropdown.states['resource']    = m.prop(false);
 
+    var updateEnvironments = function (resourcesToBeAdded, resourcesToBeRemoved) {
+    };
+
     beforeAll(function () {
       jasmine.Ajax.install();
       jasmine.Ajax.stubRequest(/\/api\/admin\/internal\/environments/).andReturn({
@@ -65,6 +68,7 @@ define(["jquery", "mithril", 'models/agents/environments', "views/agents/environ
 
     afterAll(function () {
       jasmine.Ajax.uninstall();
+      unmount();
     });
 
     it('should contain all the environments checkbox', function () {
@@ -106,6 +110,18 @@ define(["jquery", "mithril", 'models/agents/environments', "views/agents/environ
         })
       );
       m.redraw(true);
+    };
+
+    var unmount = function () {
+      m.mount(root, null);
+      m.redraw(true);
+    };
+
+    var agents = function () {
+      return {
+        updateResources: function () {
+        }
+      }
     };
   });
 });

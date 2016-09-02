@@ -69,6 +69,7 @@ define(["jquery", "mithril", 'models/agents/agents', 'models/agents/resources', 
 
     afterAll(function () {
       jasmine.Ajax.uninstall();
+      unmount();
     });
 
     it('should contain all the resources checkbox', function () {
@@ -167,6 +168,11 @@ define(["jquery", "mithril", 'models/agents/agents', 'models/agents/resources', 
       );
       m.redraw(true);
     };
+
+    var unmount = function () {
+      m.mount(root, null);
+      m.redraw(true);
+    }
 
   });
 });

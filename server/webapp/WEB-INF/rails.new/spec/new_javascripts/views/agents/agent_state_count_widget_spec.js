@@ -24,6 +24,10 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agent_state_c
       mount(agents);
     });
 
+    afterAll(function () {
+      unmount();
+    });
+
     it('should contain the agents state count information', function () {
       var children = $root.find('.search-summary').children();
       expect(children.length).toBe(4);
@@ -53,6 +57,11 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agent_state_c
       m.mount(root,
         m.component(AgentStateCountWidget, {agents: agents})
       );
+      m.redraw(true);
+    };
+
+    var unmount = function () {
+      m.mount(root, null);
       m.redraw(true);
     };
 

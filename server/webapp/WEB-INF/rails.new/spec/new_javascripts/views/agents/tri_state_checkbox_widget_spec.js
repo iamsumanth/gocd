@@ -19,6 +19,10 @@ define(["jquery", "mithril", "views/agents/tri_state_checkbox_widget", "models/a
     var $root     = $('#mithril-mount-point'), root = $root.get(0);
     var resources = [['Firefox'], ['Firefox', 'Chrome']];
 
+    afterAll(function () {
+      unmount();
+    });
+
     it('should have checkbox with value', function () {
       mount(new TriStateCheckbox('Firefox', resources));
       var checkbox = $root.find('input')[0];
@@ -49,5 +53,10 @@ define(["jquery", "mithril", "views/agents/tri_state_checkbox_widget", "models/a
       );
       m.redraw(true);
     };
+
+    var unmount = function () {
+      m.mount(root, null);
+      m.redraw(true);
+    }
   });
 });
