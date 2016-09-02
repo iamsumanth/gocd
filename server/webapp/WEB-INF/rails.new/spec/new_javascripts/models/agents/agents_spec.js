@@ -17,7 +17,7 @@
 define([
   'mithril', 'lodash', 'string-plus',
   'models/model_mixins',
-  'models/agents/agents',
+  'models/agents/agents'
 ], function (m, _, s, Mixin, Agents) {
   describe('Agent Model', function () {
 
@@ -127,7 +127,7 @@ define([
 
     describe('sort the agents', function () {
       it("should sort based on OS", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('operatingSystem', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-1");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-5");
@@ -141,21 +141,21 @@ define([
       });
 
       it("should sort based on agent location", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('sandbox', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-2");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-1");
       });
 
       it("should sort based on agent ip address", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('ipAddress', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-2");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-1");
       });
 
       it("should sort based on agent status", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('agentState', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-2");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-5");
@@ -165,7 +165,7 @@ define([
       });
 
       it("should sort based on agent's free space", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('freeSpace', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-3");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-1");
@@ -173,7 +173,7 @@ define([
       });
 
       it("should sort based on agent's resources", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('resources', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-4");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-5");
@@ -183,7 +183,7 @@ define([
       });
 
       it("should sort based on agent's environments", function () {
-        var agents = Agents.all();
+        var agents       = Agents.all();
         var sortedAgents = agents().sortBy('environments', 'asc');
         expect(sortedAgents.toJSON()[0].uuid()).toBe("uuid-2");
         expect(sortedAgents.toJSON()[1].uuid()).toBe("uuid-5");

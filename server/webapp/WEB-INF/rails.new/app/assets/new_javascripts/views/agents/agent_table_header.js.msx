@@ -55,7 +55,7 @@ define(['mithril'], function (m) {
             />
           </th>
           <th width="13%">
-            <label class="agents-table-header"  onclick={ctrl.toggleSortingOrder.bind(ctrl, 'hostname')}>Agent Name
+            <label class="agents-table-header" onclick={ctrl.toggleSortingOrder.bind(ctrl, 'hostname')}>Agent Name
               <div class={"sort " + ctrl.sortOrder('hostname')}>
                 <span class="up"></span>
                 <span class="down"></span>
@@ -126,12 +126,3 @@ define(['mithril'], function (m) {
 
   return AgentsTableHeader;
 });
-
-//
-//<th width="5%" onclick={args.sortAgents.sortByAgentLocation('desc')}>Sandbox</th>
-//<th width="12%" onclick={args.sortAgents.sortByOs('desc')}>OS</th>
-//<th width="10%" onclick={args.sortAgents.sortByIpAddress('desc')}>IP Address</th>
-//<th width="5%" onclick={args.sortAgents.sortByStatus('desc')}>Status</th>
-//<th width="8%" onclick={args.sortAgents.sortByFreeSpace('desc')}>Free Space</th>
-//<th width="25%" onclick={args.sortAgents.sortByResources('desc')}>Resources</th>
-//<th width="20%" onclick={args.sortAgents.sortByEnvironments('desc')}>Environments</th>

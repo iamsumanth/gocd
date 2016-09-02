@@ -33,7 +33,7 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
 
     var unmount = function () {
       m.route('');
-      m.route.mode        = "search";
+      m.route.mode = "search";
       m.mount(root, null);
       m.redraw(true);
     };

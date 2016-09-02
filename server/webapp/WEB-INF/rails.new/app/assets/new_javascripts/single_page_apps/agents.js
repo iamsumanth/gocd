@@ -33,7 +33,7 @@ require([
     m.route.mode = "hash";
 
     m.route(document.getElementById('agents'), '', {
-      '': AgentsWidget,
+      '':                  AgentsWidget,
       '/:sortBy/:orderBy': AgentsWidget
     });
   });
