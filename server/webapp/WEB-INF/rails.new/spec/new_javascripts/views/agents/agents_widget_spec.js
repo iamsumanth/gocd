@@ -38,24 +38,32 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       m.redraw(true);
     };
 
+    var clearTimeouts = function () {
+      var timeoutId = window.setTimeout(function () {
+      }, 0);
+      while (timeoutId--) {
+        window.clearTimeout(timeoutId);
+      }
+    };
+
     beforeAll(function () {
       jasmine.Ajax.install();
       jasmine.Ajax.stubRequest(/\/api\/agents/).andReturn({
         "responseText": JSON.stringify(agentsData),
         "status":       200
       });
-    });
-
-    afterAll(function () {
-      jasmine.Ajax.uninstall();
-    });
-
-    beforeEach(function () {
       route();
     });
 
-    afterEach(function () {
+    afterAll(function () {
       unmount();
+      clearTimeouts();
+      jasmine.Ajax.uninstall();
+    });
+    
+    beforeEach(function () {
+      m.route('');
+      m.redraw(true);
     });
 
     it('should contain the agents state count information', function () {
