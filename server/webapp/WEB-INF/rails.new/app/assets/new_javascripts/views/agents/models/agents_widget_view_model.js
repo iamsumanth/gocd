@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(['mithril'], function (m) {
+define(['mithril', 'lodash'], function (m, _) {
 
   var vm = {};
 

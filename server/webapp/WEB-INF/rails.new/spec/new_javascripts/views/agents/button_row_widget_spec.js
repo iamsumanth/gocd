@@ -18,7 +18,6 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
   describe("Button Row Widget", function () {
 
     var agents;
-    var agent;
 
     var $root = $('#mithril-mount-point'), root = $root.get(0);
 
@@ -63,7 +62,6 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
       agents        = m.prop();
       var allAgents = Agents.fromJSON(json());
       agents(allAgents);
-      agent = allAgents.firstAgent();
       var isAnyAgentSelected = m.prop(false);
       mount(vm, isAnyAgentSelected);
     });
@@ -124,18 +122,18 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
     var mount = function (vm, isAnyAgentSelected) {
       m.mount(root,
           m.component(ButtonRowWidget,
-              {
-                isAnyAgentSelected:     isAnyAgentSelected,
-                dropdown:               vm.dropdown,
-                toggleDropDownState:    toggleDropDownState,
-                dropDownState:          dropDownState,
-                'selectedAgents':       selectedAgents,
-                'onDisable':            disableAgents,
-                'onEnable':             enableAgents,
-                'onDelete':             deleteAgents,
-                'onResourcesUpdate':    updateResources,
-                'onEnvironmentsUpdate': updateEnvironments
-              })
+            {
+              isAnyAgentSelected:     isAnyAgentSelected,
+              dropdown:               vm.dropdown,
+              toggleDropDownState:    toggleDropDownState,
+              dropDownState:          dropDownState,
+              'selectedAgents':       selectedAgents,
+              'onDisable':            disableAgents,
+              'onEnable':             enableAgents,
+              'onDelete':             deleteAgents,
+              'onResourcesUpdate':    updateResources,
+              'onEnvironmentsUpdate': updateEnvironments
+            })
       );
       m.redraw(true);
     };
@@ -147,7 +145,7 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
 
     var toggleDropDownState = function () {};
 
-    var dropDownState = function (name) {
+    var dropDownState = function () {
       return false;
     };
 

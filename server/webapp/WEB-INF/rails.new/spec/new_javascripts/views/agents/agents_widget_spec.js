@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget", "views/agents/models/agents_widget_view_model"], function ($, m, Agents, AgentsWidget, AgentsVM) {
+define(["jquery", "mithril", 'lodash', 'models/agents/agents', "views/agents/agents_widget", "views/agents/models/agents_widget_view_model"], function ($, m, _, Agents, AgentsWidget, AgentsVM) {
   describe("Agents Widget", function () {
 
     var $root = $('#mithril-mount-point'), root = $root.get(0);
@@ -297,7 +297,7 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       var hostnameCells = $root.find(".go-table tbody td:nth-child(2)");
 
       var hostNames = hostnameCells.map(function (i, cell) {
-        return $(cell).text()
+        return $(cell).text();
       }).toArray();
 
       expect(hostNames).toEqual(_.map(agents, 'hostname').sort());
@@ -314,7 +314,7 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       var hostnameCells = $root.find(".go-table tbody td:nth-child(2)");
 
       var hostNames = hostnameCells.map(function (i, cell) {
-        return $(cell).text()
+        return $(cell).text();
       }).toArray();
 
       expect(hostNames).toEqual(_.reverse(_.map(agents, 'hostname').sort()));

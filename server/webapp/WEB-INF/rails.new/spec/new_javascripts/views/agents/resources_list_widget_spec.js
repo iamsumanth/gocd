@@ -172,7 +172,7 @@ define(["jquery", "mithril", 'models/agents/agents', 'models/agents/resources', 
     var unmount = function () {
       m.mount(root, null);
       m.redraw(true);
-    }
+    };
 
   });
 });

@@ -16,28 +16,7 @@
 
 define(["jquery", "mithril", 'models/agents/environments', "views/agents/environments_list_widget", "foundation.dropdown"], function ($, m, Environments, EnvironmentsListWidget) {
   describe("Environments List Widget", function () {
-    var $root = $('#mithril-mount-point'), root = $root.get(0);
-
-    var vm = {
-      agentsCheckedState: {}
-    };
-
-    vm.dropdown = {
-      reset:  m.prop(true),
-      states: {},
-      add:    function () {
-      },
-
-      hide: function (name) {
-        this.states[name](false);
-      }
-    };
-
-    vm.dropdown.states['environment'] = m.prop(false);
-    vm.dropdown.states['resource']    = m.prop(false);
-
-    var updateEnvironments = function (resourcesToBeAdded, resourcesToBeRemoved) {
-    };
+    var $root = $(  '#mithril-mount-point'), root = $root.get(0);
 
     beforeAll(function () {
       jasmine.Ajax.install();
@@ -104,24 +83,26 @@ define(["jquery", "mithril", 'models/agents/environments', "views/agents/environ
 
     var mount = function () {
       m.mount(root,
-        m.component(EnvironmentsListWidget, {
-          'dropDownState':        vm.dropdown,
-          'onEnvironmentsUpdate': m.prop()
-        })
+          m.component(EnvironmentsListWidget, {
+            hideDropDown:         hideDropDown,
+            dropDownReset:        dropDownReset,
+            onEnvironmentsUpdate: onEnvironmentsUpdate,
+          })
       );
       m.redraw(true);
+    };
+
+    var hideDropDown  = function () {
+    };
+    var dropDownReset = function () {
+    };
+    var onEnvironmentsUpdate = function () {
     };
 
     var unmount = function () {
       m.mount(root, null);
       m.redraw(true);
     };
-
-    var agents = function () {
-      return {
-        updateResources: function () {
-        }
-      }
-    };
+    
   });
 });

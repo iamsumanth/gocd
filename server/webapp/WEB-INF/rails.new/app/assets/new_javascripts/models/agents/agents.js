@@ -124,7 +124,7 @@ define(['mithril', 'lodash', 'string-plus',
     this.filterBy = function (text) {
       return new Agents(
         this.filterAgent(function (agent) {
-          return agent.matches(text)
+          return agent.matches(text);
         })
       );
     };

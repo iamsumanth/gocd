@@ -57,6 +57,6 @@ define(["jquery", "mithril", "views/agents/tri_state_checkbox_widget", "models/a
     var unmount = function () {
       m.mount(root, null);
       m.redraw(true);
-    }
+    };
   });
 });

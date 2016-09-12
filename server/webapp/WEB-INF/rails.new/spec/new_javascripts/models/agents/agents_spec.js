@@ -137,7 +137,7 @@ define([
         var agents                  = Agents.all();
         var sortedAgents            = agents().sortBy('hostname');
         var hostnamesOfSortedAgents = sortedAgents.collectAgentProperty('hostname');
-        expect(hostnamesOfSortedAgents).toEqual(['host-0', 'host-1', 'host-10', 'host-2', 'host-4'])
+        expect(hostnamesOfSortedAgents).toEqual(['host-0', 'host-1', 'host-10', 'host-2', 'host-4']);
       });
 
       it("should sort based on agent location", function () {
