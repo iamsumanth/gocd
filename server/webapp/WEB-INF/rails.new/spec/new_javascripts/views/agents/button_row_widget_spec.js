@@ -18,6 +18,8 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
   describe("Button Row Widget", function () {
 
     var agents;
+    var agent;
+
     var $root = $('#mithril-mount-point'), root = $root.get(0);
 
     var vm = {
@@ -34,6 +36,19 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
     vm.dropdown.states['environment'] = m.prop(false);
     vm.dropdown.states['resource']    = m.prop(false);
 
+    var selectedAgents     = function () {
+    };
+    var disableAgents      = function () {
+    };
+    var enableAgents       = function () {
+    };
+    var deleteAgents       = function () {
+    };
+    var updateResources    = function () {
+    };
+    var updateEnvironments = function () {
+    };
+
     beforeAll(function () {
       jasmine.Ajax.install();
       jasmine.Ajax.stubRequest(/\/api\/admin\/internal\/resources/).andReturn({
@@ -48,7 +63,9 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
       agents        = m.prop();
       var allAgents = Agents.fromJSON(json());
       agents(allAgents);
-      mount(vm);
+      agent = allAgents.firstAgent();
+      var isAnyAgentSelected = m.prop(false);
+      mount(vm, isAnyAgentSelected);
     });
 
     afterAll(function () {
@@ -91,8 +108,8 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
       });
 
       it('should enable the buttons if at least one agent is selected', function () {
-        vm.agentsCheckedState['uuid'] = m.prop(true);
-        mount(vm);
+        var isAnyAgentSelected = m.prop(true);
+        mount(vm, isAnyAgentSelected);
         var rowElements = $root.find('.agent-button-group button');
 
         expect(rowElements[0].disabled).toBe(false);
@@ -102,91 +119,23 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
         expect(rowElements[5].disabled).toBe(false);
       });
 
-      it('should toggle the resources list on click of the resources button', function () {
-        vm.agentsCheckedState['uuid'] = m.prop(true);
-        mount(vm);
-        var resourceButton = $root.find('.agent-button-group button')[3];
-        var resourcesList  = $root.find('.has-dropdown')[0];
-        expect(resourcesList.classList).not.toContain('is-open');
-
-        resourceButton.click();
-        m.redraw(true);
-
-        expect(resourcesList.classList).toContain('is-open');
-
-        resourceButton.click();
-        m.redraw(true);
-        expect(resourcesList.classList).not.toContain('is-open');
-      });
-
-      it('should toggle the environments list on click of the environments button', function () {
-        var environmentButton = $root.find('.agent-button-group button')[6];
-        var environmentsList  = $root.find('.has-dropdown')[1];
-        expect(environmentsList.classList).not.toContain('is-open');
-
-        environmentButton.click();
-        m.redraw(true);
-        expect(environmentsList.classList).toContain('is-open');
-
-        environmentButton.click();
-        m.redraw(true);
-        expect(environmentsList.classList).not.toContain('is-open');
-      });
-
-      it('should hide the resources list on click of the environments button', function () {
-        vm.dropdown.states['resource'] = m.prop(false);
-        vm.agentsCheckedState['uuid']  = m.prop(true);
-        mount(vm);
-
-        var environmentButton = $root.find("button:contains('Environments')");
-        var resourcesButton   = $root.find("button:contains('Resources')");
-        var dropddown         = $root.find("button:contains('Resources')").parent()[0];
-
-        resourcesButton.click();
-        m.redraw(true);
-
-        expect(dropddown.classList).toContain('is-open');
-
-        environmentButton.click();
-        m.redraw(true);
-
-        expect(dropddown.classList).not.toContain('is-open');
-      });
-
-      it('should hide the environment list on click of the resource button', function () {
-        vm.dropdown.states['environment'] = m.prop(false);
-        vm.agentsCheckedState['uuid']     = m.prop(true);
-        mount(vm);
-
-        var environmentButton = $root.find("button:contains('Environments')");
-        var resourcesButton   = $root.find("button:contains('Resources')");
-        var dropdown          = $root.find("button:contains('Environments')").parent()[0];
-
-        environmentButton.click();
-        m.redraw(true);
-
-        expect(dropdown.classList).toContain('is-open');
-
-        resourcesButton.click();
-        m.redraw(true);
-
-        expect(dropdown.classList).not.toContain('is-open');
-      });
     });
 
-    var mount = function (vm) {
+    var mount = function (vm, isAnyAgentSelected) {
       m.mount(root,
-        m.component(ButtonRowWidget,
-          {
-            'agentsCheckedState':   vm.agentsCheckedState,
-            'dropdown':             vm.dropdown,
-            'selectedAgents':       m.prop(),
-            'onDisable':            m.prop(),
-            'onEnable':             m.prop(),
-            'onDelete':             m.prop(),
-            'onResourcesUpdate':    m.prop(),
-            'onEnvironmentsUpdate': m.prop()
-          })
+          m.component(ButtonRowWidget,
+              {
+                isAnyAgentSelected:     isAnyAgentSelected,
+                dropdown:               vm.dropdown,
+                toggleDropDownState:    toggleDropDownState,
+                dropDownState:          dropDownState,
+                'selectedAgents':       selectedAgents,
+                'onDisable':            disableAgents,
+                'onEnable':             enableAgents,
+                'onDelete':             deleteAgents,
+                'onResourcesUpdate':    updateResources,
+                'onEnvironmentsUpdate': updateEnvironments
+              })
       );
       m.redraw(true);
     };
@@ -194,6 +143,12 @@ define(["jquery", "mithril", "lodash", 'models/agents/agents', "views/agents/but
     var unmount = function () {
       m.mount(root, null);
       m.redraw(true);
+    };
+
+    var toggleDropDownState = function () {};
+
+    var dropDownState = function (name) {
+      return false;
     };
 
     var json = function () {

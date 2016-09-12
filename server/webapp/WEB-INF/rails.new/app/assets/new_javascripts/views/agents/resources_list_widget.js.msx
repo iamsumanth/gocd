@@ -52,7 +52,7 @@ define(['mithril', 'lodash', 'string-plus', 'jquery', 'helpers/form_helper',
 
         updateResources: function () {
           var hideResourcesDropDown = function () {
-            args.dropDownState.hide('resource');
+            args.hideDropDown('resource');
           };
 
           hideResourcesDropDown();
@@ -81,7 +81,7 @@ define(['mithril', 'lodash', 'string-plus', 'jquery', 'helpers/form_helper',
     view: function (ctrl, args) {
       return (
         <div class="agent-button-group-dropdown resource-dropdown" onclick={function() {
-          args.dropDownState.reset(false);
+          args.dropDownReset(false);
         }}>
           <ul class="resources-items">
 

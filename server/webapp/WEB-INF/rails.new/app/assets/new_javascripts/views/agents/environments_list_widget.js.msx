@@ -24,7 +24,7 @@ define(['mithril', 'lodash', 'jquery', 'helpers/form_helper',
       return {
         updateEnvironments: function () {
           function hideEnvironmentsDropDown() {
-            args.dropDownState.hide('environment');
+            args.hideDropDown('environment');
           }
 
           hideEnvironmentsDropDown();
@@ -50,7 +50,7 @@ define(['mithril', 'lodash', 'jquery', 'helpers/form_helper',
     view: function (ctrl, args) {
       return (
         <div class="agent-button-group-dropdown env-dropdown" onclick={function() {
-          args.dropDownState.reset(false)
+          args.dropDownReset(false);
         }}>
           <ul class="resources-items">
             { _.map(Environments.list, function (environment, index) {

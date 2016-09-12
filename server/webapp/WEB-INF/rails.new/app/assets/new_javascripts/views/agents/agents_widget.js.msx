@@ -51,6 +51,14 @@ define([
         }
       }
       this.reset(true);
+    },
+
+    hideOtherDropdowns: function (name) {
+      for (var item in this.states) {
+        if (!_.isEqual(item, name)) {
+          this.states[item](false);
+        }
+      }
     }
   };
 
@@ -237,7 +245,34 @@ define([
 
         sortBy: function (sortBy, orderBy) {
           m.route('/' + sortBy + '/' + orderBy);
+        },
+
+        toggleDropDownState: function (dropDownName) {
+          var dropdown = vm.dropdown;
+          dropdown.reset(false);
+          dropdown.states[dropDownName](!dropdown.states[dropDownName]());
+          dropdown.hideOtherDropdowns(dropDownName);
+        },
+
+        dropDownState: function (dropDownName) {
+          vm.dropdown.add(dropDownName);
+          return vm.dropdown.states[dropDownName]();
+        },
+
+        isAnyAgentSelected: function () {
+          return _.some(vm.agentsCheckedState, function (boxState) {
+            return boxState();
+          });
+        },
+
+        hideDropDown: function (dropDownName) {
+          vm.dropdown.hide(dropDownName);
+        },
+
+        dropDownReset: function (resetValue) {
+          vm.dropdown.reset(resetValue);
         }
+
       };
 
       ctrl.refresh();
@@ -248,8 +283,11 @@ define([
     view: function (ctrl) {
       return (
         <div onclick={ctrl.hideDropDowns}>
-          <ButtonRowWidget agentsCheckedState={ vm.agentsCheckedState }
-                           dropdown={ vm.dropdown }
+          <ButtonRowWidget isAnyAgentSelected={ ctrl.isAnyAgentSelected.bind(ctrl) }
+                           hideDropDown={ ctrl.hideDropDown.bind(ctrl) }
+                           dropDownReset={ ctrl.dropDownReset.bind(ctrl) }
+                           toggleDropDownState={ ctrl.toggleDropDownState.bind(ctrl) }
+                           dropDownState={ ctrl.dropDownState.bind(ctrl) }
                            selectedAgents={ ctrl.selectedAgents.bind(ctrl) }
                            onDisable={ ctrl.disableAgents.bind(ctrl) }
                            onEnable={ ctrl.enableAgents.bind(ctrl) }

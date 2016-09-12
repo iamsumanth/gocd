@@ -92,18 +92,38 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       expect($(firstAgentInfo[8]).text()).toBe('Dev, Test');
     });
 
-    it('should select all the agents when selectAll checkbox is selected', function () {
+    it('should select all the agents when selectAll checkbox is checked', function () {
       var allBoxes          = $root.find('tbody :checkbox');
       var selectAllCheckbox = $root.find('thead :checkbox');
 
       expect(selectAllCheckbox[0].checked).toBe(false);
       expect(allBoxes[0].checked).toBe(false);
+      expect(allBoxes[1].checked).toBe(false);
 
       $(selectAllCheckbox).click();
       m.redraw(true);
 
       expect(selectAllCheckbox[0].checked).toBe(true);
       expect(allBoxes[0].checked).toBe(true);
+      expect(allBoxes[1].checked).toBe(true);
+
+      toggleSelectAllCheckbox();
+    });
+
+    it('should check select all checkbox on selecting all the checkboxes', function () {
+      var allBoxes          = $root.find('tbody :checkbox');
+      var selectAllCheckbox = $root.find('thead :checkbox');
+
+      expect(selectAllCheckbox[0].checked).toBe(false);
+      expect(allBoxes[0].checked).toBe(false);
+
+      $(allBoxes[0]).click();
+      $(allBoxes[1]).click();
+      m.redraw(true);
+
+      expect(selectAllCheckbox[0].checked).toBe(true);
+      expect(allBoxes[0].checked).toBe(true);
+      expect(allBoxes[1].checked).toBe(true);
     });
 
     it('should hide all dropdown on click of the body', function () {
@@ -220,7 +240,7 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       m.redraw(true);
 
       var message = $root.find('.callout');
-      expect(message.text()).toBe('Environment modified on 2 agents');
+      expect(message.text()).toBe('Environments modified on 2 agents');
     });
 
     it('should show only filtered agents after inserting filter text', function () {
@@ -282,7 +302,6 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       expect(allBoxes[1].checked).toBe(false);
     });
 
-
     it('should sort the agents in ascending order based on hostname', function () {
 
       var agentNameHeader = $root.find("label:contains('Agent Name')");
@@ -297,7 +316,6 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
 
       expect(hostNames).toEqual(_.map(agents, 'hostname').sort());
     });
-
 
     it('should sort the agents in descending order based on hostname', function () {
       var agentNameHeader = $root.find("label:contains('Agent Name')");
@@ -315,6 +333,91 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
 
       expect(hostNames).toEqual(_.reverse(_.map(agents, 'hostname').sort()));
     });
+
+    it('should toggle the resources list on click of the resources button', function () {
+      toggleSelectAllCheckbox();
+
+      var resourceButton = $root.find('.agent-button-group button')[3];
+      var resourcesList  = $root.find('.has-dropdown')[0];
+      expect(resourcesList.classList).not.toContain('is-open');
+
+      resourceButton.click();
+      m.redraw(true);
+
+      resourcesList  = $root.find('.has-dropdown')[0];
+      expect(resourcesList.classList).toContain('is-open');
+
+      resourceButton.click();
+      m.redraw(true);
+      expect(resourcesList.classList).not.toContain('is-open');
+
+      toggleSelectAllCheckbox();
+    });
+
+    it('should toggle the environments list on click of the environments button', function () {
+      toggleSelectAllCheckbox();
+
+      var environmentButton = $root.find('.agent-button-group button')[6];
+      var environmentsList  = $root.find('.has-dropdown')[1];
+      expect(environmentsList.classList).not.toContain('is-open');
+
+      environmentButton.click();
+      m.redraw(true);
+      environmentsList  = $root.find('.has-dropdown')[1];
+      expect(environmentsList.classList).toContain('is-open');
+
+      environmentButton.click();
+      m.redraw(true);
+      expect(environmentsList.classList).not.toContain('is-open');
+
+      toggleSelectAllCheckbox();
+    });
+
+    it('should hide the resources list on click of the environments button', function () {
+      toggleSelectAllCheckbox();
+
+      var environmentButton = $root.find("button:contains('Environments')");
+      var resourcesButton   = $root.find("button:contains('Resources')");
+      var dropdown         = $root.find("button:contains('Resources')").parent()[0];
+
+      resourcesButton.click();
+      m.redraw(true);
+
+      expect(dropdown.classList).toContain('is-open');
+
+      environmentButton.click();
+      m.redraw(true);
+
+      expect(dropdown.classList).not.toContain('is-open');
+
+      toggleSelectAllCheckbox();
+    });
+
+    it('should hide the environment list on click of the resource button', function () {
+      toggleSelectAllCheckbox();
+      var environmentButton = $root.find("button:contains('Environments')");
+      var resourcesButton   = $root.find("button:contains('Resources')");
+      var dropdown          = $root.find("button:contains('Environments')").parent()[0];
+
+      environmentButton.click();
+      m.redraw(true);
+
+      expect(dropdown.classList).toContain('is-open');
+
+      resourcesButton.click();
+      m.redraw(true);
+
+      expect(dropdown.classList).not.toContain('is-open');
+      toggleSelectAllCheckbox();
+    });
+
+
+    var toggleSelectAllCheckbox = function () {
+      var selectAllCheckbox = $root.find('thead :checkbox');
+      $(selectAllCheckbox).click();
+      m.redraw(true);
+    };
+
 
     /* eslint-disable camelcase */
     var agents = [
