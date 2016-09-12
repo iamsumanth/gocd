@@ -124,12 +124,11 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       expect(selectAllCheckbox[0].checked).toBe(true);
       expect(allBoxes[0].checked).toBe(true);
       expect(allBoxes[1].checked).toBe(true);
+      toggleSelectAllCheckbox();
     });
 
     it('should hide all dropdown on click of the body', function () {
-      var selectAllCheckbox = $root.find('thead :checkbox');
-      $(selectAllCheckbox).click();
-      m.redraw(true);
+      toggleSelectAllCheckbox();
 
       var resourceButton = $root.find("button:contains('Resources')");
       resourceButton.click();
@@ -142,12 +141,11 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       m.redraw(true);
 
       expect($(resourceButton).parent().attr('class')).not.toContain('is-open');
+      toggleSelectAllCheckbox();
     });
 
     it('should not hide dropdown on click of dropdown list', function () {
-      var selectAllCheckbox = $root.find('thead :checkbox');
-
-      selectAllCheckbox.click();
+      toggleSelectAllCheckbox();
 
       var resourceButton = $root.find("button:contains('Resources')");
       $(resourceButton).click();
@@ -158,16 +156,11 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
       $(resourceButton).parent().click();
 
       expect($(resourceButton).parent().attr('class')).toContain('is-open');
-
-      var disableButton = $root.find("button:contains('Disable')");
-      $(disableButton).click();
+      toggleSelectAllCheckbox();
     });
 
     it('should show message after disabling the agents', function () {
-      var agentsCheckbox = $root.find('.go-table thead tr input[type="checkbox"]');
-
-      $(agentsCheckbox[0]).click();
-      m.redraw(true);
+      toggleSelectAllCheckbox();
 
       var disableButton = $root.find("button:contains('Disable')");
       var message       = $root.find('.alert-box');
@@ -177,13 +170,11 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
 
       message = $root.find('.callout');
       expect(message.text()).toBe('Disabled 2 agents');
+
     });
 
     it('should show message after enabling the agents', function () {
-      var agentsCheckbox = $root.find('.go-table thead tr input[type="checkbox"]');
-
-      $(agentsCheckbox[0]).click();
-      m.redraw(true);
+      toggleSelectAllCheckbox();
 
       var buttons = $root.find('.agent-button-group button');
       var message = $root.find('.callout');
@@ -194,14 +185,12 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
 
       message = $root.find('.callout');
       expect(message.text()).toBe('Enabled 2 agents');
+
     });
 
     it('should show message after deleting the agents', function () {
-      var agentsCheckbox = $root.find('.go-table thead tr input[type="checkbox"]');
+      toggleSelectAllCheckbox();
       var deleteButton   = $root.find('.agent-button-group button')[0];
-
-      $(agentsCheckbox[0]).click();
-      m.redraw(true);
 
       expect(deleteButton.disabled).toBe(false);
       deleteButton.click();
@@ -213,34 +202,30 @@ define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget
     });
 
     it('should show message after updating resource of the agents', function () {
+      toggleSelectAllCheckbox();
       var resource = $root.find('.add-resource');
 
-      var agentsCheckbox = $root.find('.go-table thead tr input[type="checkbox"]');
       var applyResource  = resource.find('button')[1];
-
-      $(agentsCheckbox[0]).click();
-      m.redraw(true);
 
       applyResource.click();
       m.redraw(true);
 
       var message = $root.find('.callout');
       expect(message.text()).toBe('Resources modified on 2 agents');
+
     });
 
     it('should show message after updating environment of the agents', function () {
+      toggleSelectAllCheckbox();
       var environment      = $root.find('.env-dropdown');
-      var agentsCheckbox   = $root.find('.go-table thead tr input[type="checkbox"]');
       var applyEnvironment = environment.find('button');
-
-      $(agentsCheckbox[0]).click();
-      m.redraw(true);
 
       applyEnvironment.click();
       m.redraw(true);
 
       var message = $root.find('.callout');
       expect(message.text()).toBe('Environments modified on 2 agents');
+
     });
 
     it('should show only filtered agents after inserting filter text', function () {
