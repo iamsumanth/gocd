@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget"], function ($, m, Agents, AgentsWidget) {
+define(["jquery", "mithril", 'models/agents/agents', "views/agents/agents_widget", "views/agents/models/agents_widget_view_model"], function ($, m, Agents, AgentsWidget, AgentsVM) {
   describe("Agents Widget", function () {
 
     var $root = $('#mithril-mount-point'), root = $root.get(0);
 
+    var agentsVM = AgentsVM;
     var route = function () {
       m.route.mode = "hash";
       m.route(root, '',
         {
-          '':                  m.component(AgentsWidget),
-          '/:sortBy/:orderBy': m.component(AgentsWidget)
+          '':                  m.component(AgentsWidget, {vm: agentsVM}),
+          '/:sortBy/:orderBy': m.component(AgentsWidget, {vm: agentsVM})
         }
       );
       m.route('');

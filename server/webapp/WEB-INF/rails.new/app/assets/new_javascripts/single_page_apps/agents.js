@@ -20,21 +20,23 @@ require([
   'models/agents/resources',
   'models/agents/environments',
   'views/agents/agents_widget',
+  'views/agents/models/agents_widget_view_model',
   'foundation.util.mediaQuery', 'foundation.dropdownMenu', 'foundation.responsiveToggle', 'foundation.dropdown'
 ], function ($, m, JsRoutes,
-             Resources, Environments, AgentsWidget) {
+             Resources, Environments, AgentsWidget, AgentsVM) {
 
   $(function () {
 
     Resources.init();
     Environments.init();
+
     $(document).foundation();
 
     m.route.mode = "hash";
 
     m.route(document.getElementById('agents'), '', {
-      '':                  AgentsWidget,
-      '/:sortBy/:orderBy': AgentsWidget
+      '':                  m.component(AgentsWidget, {vm: AgentsVM}),
+      '/:sortBy/:orderBy': m.component(AgentsWidget, {vm: AgentsVM})
     });
   });
 });

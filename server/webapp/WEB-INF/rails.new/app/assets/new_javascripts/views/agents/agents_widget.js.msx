@@ -27,60 +27,15 @@ define([
              AgentTableHeader,
              ButtonRowWidget, Agents) {
 
-  var vm = {};
-
-  vm.dropdown = {
-    states: {},
-
-    reset: m.prop(true),
-
-    add: function (name) {
-      if (!this.states[name]) {
-        this.states[name] = m.prop(false);
-      }
-    },
-
-    hide: function (name) {
-      this.states[name](false);
-    },
-
-    hideAllDropDowns: function () {
-      if (this.reset()) {
-        for (var item in this.states) {
-          this.states[item](false);
-        }
-      }
-      this.reset(true);
-    },
-
-    hideOtherDropdowns: function (name) {
-      for (var item in this.states) {
-        if (!_.isEqual(item, name)) {
-          this.states[item](false);
-        }
-      }
-    }
-  };
-
-  vm.agents = {
-    all: {
-      selected: m.prop(false)
-    }
-  };
-
-  vm.filterText = m.prop('');
-
-  vm.agentsCheckedState = {};
-
   var AgentsWidget = {
-    controller: function () {
+    controller: function (args) {
 
       var toggleAllAgentsSelected = function () {
-        return vm.agents.all.selected(!vm.agents.all.selected());
+        return args.vm.agents.all.selected(!args.vm.agents.all.selected());
       };
 
       var clearAllCheckboxes = function () {
-        _.each(vm.agentsCheckedState, function (boxState) {
+        _.each(args.vm.agentsCheckedState, function (boxState) {
           boxState(false);
         });
       };
@@ -96,7 +51,7 @@ define([
         allAgents: m.prop(new Agents()),
 
         hideDropDowns: function () {
-          vm.dropdown.hideAllDropDowns();
+          args.vm.dropdown.hideAllDropDowns();
         },
 
         refreshAfterInterval: function () {
@@ -129,29 +84,29 @@ define([
           var isChecked = toggleAllAgentsSelected();
 
           var filteredAgents = this.allAgents().filterAgent(function (agent) {
-            return agent.matches(vm.filterText());
+            return agent.matches(args.vm.filterText());
           });
 
           _.each(filteredAgents, function (agent) {
-            vm.agentsCheckedState[agent.uuid()](isChecked);
+            args.vm.agentsCheckedState[agent.uuid()](isChecked);
           });
         },
 
         areAllAgentsSelected: function () {
           var filteredAgents = this.allAgents().filterAgent(function (agent) {
-            return agent.matches(vm.filterText());
+            return agent.matches(args.vm.filterText());
           });
 
           var isChecked = _.every(filteredAgents, function (agent) {
-            return vm.agentsCheckedState[agent.uuid()]();
+            return args.vm.agentsCheckedState[agent.uuid()]();
           });
 
-          vm.agents.all.selected(isChecked);
+          args.vm.agents.all.selected(isChecked);
           return isChecked;
         },
 
         selectedAgentsUuids: function () {
-          return _.compact(_.map(vm.agentsCheckedState, function (boxSate, agentId) {
+          return _.compact(_.map(args.vm.agentsCheckedState, function (boxSate, agentId) {
               if (boxSate()) {
                 return agentId;
               }
@@ -240,7 +195,7 @@ define([
         filteredAndSortedAgents: function () {
           var attrName = m.route.param('sortBy') || 'agentState';
           var orderBy  = m.route.param('orderBy') || 'asc';
-          return this.allAgents().filterBy(vm.filterText()).sortBy(attrName, orderBy);
+          return this.allAgents().filterBy(args.vm.filterText()).sortBy(attrName, orderBy);
         },
 
         sortBy: function (sortBy, orderBy) {
@@ -248,29 +203,29 @@ define([
         },
 
         toggleDropDownState: function (dropDownName) {
-          var dropdown = vm.dropdown;
+          var dropdown = args.vm.dropdown;
           dropdown.reset(false);
           dropdown.states[dropDownName](!dropdown.states[dropDownName]());
           dropdown.hideOtherDropdowns(dropDownName);
         },
 
         dropDownState: function (dropDownName) {
-          vm.dropdown.add(dropDownName);
-          return vm.dropdown.states[dropDownName]();
+          args.vm.dropdown.add(dropDownName);
+          return args.vm.dropdown.states[dropDownName]();
         },
 
         isAnyAgentSelected: function () {
-          return _.some(vm.agentsCheckedState, function (boxState) {
+          return _.some(args.vm.agentsCheckedState, function (boxState) {
             return boxState();
           });
         },
 
         hideDropDown: function (dropDownName) {
-          vm.dropdown.hide(dropDownName);
+          args.vm.dropdown.hide(dropDownName);
         },
 
         dropDownReset: function (resetValue) {
-          vm.dropdown.reset(resetValue);
+          args.vm.dropdown.reset(resetValue);
         }
 
       };
@@ -280,7 +235,7 @@ define([
       return ctrl;
     },
 
-    view: function (ctrl) {
+    view: function (ctrl, args) {
       return (
         <div onclick={ctrl.hideDropDowns}>
           <ButtonRowWidget isAnyAgentSelected={ ctrl.isAnyAgentSelected.bind(ctrl) }
@@ -300,8 +255,8 @@ define([
               <f.column size={6} largeSize={3}>
                 <div class="search-bar">
                   <input type="text"
-                         oninput={m.withAttr("value", vm.filterText)}
-                         value={vm.filterText()}
+                         oninput={m.withAttr("value", args.vm.filterText)}
+                         value={args.vm.filterText()}
                          placeholder="Filter Agents"
                          id="filter-agent"/>
                 </div>
@@ -324,10 +279,10 @@ define([
               <tbody>
               {
                 ctrl.filteredAndSortedAgents().mapAgents(function (agent) {
-                  var checkboxModel = vm.agentsCheckedState[agent.uuid()];
+                  var checkboxModel = args.vm.agentsCheckedState[agent.uuid()];
 
                   if (!checkboxModel) {
-                    checkboxModel = vm.agentsCheckedState[agent.uuid()] = m.prop();
+                    checkboxModel = args.vm.agentsCheckedState[agent.uuid()] = m.prop();
                   }
 
                   return (
