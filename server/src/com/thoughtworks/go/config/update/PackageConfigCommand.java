@@ -62,7 +62,8 @@ abstract class PackageConfigCommand implements EntityConfigUpdateCommand<Package
         return false;
     }
 
-    protected boolean isAuthorized() {
+    @Override
+    public boolean isAuthorized() {
         if (!(goConfigService.isUserAdmin(username) || goConfigService.isGroupAdministrator(username.getUsername()))) {
             result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT"), HealthStateType.unauthorised());
             return false;

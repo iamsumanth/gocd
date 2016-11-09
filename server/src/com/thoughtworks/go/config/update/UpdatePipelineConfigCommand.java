@@ -80,6 +80,11 @@ public class UpdatePipelineConfigCommand implements EntityConfigUpdateCommand<Pi
     }
 
     @Override
+    public boolean isAuthorized() {
+        return true;
+    }
+
+    @Override
     public boolean canContinue(CruiseConfig cruiseConfig) {
         return canEditPipeline() && isRequestFresh(cruiseConfig);
     }

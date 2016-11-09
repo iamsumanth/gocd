@@ -153,7 +153,8 @@ public class AgentsEntityConfigUpdateCommand implements EntityConfigUpdateComman
         }
     }
 
-    private boolean isAuthorized() {
+    @Override
+    public boolean isAuthorized() {
         if (goConfigService.isAdministrator(username.getUsername())) {
             return true;
         }

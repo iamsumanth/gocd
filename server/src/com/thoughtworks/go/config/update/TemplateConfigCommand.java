@@ -82,10 +82,15 @@ public abstract class TemplateConfigCommand implements EntityConfigUpdateCommand
 
     @Override
     public boolean canContinue(CruiseConfig cruiseConfig) {
-        if (!goConfigService.isUserAdmin(currentUser)) {
+        if (!isAuthorized()) {
             result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT"), HealthStateType.unauthorised());
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean isAuthorized() {
+        return goConfigService.isUserAdmin(currentUser);
     }
 }

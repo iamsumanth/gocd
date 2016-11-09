@@ -72,10 +72,15 @@ public class CreatePipelineConfigCommand implements EntityConfigUpdateCommand<Pi
 
     @Override
     public boolean canContinue(CruiseConfig cruiseConfig) {
-        if (goConfigService.groups().hasGroup(groupName) && !goConfigService.isUserAdminOfGroup(currentUser.getUsername(), groupName)) {
+        if (goConfigService.groups().hasGroup(groupName) && !isAuthorized()) {
             result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT_GROUP", groupName), HealthStateType.unauthorised());
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean isAuthorized() {
+        return goConfigService.isUserAdminOfGroup(currentUser.getUsername(), groupName);
     }
 }

@@ -21,7 +21,6 @@ import com.thoughtworks.go.config.CruiseConfig;
 import com.thoughtworks.go.config.commands.EntityConfigUpdateCommand;
 import com.thoughtworks.go.domain.packagerepository.PackageRepositories;
 import com.thoughtworks.go.domain.packagerepository.PackageRepository;
-import com.thoughtworks.go.i18n.Localizable;
 import com.thoughtworks.go.i18n.LocalizedMessage;
 import com.thoughtworks.go.server.domain.Username;
 import com.thoughtworks.go.server.service.GoConfigService;
@@ -73,7 +72,8 @@ public abstract class PackageRepositoryCommand implements EntityConfigUpdateComm
         return isAuthorized();
     }
 
-    private boolean isAuthorized() {
+    @Override
+    public boolean isAuthorized() {
         if (!(goConfigService.isUserAdmin(username) || goConfigService.isGroupAdministrator(username.getUsername()))) {
             result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT"), HealthStateType.unauthorised());
             return false;

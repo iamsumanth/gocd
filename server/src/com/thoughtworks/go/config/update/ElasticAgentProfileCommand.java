@@ -76,7 +76,8 @@ abstract class ElasticAgentProfileCommand implements EntityConfigUpdateCommand<E
         return false;
     }
 
-    protected boolean isAuthorized() {
+    @Override
+    public boolean isAuthorized() {
         if (!(goConfigService.isUserAdmin(currentUser) || goConfigService.isGroupAdministrator(currentUser.getUsername()))) {
             result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_EDIT"), HealthStateType.unauthorised());
             return false;

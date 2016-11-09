@@ -65,7 +65,7 @@ public class UpdateEnvironmentCommand extends EnvironmentCommand implements Enti
 
     @Override
     public boolean canContinue(CruiseConfig cruiseConfig) {
-        return isAuthorized(cruiseConfig) && isRequestFresh(cruiseConfig);
+        return isAuthorized() && isRequestFresh(cruiseConfig);
     }
 
     private boolean isRequestFresh(CruiseConfig cruiseConfig) {
@@ -77,7 +77,8 @@ public class UpdateEnvironmentCommand extends EnvironmentCommand implements Enti
         return freshRequest;
     }
 
-    private boolean isAuthorized(CruiseConfig cruiseConfig) {
+    @Override
+    public boolean isAuthorized() {
         if (!goConfigService.isAdministrator(username.getUsername())) {
             Localizable noPermission = LocalizedMessage.string("NO_PERMISSION_TO_UPDATE_ENVIRONMENT", oldEnvironmentConfig.name().toString(), username.getDisplayName());
             result.unauthorized(noPermission, HealthStateType.unauthorised());

@@ -81,9 +81,15 @@ public class DeletePipelineConfigCommand implements EntityConfigUpdateCommand<Pi
     }
 
     @Override
+    public boolean isAuthorized() {
+        String groupName = goConfigService.findGroupNameByPipeline(pipelineConfig.name());
+        return goConfigService.isUserAdminOfGroup(currentUser.getUsername(), groupName);
+    }
+
+    @Override
     public boolean canContinue(CruiseConfig cruiseConfig) {
         String groupName = goConfigService.findGroupNameByPipeline(pipelineConfig.name());
-        if (goConfigService.groups().hasGroup(groupName) && !goConfigService.isUserAdminOfGroup(currentUser.getUsername(), groupName)) {
+        if (goConfigService.groups().hasGroup(groupName) && !isAuthorized()) {
             result.unauthorized(LocalizedMessage.string("UNAUTHORIZED_TO_DELETE_PIPELINE", groupName), HealthStateType.unauthorised());
             return false;
         }

@@ -55,5 +55,10 @@ public class AgentsUpdateCommand implements EntityConfigUpdateCommand<Agents> {
     public Agents getPreprocessedEntityConfig() {
         return updatedConfig.agents();
     }
+
+    @Override
+    public boolean isAuthorized() {
+        return true;
+    }
 }
 
