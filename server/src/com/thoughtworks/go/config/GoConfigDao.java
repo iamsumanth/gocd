@@ -19,13 +19,11 @@ package com.thoughtworks.go.config;
 import com.rits.cloning.Cloner;
 import com.thoughtworks.go.config.commands.CheckedUpdateCommand;
 import com.thoughtworks.go.config.commands.EntityConfigUpdateCommand;
-import com.thoughtworks.go.config.update.AddEnvironmentCommand;
 import com.thoughtworks.go.config.update.ConfigUpdateCheckFailedException;
 import com.thoughtworks.go.config.validation.GoConfigValidity;
 import com.thoughtworks.go.listener.ConfigChangedListener;
 import com.thoughtworks.go.presentation.TriStateSelection;
 import com.thoughtworks.go.server.domain.Username;
-import com.thoughtworks.go.server.service.EnvironmentConfigService;
 import com.thoughtworks.go.server.util.UserHelper;
 import com.thoughtworks.go.util.ExceptionUtils;
 import org.slf4j.Logger;
@@ -36,8 +34,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static com.thoughtworks.go.util.ExceptionUtils.bomb;
 
 /**
  * @understands how to modify the cruise config sources
@@ -94,7 +90,7 @@ public class GoConfigDao {
         LOGGER.info("Config update for pipeline request by {} is in queue - {}", currentUser, command);
         synchronized (GoConfigWriteLock.class) {
             LOGGER.info("Config update for pipeline request by {} is being processed", currentUser);
-            if (!command.canContinue(cachedConfigService.currentConfig())) {
+            if (!(command.isAuthorized() && command.canContinue(cachedConfigService.currentConfig()))) {
                 throw new ConfigUpdateCheckFailedException();
             }
             cachedConfigService.writeEntityWithLock(command, currentUser);

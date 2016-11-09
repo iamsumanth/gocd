@@ -212,7 +212,7 @@ public abstract class GoConfigDaoTestBase {
 
     @Test
     public void shouldFeedCloneOfConfigBackToCommand() throws Exception {
-        CheckedTestUpdateCommand command = new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), true) {
+        CheckedTestUpdateCommand command = new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), true, true) {
 
             @Override
             public CruiseConfig update(CruiseConfig cruiseConfig) throws Exception {
@@ -233,7 +233,7 @@ public abstract class GoConfigDaoTestBase {
 
     @Test
     public void shouldNotUpdateIfCannotContinueIfTheCommandIsPreprocessable() throws Exception {
-        CheckedTestUpdateCommand command = new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), false);
+        CheckedTestUpdateCommand command = new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), false, true);
         try {
             goConfigDao.updateConfig(command);
             fail("should have failed as check returned false");
@@ -245,7 +245,7 @@ public abstract class GoConfigDaoTestBase {
 
     @Test
     public void shouldPerformUpdateIfCanContinue() throws Exception {
-        CheckedTestUpdateCommand command = new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), true);
+        CheckedTestUpdateCommand command = new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), true, true);
         goConfigDao.updateConfig(command);
         assertThat(command.wasUpdated, is(true));
     }
@@ -255,7 +255,7 @@ public abstract class GoConfigDaoTestBase {
         configHelper.addTemplate("my-template", "my-stage");
         configHelper.addPipeline("pipeline", "stage");
         configHelper.addPipelineWithTemplate(PipelineConfigs.DEFAULT_GROUP, "my-pipeline", "my-template");
-        CheckedTestUpdateCommand command = spy(new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), true));
+        CheckedTestUpdateCommand command = spy(new CheckedTestUpdateCommand(cachedGoConfig.loadForEditing().getMd5(), true, true));
         goConfigDao.updateConfig(command);
         verify(command).canContinue(cachedGoConfig.currentConfig());
     }
@@ -450,12 +450,30 @@ public abstract class GoConfigDaoTestBase {
     }
 
     @Test
-    public void shouldNotUpdatePipelineConfigIfUserDoesNotHaveRequiredPermissionsToDoSo() {
+    public void shouldNotUpdatePipelineConfigIfUserIsNotAuthorized() {
         CachedGoConfig cachedConfigService = mock(CachedGoConfig.class);
         CruiseConfig cruiseConfig = mock(CruiseConfig.class);
         when(cachedConfigService.currentConfig()).thenReturn(cruiseConfig);
         goConfigDao = new GoConfigDao(cachedConfigService);
         EntityConfigUpdateCommand command = mock(EntityConfigUpdateCommand.class);
+        when(command.isAuthorized()).thenReturn(false);
+        try {
+            goConfigDao.updateConfig(command, new Username(new CaseInsensitiveString("user")));
+            fail("Expected to throw exception of type:" + ConfigUpdateCheckFailedException.class.getName());
+        } catch (Exception e) {
+            assertTrue(e instanceof ConfigUpdateCheckFailedException);
+        }
+        verifyNoMoreInteractions(cachedConfigService);
+    }
+
+    @Test
+    public void shouldNotUpdatePipelineConfigIfUserCanNotContinue() {
+        CachedGoConfig cachedConfigService = mock(CachedGoConfig.class);
+        CruiseConfig cruiseConfig = mock(CruiseConfig.class);
+        when(cachedConfigService.currentConfig()).thenReturn(cruiseConfig);
+        goConfigDao = new GoConfigDao(cachedConfigService);
+        EntityConfigUpdateCommand command = mock(EntityConfigUpdateCommand.class);
+        when(command.isAuthorized()).thenReturn(true);
         when(command.canContinue(cruiseConfig)).thenReturn(false);
         try {
             goConfigDao.updateConfig(command, new Username(new CaseInsensitiveString("user")));
@@ -475,6 +493,8 @@ public abstract class GoConfigDaoTestBase {
         EntityConfigUpdateCommand saveCommand = mock(EntityConfigUpdateCommand.class);
         when(saveCommand.isValid(cruiseConfig)).thenReturn(true);
         when(saveCommand.canContinue(cruiseConfig)).thenReturn(true);
+        when(saveCommand.isAuthorized()).thenReturn(true);
+        when(saveCommand.isAuthorized()).thenReturn(true);
         goConfigDao = new GoConfigDao(cachedConfigService);
         Username currentUser = new Username(new CaseInsensitiveString("user"));
         goConfigDao.updateConfig(saveCommand, currentUser);
@@ -497,12 +517,14 @@ public abstract class GoConfigDaoTestBase {
 
         private final String md5;
         private final boolean canContinue;
+        private boolean isAuthorized;
         private boolean wasUpdated;
         private CruiseConfig after;
 
-        CheckedTestUpdateCommand(String md5, boolean canContinue) {
+        CheckedTestUpdateCommand(String md5, boolean canContinue, boolean isAuthorized) {
             this.md5 = md5;
             this.canContinue = canContinue;
+            this.isAuthorized = isAuthorized;
         }
 
         public boolean canContinue(CruiseConfig cruiseConfig) {
@@ -524,6 +546,10 @@ public abstract class GoConfigDaoTestBase {
 
         public CruiseConfig configAfter() {
             return after;
+        }
+
+        public boolean isAuthorized() {
+            return isAuthorized;
         }
 
     }
