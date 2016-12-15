@@ -114,8 +114,8 @@ public class AgentService {
     }
 
     @Deprecated // used by old code, stop using AgentViewModel
-    public AgentsViewModel agents() {
-        return toAgentViewModels(agentInstances.allAgents());
+    public AgentInstances agents() {
+        return agentInstances.allAgents();
     }
 
     public Map<AgentInstance, Collection<String>> agentEnvironmentMap() {
