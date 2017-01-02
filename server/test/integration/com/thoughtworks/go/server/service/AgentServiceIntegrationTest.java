@@ -269,48 +269,6 @@ public class AgentServiceIntegrationTest {
         assertThat(agentService.findAgentAndRefreshStatus(UUID2).agentConfig().getResources(),not(hasItem(new Resource("resource-1"))));
     }
 
-    @Test
-    public void shouldListResourceSelectionForMultipleAgents() {
-        createEnabledAgent(UUID);
-        createEnabledAgent(UUID2);
-        createEnabledAgent(UUID3);
-
-        HttpOperationResult operationResult = new HttpOperationResult();
-        agentService.modifyResources(USERNAME, operationResult, Arrays.asList(UUID, UUID2), Arrays.asList(new TriStateSelection("all", TriStateSelection.Action.add)));
-        agentService.modifyResources(USERNAME, operationResult, Arrays.asList(UUID2), Arrays.asList(new TriStateSelection("few", TriStateSelection.Action.add)));
-        agentService.modifyResources(USERNAME, operationResult, Arrays.asList(UUID3), Arrays.asList(new TriStateSelection("none", TriStateSelection.Action.add)));
-
-        List<TriStateSelection> selections = agentService.getResourceSelections(Arrays.asList(UUID, UUID2));
-
-        assertThat(selections.get(0), is(new TriStateSelection("all", TriStateSelection.Action.add)));
-        assertThat(selections.get(1), is(new TriStateSelection("few", TriStateSelection.Action.nochange)));
-        assertThat(selections.get(2), is(new TriStateSelection("none", TriStateSelection.Action.remove)));
-    }
-
-    @Test
-    public void shouldListTriStateSelectionOfEnvironmentsForMultipleAgents() throws Exception {
-
-        String uatAgentUuid = "uat-agent";
-        String prodAgentUuid = "prod-agent";
-
-        createEnabledAgent(uatAgentUuid);
-        createEnabledAgent(prodAgentUuid);
-
-        createEnvironment("uat", "prod");
-        addAgentToEnv("uat", uatAgentUuid);
-        addAgentToEnv("prod", prodAgentUuid);
-
-        List<TriStateSelection> selections = agentService.getEnvironmentSelections(Arrays.asList(uatAgentUuid));
-
-        assertThat(selections.size(), is(2));
-        assertThat(selections.get(0), is(new TriStateSelection("prod", TriStateSelection.Action.remove)));
-        assertThat(selections.get(1), is(new TriStateSelection("uat", TriStateSelection.Action.add)));
-
-        selections = agentService.getEnvironmentSelections(Arrays.asList(uatAgentUuid, prodAgentUuid));
-        assertThat(selections.get(0), is(new TriStateSelection("prod", TriStateSelection.Action.nochange)));
-        assertThat(selections.get(1), is(new TriStateSelection("uat", TriStateSelection.Action.nochange)));
-    }
-
     private void addAgentToEnv(String uat, String uatAgentUuid) throws Exception {
         CONFIG_HELPER.addAgentToEnvironment(uat, uatAgentUuid);
         goConfigService.forceNotifyListeners();

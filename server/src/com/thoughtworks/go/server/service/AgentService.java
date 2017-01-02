@@ -363,14 +363,6 @@ public class AgentService {
         agentInstances.building(uuid, agentBuildingInfo);
     }
 
-    public List<TriStateSelection> getResourceSelections(List<String> uuids) {
-        return TriStateSelection.forAgentsResources(goConfigService.getAllResources(), agentConfigService.findAgents(uuids));
-    }
-
-    public List<TriStateSelection> getEnvironmentSelections(List<String> uuids) {
-        return TriStateSelection.forAgentsEnvironmens(environmentConfigService.getEnvironments(), agentConfigService.findAgents(uuids));
-    }
-
     public String assignCookie(AgentIdentifier identifier) {
         String cookie = uuidGenerator.randomUuid();
         agentDao.associateCookie(identifier, cookie);
