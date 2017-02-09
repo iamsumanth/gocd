@@ -8,8 +8,6 @@ gem 'dynamic_form'
 
 gem 'sprockets-rails'
 gem 'sass-rails'
-gem 'requirejs-rails'
-gem 'mithril_rails'
 gem 'uglifier'
 gem 'foundation-rails'
 gem 'bourbon'
@@ -20,6 +18,7 @@ gem 'oauth2_provider', '1.0.3', path: 'vendor/engines/oauth2_provider'
 gem 'versionist'
 gem 'roar'
 gem 'rack-throttle', '~> 0.4.2'
+gem 'webpack-rails'
 
 group :development, :test do
   gem 'rails-dev-tweaks', '~> 1.1'

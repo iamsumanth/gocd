@@ -28,10 +28,11 @@ public class ExecuteUnderRailsTask extends Exec {
   def railsCommand
 
   public ExecuteUnderRailsTask() {
+    dependsOn ':server:cleanRails'
     dependsOn ':tools:prepareJRuby'
     dependsOn ':server:prepare'
-    dependsOn ':server:cleanRails'
     dependsOn ':server:jar'
+    dependsOn ':server:testJar'
 
     if (isWindows()) {
       dependsOn ':server:pathingJar'

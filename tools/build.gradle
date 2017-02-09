@@ -86,7 +86,7 @@ task prepareNodeJS(type: Exec) {
   standardOutput = System.out
   errorOutput = System.err
 
-  commandLine = [ isWindows() ? "npm.cmd" : "npm", "install"]
+  commandLine = [ isWindows() ? "yarn.cmd" : "yarn", "install"]
 }
 
 clean.doFirst {

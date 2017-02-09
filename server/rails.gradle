@@ -29,6 +29,41 @@ task pathingJar(type: Jar) {
   }
 }
 
+task generateJSRoutes(type: ExecuteUnderRailsTask) {
+  def outputDir = file("${project.railsRoot}/webpack/gen")
+  inputs.dir(file("${project.railsRoot}/vendor"))
+  inputs.dir(file("${project.railsRoot}/config"))
+  outputs.file(outputDir)
+
+  environment(
+    'RAILS_ENV': 'production',
+    'OUTPUT_DIR': outputDir,
+  )
+
+  railsCommand = './bin/rake --trace generated_js'
+
+  doFirst {
+    delete outputDir
+  }
+}
+
+private boolean isWindows() {
+  org.gradle.internal.os.OperatingSystem.current().isWindows()
+}
+
+task npmInstall(type: Exec) {
+  inputs.file project.file("${project.railsRoot}/package.json")
+  outputs.dir project.file("${project.railsRoot}/node_modules")
+
+  standardOutput = System.out
+  errorOutput = System.err
+
+  commandLine = [isWindows() ? "yarn.cmd" : "yarn", "install"]
+  workingDir = project.railsRoot
+}
+
+prepare.dependsOn npmInstall
+
 task dependencyClassPath {
   outputs.upToDateWhen { false }
   dependsOn ':server:prepare'
@@ -68,6 +103,8 @@ task cleanRails {
 }
 
 task compileAssets(type: ExecuteUnderRailsTask) {
+  dependsOn npmInstall
+  dependsOn generateJSRoutes
   onlyIf { !project.hasProperty('fastBuild') }
 
   def outputAssetsDir = file("${project.buildDir}/assets")
@@ -79,7 +116,7 @@ task compileAssets(type: ExecuteUnderRailsTask) {
   outputs.dir(outputAssetsDir)
 
   environment(
-      'RAILS_ENV': 'production'
+    'RAILS_ENV': 'production'
   )
 
   railsCommand = './bin/rake --trace assets:clobber assets:precompile'
@@ -93,6 +130,17 @@ task compileAssets(type: ExecuteUnderRailsTask) {
     delete "${project.railsRoot}/tmp"
 
     outputAssetsDir.parentFile.mkdirs()
+
+    project.exec {
+      standardOutput = System.out
+      errorOutput = System.err
+
+      commandLine = [isWindows() ? "yarn.cmd" : "yarn", "run", "webpack-prod"]
+      workingDir = project.railsRoot
+
+      println "[${workingDir}]\$ ${executable} ${args.join(' ')}"
+    }
+
     copy {
       from publicAssetsDir
       into outputAssetsDir
@@ -103,7 +151,6 @@ task compileAssets(type: ExecuteUnderRailsTask) {
 }
 
 task rspec(type: ExecuteUnderRailsTask) {
-  dependsOn ':server:testJar'
   outputs.upToDateWhen { false }
 
   description = "Run specs (pass '-Ppots=...' to pass options)"
@@ -114,13 +161,12 @@ task rspec(type: ExecuteUnderRailsTask) {
   }
 
   environment += [
-      'REPORTS_DIR': "${project.buildDir}/rspec-results"
+    'REPORTS_DIR': "${project.buildDir}/rspec-results"
   ]
   railsCommand = rspecCommand.join(' ')
 }
 
 task parallelRspec(type: ExecuteUnderRailsTask) {
-  dependsOn ':server:testJar'
   outputs.upToDateWhen { false }
 
   description = "Run specs in parallel (pass '-Ppots=...' to pass options)"
@@ -139,7 +185,7 @@ task parallelRspec(type: ExecuteUnderRailsTask) {
   }
 
   environment += [
-      'REPORTS_DIR': "${project.buildDir}/rspec-results"
+    'REPORTS_DIR': "${project.buildDir}/rspec-results"
   ]
   railsCommand = rspecCommand.join(' ')
 }

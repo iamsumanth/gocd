@@ -16,7 +16,11 @@
 
 Go::Application.routes.draw do
   mount JasmineRails::Engine => '/jasmine-specs', as: :jasmine_old if defined?(JasmineRails)
-  mount JasmineRails::Engine => '/jasmine-specs-new', as: :jasmine_new if defined?(JasmineRails)
+  # mount JasmineRails::Engine => '/jasmine-specs-new', as: :jasmine_new if defined?(JasmineRails)
+
+  if Rails.env.development?
+    get '/jasmine-specs-new', controller: :jasmine, action: :index
+  end
 
   unless defined?(CONSTANTS)
     ELASTIC_AGENT_PROFILE_ID_FORMAT = USER_NAME_FORMAT = GROUP_NAME_FORMAT = TEMPLATE_NAME_FORMAT = PIPELINE_NAME_FORMAT = STAGE_NAME_FORMAT = ENVIRONMENT_NAME_FORMAT = /[\w\-][\w\-.]*/
