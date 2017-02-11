@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m              = require('mithril');
+var Stream         = require('mithril/stream');
 var _              = require('lodash');
 var isPresentOnAll = function (setOfValues, value) {
   return _.every(setOfValues, function (values) {
@@ -32,9 +32,9 @@ var TriStateCheckbox = function (value, setOfValues) {
   var isChecked       = isPresentOnAll(setOfValues, value);
   var isIndeterminate = !isChecked && isPresentOnAny(setOfValues, value);
 
-  this.name         = m.prop(value);
-  var checked       = m.prop(isChecked);
-  var indeterminate = m.prop(isIndeterminate);
+  this.name         = Stream(value);
+  var checked       = Stream(isChecked);
+  var indeterminate = Stream(isIndeterminate);
   var self          = this;
 
   this.click = function () {

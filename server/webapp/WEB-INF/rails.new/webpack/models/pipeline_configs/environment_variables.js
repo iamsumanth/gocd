@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m              = require('mithril');
+var Stream         = require('mithril/stream');
 var s              = require('string-plus');
 var Mixins         = require('models/model_mixins');
 var EncryptedValue = require('models/pipeline_configs/encrypted_value');
@@ -56,8 +56,8 @@ EnvironmentVariables.Variable = function (data) {
 
   this.parent = Mixins.GetterSetter();
 
-  this.name  = m.prop(s.defaultToIfBlank(data.name, ''));
-  var _value = m.prop(plainOrCipherValue(data));
+  this.name  = Stream(s.defaultToIfBlank(data.name, ''));
+  var _value = Stream(plainOrCipherValue(data));
   Mixins.HasEncryptedAttribute.call(this, {attribute: _value, name: 'value'});
 
   this.toJSON = function () {

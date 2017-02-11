@@ -15,11 +15,13 @@
  */
 describe("Pipeline Model", function () {
 
-  var m            = require('mithril');
-  var $            = require('jquery');
+  var m = require('mithril');
+  var $ = require('jquery');
+  var s = require("string-plus");
+
   var Pipeline     = require("models/pipeline_configs/pipeline");
   var TrackingTool = require('models/pipeline_configs/tracking_tool');
-  var s            = require("string-plus");
+
   var pipeline, timer;
   beforeEach(function () {
     timer    = new Pipeline.Timer({spec: "0 0 22 ? * MON-FRI"});

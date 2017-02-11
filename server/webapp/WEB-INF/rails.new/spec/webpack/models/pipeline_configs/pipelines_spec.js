@@ -15,8 +15,9 @@
  */
 describe('Pipelines', function () {
 
-  var $         = require('jquery');
-  var m         = require('mithril');
+  var $ = require('jquery');
+  var m = require('mithril');
+
   var Pipelines = require("models/pipeline_configs/pipelines");
   describe('init', function () {
     var requestArgs;

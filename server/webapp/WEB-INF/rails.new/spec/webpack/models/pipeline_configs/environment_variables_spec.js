@@ -16,8 +16,10 @@
 
 describe("EnvironmentVariable Model", function () {
 
-  var s                    = require('string-plus');
+  var s = require('string-plus');
+
   var EnvironmentVariables = require("models/pipeline_configs/environment_variables");
+
   var variables, plainVariable, secureVariable;
   beforeEach(function () {
     variables = new EnvironmentVariables();

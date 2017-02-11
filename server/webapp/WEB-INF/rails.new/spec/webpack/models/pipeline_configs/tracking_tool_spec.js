@@ -15,8 +15,9 @@
  */
 describe("TrackingTool Model", function () {
 
+  var s = require('string-plus');
+
   var TrackingTool = require("models/pipeline_configs/tracking_tool");
-  var s            = require('string-plus');
   var trackingTool;
   describe("Generic", function () {
     beforeAll(function () {

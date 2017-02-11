@@ -15,8 +15,12 @@
  */
 describe("Button Row Widget", function () {
 
-  var $               = require("jquery");
-  var m               = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require('jasmine-jquery');
+
   var Agents          = require('models/agents/agents');
   var ButtonRowWidget = require("views/agents/button_row_widget");
   var AgentsVM        = require("views/agents/models/agents_widget_view_model");
@@ -41,10 +45,10 @@ describe("Button Row Widget", function () {
   var agentsVM = new AgentsVM();
 
   beforeAll(function () {
-    agents        = m.prop();
+    agents        = Stream();
     var allAgents = Agents.fromJSON(json());
     agents(allAgents);
-    var areOperationsAllowed = m.prop(false);
+    var areOperationsAllowed = Stream(false);
     mount(areOperationsAllowed);
   });
 
@@ -87,7 +91,7 @@ describe("Button Row Widget", function () {
     });
 
     it('should enable the buttons if at least one agent is selected', function () {
-      var areOperationsAllowed = m.prop(true);
+      var areOperationsAllowed = Stream(true);
       mount(areOperationsAllowed);
       var rowElements = $root.find('.header-panel-button-group button');
 

@@ -16,14 +16,19 @@
 
 describe("Parameter Widget", function () {
 
-  var $                      = require("jquery");
-  var m                      = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require("jasmine-jquery");
+
   var Parameters             = require("models/pipeline_configs/parameters");
   var ParametersConfigWidget = require("views/pipeline_configs/parameters_config_widget");
-  var $root                  = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   var parameters;
   beforeEach(function () {
-    parameters = m.prop(new Parameters.fromJSON([
+    parameters = Stream(new Parameters.fromJSON([
       {name: "COMMAND", value: "echo"}
     ]));
 

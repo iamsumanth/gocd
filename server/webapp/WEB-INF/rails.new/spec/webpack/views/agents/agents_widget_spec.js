@@ -15,13 +15,18 @@
  */
 describe("Agents Widget", function () {
 
-  var $            = require("jquery");
-  var m            = require("mithril");
-  var _            = require('lodash');
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+  var _      = require('lodash');
+
+  require('jasmine-jquery');
+
   var Agents       = require('models/agents/agents');
   var AgentsWidget = require("views/agents/agents_widget");
   var AgentsVM     = require("views/agents/models/agents_widget_view_model");
-  var $root        = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   var agentsVM;
   var agents;
@@ -46,7 +51,7 @@ describe("Agents Widget", function () {
 
   beforeEach(function () {
     agentsVM = new AgentsVM();
-    agents   = m.prop(new Agents());
+    agents   = Stream(new Agents());
 
     jasmine.Ajax.install();
     jasmine.Ajax.stubRequest(/\/api\/agents/).andReturn({

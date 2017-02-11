@@ -15,12 +15,13 @@
  */
 
 var m                = require('mithril');
+var Stream           = require('mithril/stream');
 var _                = require('lodash');
 var mrequest         = require('helpers/mrequest');
 var TriStateCheckbox = require('models/agents/tri_state_checkbox');
 var Routes           = require('js-routes');
 var Resources        = {};
-Resources.list       = m.prop([]);
+Resources.list       = Stream([]);
 
 var getSortedResources = function (resources, selectedAgents) {
   var selectedAgentsResources = _.map(selectedAgents, function (agent) {

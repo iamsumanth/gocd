@@ -15,6 +15,7 @@
  */
 
 var m               = require('mithril');
+var Stream          = require('mithril/stream');
 var f               = require('helpers/form_helper');
 var ComponentMixins = require('helpers/mithril_component_mixins');
 
@@ -25,7 +26,7 @@ var ElasticProfileWidget = {
 
     var vmStateKey = 'show-' + args.profile.id();
 
-    this.vmState(vmStateKey, m.prop(false));
+    this.vmState(vmStateKey, Stream(false));
 
     this.toggleHide = function () {
       this.vmState(vmStateKey)(!this.vmState(vmStateKey)());

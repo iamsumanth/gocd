@@ -16,6 +16,7 @@
 
 describe("Should sanitize JSON", function () {
   var s = require("string-plus");
+
   it("should change the keys of JSON to snake case", function () {
     var input = {
       toSnakeCase: "value",

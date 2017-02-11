@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-var m = require('mithril');
-var _ = require('lodash');
+var Stream = require('mithril/stream');
+var _      = require('lodash');
 
 var VM         = function () {
   var dropdownStates     = {};
   var agentCheckedStates = {};
-  var allAgentsSelected  = m.prop(false);
+  var allAgentsSelected  = Stream(false);
 
   var viewModel = {
     dropdown: {
-      reset: m.prop(true),
+      reset: Stream(true),
 
       create: function (dropDownName) {
         if (!dropdownStates[dropDownName]) {
-          dropdownStates[dropDownName] = m.prop(false);
+          dropdownStates[dropDownName] = Stream(false);
         }
 
         return dropdownStates[dropDownName];
@@ -66,7 +66,7 @@ var VM         = function () {
       }
     },
 
-    filterText: m.prop(''),
+    filterText: Stream(''),
 
     agents: {
       isAnyAgentSelected: function () {
@@ -129,7 +129,7 @@ var VM         = function () {
       });
 
       _.each(newAgentUUIDsNotKnownToVM, function (uuid) {
-        agentCheckedStates[uuid] = m.prop();
+        agentCheckedStates[uuid] = Stream();
       });
     }
   };

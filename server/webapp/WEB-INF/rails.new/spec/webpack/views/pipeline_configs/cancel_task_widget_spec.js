@@ -15,11 +15,15 @@
  */
 describe('Cancel Task Widget', function () {
 
-  var $                = require("jquery");
-  var m                = require("mithril");
+  var $ = require("jquery");
+  var m = require("mithril");
+
+  require('jasmine-jquery');
+
   var Tasks            = require("models/pipeline_configs/tasks");
   var CancelTaskWidget = require("views/pipeline_configs/cancel_task_widget");
-  var $root            = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   var task;
   describe('view task with onCancel task', function () {
     beforeAll(function () {

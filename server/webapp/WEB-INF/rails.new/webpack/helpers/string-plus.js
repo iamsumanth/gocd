@@ -16,7 +16,7 @@
 
 var s                = require('string');
 var _                = require('lodash');
-var m                = require('mithril');
+var Stream           = require('mithril/stream');
 var POSITIVE_INTEGER = /^\d+$/;
 
 var mixins = {
@@ -25,7 +25,7 @@ var mixins = {
   },
 
   coerceToMprop: function (param, defaultValue) {
-    return typeof param === 'function' ? param : m.prop(typeof param === 'undefined' ? defaultValue : param);
+    return typeof param === 'function' ? param : Stream(typeof param === 'undefined' ? defaultValue : param);
   },
 
   collectionToJSON: function (prop) {

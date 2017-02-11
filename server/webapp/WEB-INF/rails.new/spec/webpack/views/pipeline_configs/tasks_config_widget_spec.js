@@ -15,17 +15,22 @@
  */
 describe("Tasks Widget", function () {
 
-  var $                 = require("jquery");
-  var m                 = require("mithril");
-  var _                 = require("lodash");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+  var _      = require("lodash");
+
+  require('jasmine-jquery');
+
   var Tasks             = require("models/pipeline_configs/tasks");
   var TasksConfigWidget = require("views/pipeline_configs/tasks_config_widget");
-  var $root             = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   describe('Ant Task View', function () {
     var task;
     beforeAll(function () {
-      var tasks = m.prop(new Tasks());
+      var tasks = Stream(new Tasks());
 
       task = new Tasks.Task.Ant({
         /* eslint-disable camelcase */
@@ -85,7 +90,7 @@ describe("Tasks Widget", function () {
   describe('Nant Task View', function () {
     var task;
     beforeAll(function () {
-      var tasks = m.prop(new Tasks());
+      var tasks = Stream(new Tasks());
 
       task = new Tasks.Task.NAnt({
         buildFile:        'build-moduleA.xml',
@@ -133,7 +138,7 @@ describe("Tasks Widget", function () {
   describe('Exec Task View', function () {
     var task;
     beforeAll(function () {
-      var tasks = m.prop(new Tasks());
+      var tasks = Stream(new Tasks());
 
       task = new Tasks.Task.Exec({
         command:          'bash',
@@ -178,7 +183,7 @@ describe("Tasks Widget", function () {
   describe('Rake Task View', function () {
     var task;
     beforeAll(function () {
-      var tasks = m.prop(new Tasks());
+      var tasks = Stream(new Tasks());
 
       task = new Tasks.Task.Rake({
         buildFile:        'foo.rake',
@@ -221,7 +226,7 @@ describe("Tasks Widget", function () {
   describe('FetchArtifact Task View', function () {
     var task;
     beforeAll(function () {
-      var tasks = m.prop(new Tasks());
+      var tasks = Stream(new Tasks());
 
       task = new Tasks.Task.FetchArtifact({
         pipeline:      'Build',
@@ -313,7 +318,7 @@ describe("Tasks Widget", function () {
         sourceIsFile: true
       });
 
-      tasks = m.prop(new Tasks());
+      tasks = Stream(new Tasks());
 
       _.each([
         antTask,

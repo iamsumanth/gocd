@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-var $                  = require("jquery");
-var m                  = require("mithril");
-var Materials          = require("models/pipeline_configs/materials");
-var SCMs               = require("models/pipeline_configs/scms");
-var PluggableSCMWidget = require("views/pipeline_configs/pluggable_scm_widget");
-var PluginInfos        = require("models/pipeline_configs/plugin_infos");
 describe("Pluggable SCM Widget", function () {
+  var $ = require("jquery");
+  var m = require("mithril");
+
+  var Materials          = require("models/pipeline_configs/materials");
+  var SCMs               = require("models/pipeline_configs/scms");
+  var PluggableSCMWidget = require("views/pipeline_configs/pluggable_scm_widget");
+  var PluginInfos        = require("models/pipeline_configs/plugin_infos");
 
   var $root = $('#mithril-mount-point'), root = $root.get(0);
 

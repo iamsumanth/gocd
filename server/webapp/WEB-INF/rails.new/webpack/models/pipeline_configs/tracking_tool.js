@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m           = require('mithril');
+var Stream      = require('mithril/stream');
 var _           = require('lodash');
 var s           = require('string-plus');
 var Mixins      = require('models/model_mixins');
@@ -32,7 +32,7 @@ var TrackingTool = function (type) {
   this.constructor.modelType = 'trackingTool';
   Mixins.HasUUID.call(this);
 
-  this.type = m.prop(type);
+  this.type = Stream(type);
 
   var self = this;
 
@@ -51,8 +51,8 @@ var TrackingTool = function (type) {
 TrackingTool.Generic = function (data) {
   TrackingTool.call(this, "generic");
   Validatable.call(this, data);
-  this.urlPattern = m.prop(s.defaultToIfBlank(data.urlPattern, ''));
-  this.regex      = m.prop(s.defaultToIfBlank(data.regex, ''));
+  this.urlPattern = Stream(s.defaultToIfBlank(data.urlPattern, ''));
+  this.regex      = Stream(s.defaultToIfBlank(data.regex, ''));
 
   this.validatePresenceOf('urlPattern');
   this.validateUrlPattern('urlPattern');
@@ -77,9 +77,9 @@ TrackingTool.Generic.fromJSON = function (data) {
 TrackingTool.Mingle = function (data) {
   TrackingTool.call(this, "mingle");
   Validatable.call(this, data);
-  this.baseUrl               = m.prop(s.defaultToIfBlank(data.baseUrl, ''));
-  this.projectIdentifier     = m.prop(s.defaultToIfBlank(data.projectIdentifier, ''));
-  this.mqlGroupingConditions = m.prop(s.defaultToIfBlank(data.mqlGroupingConditions, ''));
+  this.baseUrl               = Stream(s.defaultToIfBlank(data.baseUrl, ''));
+  this.projectIdentifier     = Stream(s.defaultToIfBlank(data.projectIdentifier, ''));
+  this.mqlGroupingConditions = Stream(s.defaultToIfBlank(data.mqlGroupingConditions, ''));
 
   this.validatePresenceOf('baseUrl');
   this.validateUrlPattern('baseUrl');

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var s                    = require('string-plus');
 var Mixins               = require('models/model_mixins');
 var PluginConfigurations = require('models/shared/plugin_configurations');
@@ -40,9 +40,9 @@ CrudMixins.Index({
 
 
 ElasticProfiles.Profile = function (data) {
-  this.id         = m.prop(s.defaultToIfBlank(data.id, ''));
-  this.pluginId   = m.prop(s.defaultToIfBlank(data.pluginId, ''));
-  this.properties = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.properties, new PluginConfigurations())));
+  this.id         = Stream(s.defaultToIfBlank(data.id, ''));
+  this.pluginId   = Stream(s.defaultToIfBlank(data.pluginId, ''));
+  this.properties = s.collectionToJSON(Stream(s.defaultToIfBlank(data.properties, new PluginConfigurations())));
   this.parent     = Mixins.GetterSetter();
   this.etag       = Mixins.GetterSetter();
   Mixins.HasUUID.call(this);

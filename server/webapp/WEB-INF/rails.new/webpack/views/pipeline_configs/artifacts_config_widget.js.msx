@@ -15,6 +15,7 @@
  */
 
 var m                     = require('mithril');
+var Stream                = require('mithril/stream');
 var f                     = require('helpers/form_helper');
 var ComponentMixins       = require('helpers/mithril_component_mixins');
 var tt                    = require('helpers/pipeline_configs/tooltips');
@@ -34,11 +35,11 @@ var ArtifactsConfigWidget = {
     return (
       <f.accordion accordionTitles={[
         (
-        <span>Artifacts<f.tooltip tooltip={{content: tt.artifacts.main, size: 'small'}}/></span>
+          <span>Artifacts<f.tooltip tooltip={{content: tt.artifacts.main, size: 'small'}}/></span>
         )
       ]}
                    accordionKeys={['job-artifacts']}
-                   selectedIndex={ctrl.vmState('artifactsSelected', m.prop(-1))}
+                   selectedIndex={ctrl.vmState('artifactsSelected', Stream(-1))}
                    class="accordion-inner">
         <div class='job-artifacts position-tooltip'>
           {ctrl.map(function (artifact) {

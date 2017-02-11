@@ -16,11 +16,14 @@
 
 describe("Material Model", function () {
 
-  var m           = require('mithril');
-  var _           = require('lodash');
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+  var _      = require('lodash');
+
   var Materials   = require("models/pipeline_configs/materials");
   var SCMs        = require("models/pipeline_configs/scms");
   var PluginInfos = require('models/pipeline_configs/plugin_infos');
+
   var materials, gitMaterial, svnMaterial, mercurialMaterial, perforceMaterial, tfsMaterial, dependencyMaterial;
   beforeAll(function () {
     materials = new Materials();
@@ -146,7 +149,7 @@ describe("Material Model", function () {
       });
 
       spyOn(m, 'request');
-      material.testConnection(m.prop('testPipeline'));
+      material.testConnection(Stream('testPipeline'));
       requestArgs = m.request.calls.mostRecent().args[0];
     });
 

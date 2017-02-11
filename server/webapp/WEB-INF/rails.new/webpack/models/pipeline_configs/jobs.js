@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var s                    = require('string-plus');
 var Mixins               = require('models/model_mixins');
@@ -52,16 +52,16 @@ Jobs.Job = function (data) {
 
   this.parent = Mixins.GetterSetter();
 
-  this.name                 = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.runInstanceCount     = m.prop(data.runInstanceCount);
-  this.timeout              = m.prop(data.timeout);
-  this.resources            = s.withNewJSONImpl(m.prop(s.defaultToIfBlank(data.resources, '')), s.stringToArray);
-  this.environmentVariables = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.environmentVariables, new EnvironmentVariables())));
-  this.tasks                = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.tasks, new Tasks())));
-  this.artifacts            = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.artifacts, new Artifacts())));
-  this.tabs                 = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.tabs, new Tabs())));
-  this.properties           = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.properties, new Properties())));
-  var _elasticProfileId     = m.prop(s.defaultToIfBlank(data.elasticProfileId, null));
+  this.name                 = Stream(s.defaultToIfBlank(data.name, ''));
+  this.runInstanceCount     = Stream(data.runInstanceCount);
+  this.timeout              = Stream(data.timeout);
+  this.resources            = s.withNewJSONImpl(Stream(s.defaultToIfBlank(data.resources, '')), s.stringToArray);
+  this.environmentVariables = s.collectionToJSON(Stream(s.defaultToIfBlank(data.environmentVariables, new EnvironmentVariables())));
+  this.tasks                = s.collectionToJSON(Stream(s.defaultToIfBlank(data.tasks, new Tasks())));
+  this.artifacts            = s.collectionToJSON(Stream(s.defaultToIfBlank(data.artifacts, new Artifacts())));
+  this.tabs                 = s.collectionToJSON(Stream(s.defaultToIfBlank(data.tabs, new Tabs())));
+  this.properties           = s.collectionToJSON(Stream(s.defaultToIfBlank(data.properties, new Properties())));
+  var _elasticProfileId     = Stream(s.defaultToIfBlank(data.elasticProfileId, null));
   this.elasticProfileId     = function () {
     if (arguments.length === 1) {
       // setter

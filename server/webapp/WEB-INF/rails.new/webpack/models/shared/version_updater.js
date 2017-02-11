@@ -46,8 +46,8 @@ var VersionUpdater = function () {
         xhr.setRequestHeader("Accept", "application/vnd.update.go.cd.v1+json");
       }
     }).then(function (data) {
-      updateLatestVersion(data);
-    }
+        updateLatestVersion(data);
+      }
     );
   };
 

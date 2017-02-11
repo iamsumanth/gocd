@@ -16,8 +16,9 @@
 
 describe("Job Model", function () {
 
-  var Jobs = require("models/pipeline_configs/jobs");
   var s    = require("string-plus");
+  var Jobs = require("models/pipeline_configs/jobs");
+
   var jobs, job;
   beforeEach(function () {
     jobs = new Jobs();

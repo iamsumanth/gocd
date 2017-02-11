@@ -15,8 +15,8 @@
  */
 describe("Stage Approval Model", function () {
 
-  var Approval = require("models/pipeline_configs/approval");
   var s        = require("string-plus");
+  var Approval = require("models/pipeline_configs/approval");
 
   var approval;
   beforeEach(function () {

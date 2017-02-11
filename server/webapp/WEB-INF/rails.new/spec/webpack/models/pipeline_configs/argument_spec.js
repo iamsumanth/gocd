@@ -17,6 +17,7 @@
 describe("Argument", function () {
 
   var Argument = require('models/pipeline_configs/argument');
+
   describe('Argument create', function () {
     it('should create from a list of arguments', function () {
       var arguments = ['arg1', 'arg2'];

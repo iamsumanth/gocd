@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var s                    = require('string-plus');
 var Mixins               = require('models/model_mixins');
 var Jobs                 = require('models/pipeline_configs/jobs');
@@ -33,13 +33,13 @@ Stages.Stage = function (data) {
 
   this.parent = Mixins.GetterSetter();
 
-  this.name                  = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.fetchMaterials        = m.prop(data.fetchMaterials);
-  this.cleanWorkingDirectory = m.prop(data.cleanWorkingDirectory);
-  this.neverCleanupArtifacts = m.prop(data.neverCleanupArtifacts);
-  this.environmentVariables  = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.environmentVariables, new EnvironmentVariables())));
-  this.jobs                  = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.jobs, new Jobs())));
-  this.approval              = m.prop(s.defaultToIfBlank(data.approval, new Approval({})));
+  this.name                  = Stream(s.defaultToIfBlank(data.name, ''));
+  this.fetchMaterials        = Stream(data.fetchMaterials);
+  this.cleanWorkingDirectory = Stream(data.cleanWorkingDirectory);
+  this.neverCleanupArtifacts = Stream(data.neverCleanupArtifacts);
+  this.environmentVariables  = s.collectionToJSON(Stream(s.defaultToIfBlank(data.environmentVariables, new EnvironmentVariables())));
+  this.jobs                  = s.collectionToJSON(Stream(s.defaultToIfBlank(data.jobs, new Jobs())));
+  this.approval              = Stream(s.defaultToIfBlank(data.approval, new Approval({})));
 
   this.validatePresenceOf('name');
   this.validateUniquenessOf('name');

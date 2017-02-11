@@ -15,12 +15,13 @@
  */
 
 var m           = require('mithril');
+var Stream      = require('mithril/stream');
 var _           = require('lodash');
 var s           = require('string-plus');
 var mrequest    = require('helpers/mrequest');
 var Image       = require('models/shared/image');
 var Routes      = require('js-routes');
-var PluginInfos = m.prop([]);
+var PluginInfos = Stream([]);
 
 PluginInfos.init = function (type) {
   return PluginInfos.all(type).then(PluginInfos);
@@ -59,18 +60,18 @@ PluginInfos.PluginInfo = function (data) {
     return settings ? settings.view : {};
   };
 
-  this.id             = m.prop(data.id);
-  this.name           = m.prop(data.name);
-  this.displayName    = m.prop(s.defaultToIfBlank(data.display_name, data.name));
-  this.version        = m.prop(data.version);
-  this.type           = m.prop(data.type);
+  this.id             = Stream(data.id);
+  this.name           = Stream(data.name);
+  this.displayName    = Stream(s.defaultToIfBlank(data.display_name, data.name));
+  this.version        = Stream(data.version);
+  this.type           = Stream(data.type);
   this.configurations = data.pluggable_instance_settings ?
-    m.prop(s.defaultToIfBlank(data.pluggable_instance_settings.configurations, {})) :
-    m.prop({});
-  this.viewTemplate   = m.prop(s.defaultToIfBlank(view(data.pluggable_instance_settings).template, ''));
+    Stream(s.defaultToIfBlank(data.pluggable_instance_settings.configurations, {})) :
+    Stream({});
+  this.viewTemplate   = Stream(s.defaultToIfBlank(view(data.pluggable_instance_settings).template, ''));
 
   if (data.image) {
-    this.image = m.prop(new Image(data.image.content_type, data.image.data));
+    this.image = Stream(new Image(data.image.content_type, data.image.data));
   }
 };
 

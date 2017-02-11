@@ -15,6 +15,7 @@
  */
 
 var m              = require('mithril');
+var Stream         = require('mithril/stream');
 var _              = require('lodash');
 var s              = require('string-plus');
 var Mixins         = require('models/model_mixins');
@@ -45,7 +46,7 @@ Materials.Filter = function (data) {
   this.constructor.modelType = 'materialFilter';
   Mixins.HasUUID.call(this);
   Validatable.call(this, data);
-  this.ignore = s.withNewJSONImpl(m.prop(s.defaultToIfBlank(data.ignore, '')), s.stringToArray);
+  this.ignore = s.withNewJSONImpl(Stream(s.defaultToIfBlank(data.ignore, '')), s.stringToArray);
 
   this.isBlank = function () {
     return s.isBlank(this.ignore());
@@ -79,10 +80,10 @@ Materials.Material = function (type, hasFilter, data) {
   Mixins.HasUUID.call(this);
   Validatable.call(this, data);
   this.parent = Mixins.GetterSetter();
-  this.type   = m.prop(type);
+  this.type   = Stream(type);
 
   if (hasFilter) {
-    this.filter = m.prop(s.defaultToIfBlank(data.filter, new Materials.Filter(s.defaultToIfBlank(data.filter, {}))));
+    this.filter = Stream(s.defaultToIfBlank(data.filter, new Materials.Filter(s.defaultToIfBlank(data.filter, {}))));
   }
 
   this.validateUniquenessOf('name');
@@ -150,14 +151,14 @@ Mixins.fromJSONCollection({
 
 Materials.Material.SVN = function (data) {
   Materials.Material.call(this, "svn", true, data);
-  this.name           = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.destination    = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.url            = m.prop(s.defaultToIfBlank(data.url, ''));
-  this.username       = m.prop(s.defaultToIfBlank(data.username, ''));
-  var _password       = m.prop(plainOrCipherValue(data));
-  this.checkExternals = m.prop(data.checkExternals);
-  this.autoUpdate     = m.prop(s.defaultToIfBlank(data.autoUpdate, true));
-  this.invertFilter   = m.prop(s.defaultToIfBlank(data.invertFilter, false));
+  this.name           = Stream(s.defaultToIfBlank(data.name, ''));
+  this.destination    = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.url            = Stream(s.defaultToIfBlank(data.url, ''));
+  this.username       = Stream(s.defaultToIfBlank(data.username, ''));
+  var _password       = Stream(plainOrCipherValue(data));
+  this.checkExternals = Stream(data.checkExternals);
+  this.autoUpdate     = Stream(s.defaultToIfBlank(data.autoUpdate, true));
+  this.invertFilter   = Stream(s.defaultToIfBlank(data.invertFilter, false));
   Mixins.HasEncryptedAttribute.call(this, {attribute: _password, name: 'passwordValue'});
 
   this.validatePresenceOf('url');
@@ -198,13 +199,13 @@ Materials.Material.SVN.fromJSON = function (data) {
 
 Materials.Material.Git = function (data) {
   Materials.Material.call(this, "git", true, data);
-  this.name         = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.destination  = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.url          = m.prop(s.defaultToIfBlank(data.url, ''));
-  this.branch       = m.prop(s.defaultToIfBlank(data.branch, 'master'));
-  this.shallowClone = m.prop(data.shallowClone);
-  this.autoUpdate   = m.prop(s.defaultToIfBlank(data.autoUpdate, true));
-  this.invertFilter = m.prop(s.defaultToIfBlank(data.invertFilter, false));
+  this.name         = Stream(s.defaultToIfBlank(data.name, ''));
+  this.destination  = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.url          = Stream(s.defaultToIfBlank(data.url, ''));
+  this.branch       = Stream(s.defaultToIfBlank(data.branch, 'master'));
+  this.shallowClone = Stream(data.shallowClone);
+  this.autoUpdate   = Stream(s.defaultToIfBlank(data.autoUpdate, true));
+  this.invertFilter = Stream(s.defaultToIfBlank(data.invertFilter, false));
 
   this.validatePresenceOf('url');
 
@@ -240,12 +241,12 @@ Materials.Material.Git.fromJSON = function (data) {
 
 Materials.Material.Mercurial = function (data) {
   Materials.Material.call(this, "hg", true, data);
-  this.name         = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.destination  = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.url          = m.prop(s.defaultToIfBlank(data.url, ''));
-  this.branch       = m.prop(s.defaultToIfBlank(data.branch, ''));
-  this.autoUpdate   = m.prop(s.defaultToIfBlank(data.autoUpdate, true));
-  this.invertFilter = m.prop(s.defaultToIfBlank(data.invertFilter, false));
+  this.name         = Stream(s.defaultToIfBlank(data.name, ''));
+  this.destination  = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.url          = Stream(s.defaultToIfBlank(data.url, ''));
+  this.branch       = Stream(s.defaultToIfBlank(data.branch, ''));
+  this.autoUpdate   = Stream(s.defaultToIfBlank(data.autoUpdate, true));
+  this.invertFilter = Stream(s.defaultToIfBlank(data.invertFilter, false));
 
   this.validatePresenceOf('url');
 
@@ -279,15 +280,15 @@ Materials.Material.Mercurial.fromJSON = function (data) {
 
 Materials.Material.Perforce = function (data) {
   Materials.Material.call(this, "p4", true, data);
-  this.name         = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.destination  = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.port         = m.prop(s.defaultToIfBlank(data.port, ''));
-  this.username     = m.prop(s.defaultToIfBlank(data.username, ''));
-  var _password     = m.prop(plainOrCipherValue(data));
-  this.view         = m.prop(s.defaultToIfBlank(data.view, ''));
-  this.useTickets   = m.prop(data.useTickets);
-  this.autoUpdate   = m.prop(s.defaultToIfBlank(data.autoUpdate, true));
-  this.invertFilter = m.prop(s.defaultToIfBlank(data.invertFilter, false));
+  this.name         = Stream(s.defaultToIfBlank(data.name, ''));
+  this.destination  = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.port         = Stream(s.defaultToIfBlank(data.port, ''));
+  this.username     = Stream(s.defaultToIfBlank(data.username, ''));
+  var _password     = Stream(plainOrCipherValue(data));
+  this.view         = Stream(s.defaultToIfBlank(data.view, ''));
+  this.useTickets   = Stream(data.useTickets);
+  this.autoUpdate   = Stream(s.defaultToIfBlank(data.autoUpdate, true));
+  this.invertFilter = Stream(s.defaultToIfBlank(data.invertFilter, false));
   Mixins.HasEncryptedAttribute.call(this, {attribute: _password, name: 'passwordValue'});
 
   this.validatePresenceOf('port');
@@ -332,15 +333,15 @@ Materials.Material.Perforce.fromJSON = function (data) {
 
 Materials.Material.TFS = function (data) {
   Materials.Material.call(this, "tfs", true, data);
-  this.name         = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.destination  = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.url          = m.prop(s.defaultToIfBlank(data.url, ''));
-  this.domain       = m.prop(s.defaultToIfBlank(data.domain, ''));
-  this.username     = m.prop(s.defaultToIfBlank(data.username, ''));
-  var _password     = m.prop(plainOrCipherValue(data));
-  this.projectPath  = m.prop(s.defaultToIfBlank(data.projectPath, ''));
-  this.autoUpdate   = m.prop(s.defaultToIfBlank(data.autoUpdate, true));
-  this.invertFilter = m.prop(s.defaultToIfBlank(data.invertFilter, false));
+  this.name         = Stream(s.defaultToIfBlank(data.name, ''));
+  this.destination  = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.url          = Stream(s.defaultToIfBlank(data.url, ''));
+  this.domain       = Stream(s.defaultToIfBlank(data.domain, ''));
+  this.username     = Stream(s.defaultToIfBlank(data.username, ''));
+  var _password     = Stream(plainOrCipherValue(data));
+  this.projectPath  = Stream(s.defaultToIfBlank(data.projectPath, ''));
+  this.autoUpdate   = Stream(s.defaultToIfBlank(data.autoUpdate, true));
+  this.invertFilter = Stream(s.defaultToIfBlank(data.invertFilter, false));
   Mixins.HasEncryptedAttribute.call(this, {attribute: _password, name: 'passwordValue'});
 
   this.validatePresenceOf('url');
@@ -385,9 +386,9 @@ Materials.Material.TFS.fromJSON = function (data) {
 
 Materials.Material.Dependency = function (data) {
   Materials.Material.call(this, "dependency", false, data);
-  this.name     = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.pipeline = m.prop(s.defaultToIfBlank(data.pipeline, ''));
-  this.stage    = m.prop(s.defaultToIfBlank(data.stage, ''));
+  this.name     = Stream(s.defaultToIfBlank(data.name, ''));
+  this.pipeline = Stream(s.defaultToIfBlank(data.pipeline, ''));
+  this.stage    = Stream(s.defaultToIfBlank(data.stage, ''));
 
   this.validatePresenceOf('pipeline');
   this.validatePresenceOf('stage');
@@ -413,11 +414,11 @@ Materials.Material.Dependency.fromJSON = function (data) {
 
 Materials.Material.PluggableMaterial = function (data) {
   Materials.Material.call(this, "plugin", true, data);
-  this.name         = m.prop(''); //TODO: This needs to be removed, added to pass base validation.
-  this.pluginInfo   = m.prop(data.pluginInfo);
-  this.destination  = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.scm          = m.prop(data.scm);
-  this.invertFilter = m.prop(s.defaultToIfBlank(data.invertFilter, false));
+  this.name         = Stream(''); //TODO: This needs to be removed, added to pass base validation.
+  this.pluginInfo   = Stream(data.pluginInfo);
+  this.destination  = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.scm          = Stream(data.scm);
+  this.invertFilter = Stream(s.defaultToIfBlank(data.invertFilter, false));
 
   this._attributesToJSON = function () {
     /* eslint-disable camelcase */
@@ -443,8 +444,8 @@ Materials.Material.PluggableMaterial.fromJSON = function (data) {
 
 Materials.Material.PackageMaterial = function (data) {
   Materials.Material.call(this, "package", true, data);
-  this.name = m.prop(''); //TODO: This needs to be removed, added to pass base validation.
-  this.ref  = m.prop(data.ref);
+  this.name = Stream(''); //TODO: This needs to be removed, added to pass base validation.
+  this.ref  = Stream(data.ref);
 
   this._attributesToJSON = function () {
     return {

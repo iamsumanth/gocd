@@ -15,18 +15,23 @@
  */
 describe("JobsConfig Widget", function () {
 
-  var $                = require("jquery");
-  var m                = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require('jasmine-jquery');
+
   var JobsConfigWidget = require("views/pipeline_configs/jobs_config_widget");
   var Jobs             = require("models/pipeline_configs/jobs");
   var ElasticProfiles  = require('models/elastic_profiles/elastic_profiles');
-  var $root            = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   var jobs;
   var elasticProfiles;
 
   beforeEach(function () {
-    jobs            = m.prop(Jobs.fromJSON(data.jobs));
-    elasticProfiles = m.prop(new ElasticProfiles());
+    jobs            = Stream(Jobs.fromJSON(data.jobs));
+    elasticProfiles = Stream(new ElasticProfiles());
   });
 
   afterEach(function () {

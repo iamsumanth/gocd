@@ -15,13 +15,18 @@
  */
 
 describe("PipelineConfigWidget", function () {
-  var $                    = require("jquery");
-  var m                    = require("mithril");
-  var _                    = require('lodash');
-  var s                    = require('string-plus');
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+  var _      = require('lodash');
+  var s      = require('string-plus');
+
+  require('jasmine-jquery');
+
   var Pipeline             = require("models/pipeline_configs/pipeline");
   var PipelineConfigWidget = require("views/pipeline_configs/pipeline_config_widget");
-  var $root                = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   var pipeline;
 
   beforeAll(function (done) {
@@ -42,7 +47,7 @@ describe("PipelineConfigWidget", function () {
     });
 
     var component = PipelineConfigWidget({
-      url: m.prop('/pipeline.json'), callback: function (controller) {
+      url: Stream('/pipeline.json'), callback: function (controller) {
         pipeline = controller.pipeline();
         reallyDone();
       }

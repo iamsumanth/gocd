@@ -15,6 +15,7 @@
  */
 
 var m                      = require('mithril');
+var Stream                 = require('mithril/stream');
 var _                      = require('lodash');
 var f                      = require('helpers/form_helper');
 var TriStateCheckboxWidget = require('views/agents/tri_state_checkbox_widget');
@@ -22,8 +23,8 @@ var Resources              = require('models/agents/resources');
 var TriStateCheckbox       = require('models/agents/tri_state_checkbox');
 
 var NewResourceVM = {
-  newResource: m.prop(''),
-  error:       m.prop('')
+  newResource: Stream(''),
+  error:       Stream('')
 };
 
 var ResourcesListWidget = {

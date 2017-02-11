@@ -15,15 +15,20 @@
  */
 describe("EnvironmentVariable Widget", function () {
 
-  var $                         = require("jquery");
-  var m                         = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require('jasmine-jquery');
+
   var EnvironmentVariables      = require("models/pipeline_configs/environment_variables");
   var EnvironmentVariableWidget = require("views/pipeline_configs/environment_variables_config_widget");
-  var $root                     = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   var variables;
 
   beforeEach(function () {
-    variables = m.prop(EnvironmentVariables.fromJSON([
+    variables = Stream(EnvironmentVariables.fromJSON([
       {
         name:  "COMMAND",
         value: "echo"

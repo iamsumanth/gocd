@@ -15,6 +15,7 @@
  */
 
 var m               = require('mithril');
+var Stream          = require('mithril/stream');
 var _               = require('lodash');
 var f               = require('helpers/form_helper');
 var ComponentMixins = require('helpers/mithril_component_mixins');
@@ -66,8 +67,8 @@ var EnvironmentVariableWidget = {
   secure: {
     view: function (_ctrl, args) {
       var variable = args.variable,
-        content,
-        removeChildPreContent;
+          content,
+          removeChildPreContent;
 
       if (variable.isEditingValue()) {
         content = [
@@ -194,12 +195,12 @@ var EnvironmentVariablesConfigWidget = {
     return (
       <f.accordion accordionTitles={[
         (
-        <span>{ctrl.args.title}
+          <span>{ctrl.args.title}
             <f.tooltip tooltip={{content: tt.environmentVariables.main}} model={ctrl.args.variables()}/></span>
         )
       ]}
                    accordionKeys={['environment-variables']}
-                   selectedIndex={ctrl.vmState('environmentVariablesSelected', m.prop(-1))}
+                   selectedIndex={ctrl.vmState('environmentVariablesSelected', Stream(-1))}
                    class='environment-variables accordion-inner'>
         <div>
           <VariablesWidget.plain variables={ctrl.args.variables}

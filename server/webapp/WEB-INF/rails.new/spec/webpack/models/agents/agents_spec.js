@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 describe('Agent Model', function () {
 
-  var s      = require('string-plus');
+  var s = require('string-plus');
+
   var Agents = require('models/agents/agents');
 
   function ajaxCall(agentData) {

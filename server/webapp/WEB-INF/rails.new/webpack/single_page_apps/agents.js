@@ -16,6 +16,7 @@
 
 var $              = require('jquery');
 var m              = require('mithril');
+var Stream         = require('mithril/stream');
 var Agents         = require('models/agents/agents');
 var AgentsWidget   = require('views/agents/agents_widget');
 var AgentsVM       = require('views/agents/models/agents_widget_view_model');
@@ -33,7 +34,7 @@ $(function () {
 
   m.route.prefix("#!");
 
-  var agents = m.prop(new Agents());
+  var agents = Stream(new Agents());
 
   var agentsViewModel = new AgentsVM();
   m.route(agentsDOMElement, '', {

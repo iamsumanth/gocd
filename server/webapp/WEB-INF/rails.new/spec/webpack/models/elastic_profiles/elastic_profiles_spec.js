@@ -15,8 +15,9 @@
  */
 describe('Elastic Agent Profile', function () {
 
-  var _               = require('lodash');
-  var s               = require('string-plus');
+  var _ = require('lodash');
+  var s = require('string-plus');
+
   var ElasticProfiles = require('models/elastic_profiles/elastic_profiles');
 
   var profileJSON     = {

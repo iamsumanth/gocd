@@ -15,15 +15,20 @@
  */
 describe("Tracking Tool Widget", function () {
 
-  var $                  = require("jquery");
-  var m                  = require("mithril");
-  var _                  = require('lodash');
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+  var _      = require('lodash');
+
+  require("jasmine-jquery");
+
   var TrackingToolWidget = require("views/pipeline_configs/tracking_tool_widget");
-  var $root              = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   var trackingToolProp;
 
   beforeEach(function () {
-    trackingToolProp = m.prop();
+    trackingToolProp = Stream();
 
     m.mount(root,
       m.component(TrackingToolWidget, {trackingTool: trackingToolProp})

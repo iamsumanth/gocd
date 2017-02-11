@@ -17,6 +17,7 @@ describe("Property Model", function () {
 
   var Properties = require("models/pipeline_configs/properties");
   var properties, property;
+
   beforeEach(function () {
     properties = new Properties();
 

@@ -16,6 +16,7 @@
 
 
 var m              = require('mithril');
+var Stream         = require('mithril/stream');
 var _              = require('lodash');
 var s              = require('string-plus');
 var Mixins         = require('models/model_mixins');
@@ -24,7 +25,7 @@ var Errors         = require('models/errors');
 var EncryptedValue = require('models/pipeline_configs/encrypted_value');
 var Validatable    = require('models/validatable_mixin');
 var Routes         = require('js-routes');
-var SCMs           = m.prop([]);
+var SCMs           = Stream([]);
 SCMs.scmIdToEtag   = {};
 
 function plainOrCipherValue(data) {
@@ -39,12 +40,12 @@ SCMs.SCM = function (data) {
   Validatable.call(this, data);
 
   this.init = function (data) {
-    this.id             = m.prop(s.defaultToIfBlank(data.id));
-    this.name           = m.prop(s.defaultToIfBlank(data.name, ''));
-    this.autoUpdate     = m.prop(s.defaultToIfBlank(data.auto_update, true));
-    this.pluginMetadata = m.prop(new SCMs.SCM.PluginMetadata(data.plugin_metadata || {}));
-    this.configuration  = s.collectionToJSON(m.prop(SCMs.SCM.Configurations.fromJSON(data.configuration || {})));
-    this.errors         = m.prop(new Errors(data.errors));
+    this.id             = Stream(s.defaultToIfBlank(data.id));
+    this.name           = Stream(s.defaultToIfBlank(data.name, ''));
+    this.autoUpdate     = Stream(s.defaultToIfBlank(data.auto_update, true));
+    this.pluginMetadata = Stream(new SCMs.SCM.PluginMetadata(data.plugin_metadata || {}));
+    this.configuration  = s.collectionToJSON(Stream(SCMs.SCM.Configurations.fromJSON(data.configuration || {})));
+    this.errors         = Stream(new Errors(data.errors));
   };
 
   this.init(data);
@@ -117,8 +118,8 @@ SCMs.SCM = function (data) {
 };
 
 SCMs.SCM.PluginMetadata = function (data) {
-  this.id      = m.prop(s.defaultToIfBlank(data.id, ''));
-  this.version = m.prop(s.defaultToIfBlank(data.version, ''));
+  this.id      = Stream(s.defaultToIfBlank(data.id, ''));
+  this.version = Stream(s.defaultToIfBlank(data.version, ''));
 
   this.toJSON = function () {
     return {
@@ -181,8 +182,8 @@ SCMs.SCM.Configurations.fromJSON = function (data) {
 
 SCMs.SCM.Configurations.Configuration = function (data) {
   this.parent = Mixins.GetterSetter();
-  this.key    = m.prop(s.defaultToIfBlank(data.key, ''));
-  var _value  = m.prop(plainOrCipherValue(data));
+  this.key    = Stream(s.defaultToIfBlank(data.key, ''));
+  var _value  = Stream(plainOrCipherValue(data));
 
   Mixins.HasEncryptedAttribute.call(this, {attribute: _value, name: 'value'});
 
@@ -236,7 +237,7 @@ SCMs.findById = function (id) {
 };
 
 SCMs.vm = function () {
-  this.saveState = m.prop('');
+  this.saveState = Stream('');
   var errors     = [];
 
   this.startUpdating = function () {

@@ -15,6 +15,7 @@
  */
 
 var m                                = require('mithril');
+var Stream                           = require('mithril/stream');
 var _                                = require('lodash');
 var s                                = require('string-plus');
 var $                                = require('jquery');
@@ -253,7 +254,7 @@ var JobsConfigWidget = {
               tabTitles={tabTitles}
               tabKeys={tabUUIDs}
               isVertical={true}
-              selectedIndex={ctrl.vmState('selectedJobIndex', m.prop(0))}>
+              selectedIndex={ctrl.vmState('selectedJobIndex', Stream(0))}>
         {ctrl.map(function (job) {
           var jobIndex                       = args.jobs().indexOfJob(job);
           var disableElasticProfileSelection = job.isRunOnAllAgents() || !s.isBlank(job.resources());
@@ -282,7 +283,7 @@ var JobsConfigWidget = {
                 <f.removeButton onclick={ctrl.removeJob.bind(ctrl, job)} class='remove-job'/>
                 <f.accordion accordionTitles={[(<span>Job Settings</span>)]}
                              accordionKeys={['job-settings']}
-                             selectedIndex={ctrl.vmState('jobSettingsSelected' + jobIndex, m.prop(s.isBlank(job.name()) ? 0 : -1))}
+                             selectedIndex={ctrl.vmState('jobSettingsSelected' + jobIndex, Stream(s.isBlank(job.name()) ? 0 : -1))}
                              class="accordion-inner">
                   <div>
                     <f.row>

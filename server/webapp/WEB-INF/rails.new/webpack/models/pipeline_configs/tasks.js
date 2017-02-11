@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var s                    = require('string-plus');
 var Mixins               = require('models/model_mixins');
@@ -40,7 +40,7 @@ Tasks.Task = function (type, data) {
   Mixins.HasUUID.call(this);
   Validatable.call(this, data);
 
-  this.type   = m.prop(type);
+  this.type   = Stream(type);
   this.parent = Mixins.GetterSetter();
 
   var self = this;
@@ -73,10 +73,10 @@ Mixins.fromJSONCollection({
 
 Tasks.Task.Ant = function (data) {
   Tasks.Task.call(this, "ant", data);
-  this.target           = m.prop(s.defaultToIfBlank(data.target, ''));
-  this.workingDirectory = m.prop(s.defaultToIfBlank(data.workingDirectory, ''));
-  this.buildFile        = m.prop(s.defaultToIfBlank(data.buildFile, ''));
-  this.runIf            = m.prop(RunIfConditions.create(data.runIf));
+  this.target           = Stream(s.defaultToIfBlank(data.target, ''));
+  this.workingDirectory = Stream(s.defaultToIfBlank(data.workingDirectory, ''));
+  this.buildFile        = Stream(s.defaultToIfBlank(data.buildFile, ''));
+  this.runIf            = Stream(RunIfConditions.create(data.runIf));
   this.onCancelTask     = Tasks.Task.onCancelTask(data.onCancelTask);
 
   this._attributesToJSON = function () {
@@ -122,11 +122,11 @@ Tasks.Task.Ant.fromJSON = function (data) {
 
 Tasks.Task.NAnt = function (data) {
   Tasks.Task.call(this, "nant", data);
-  this.target           = m.prop(s.defaultToIfBlank(data.target, ''));
-  this.workingDirectory = m.prop(s.defaultToIfBlank(data.workingDirectory, ''));
-  this.buildFile        = m.prop(s.defaultToIfBlank(data.buildFile, ''));
-  this.nantPath         = m.prop(s.defaultToIfBlank(data.nantPath, ''));
-  this.runIf            = m.prop(RunIfConditions.create(data.runIf));
+  this.target           = Stream(s.defaultToIfBlank(data.target, ''));
+  this.workingDirectory = Stream(s.defaultToIfBlank(data.workingDirectory, ''));
+  this.buildFile        = Stream(s.defaultToIfBlank(data.buildFile, ''));
+  this.nantPath         = Stream(s.defaultToIfBlank(data.nantPath, ''));
+  this.runIf            = Stream(RunIfConditions.create(data.runIf));
   this.onCancelTask     = Tasks.Task.onCancelTask(data.onCancelTask);
 
   this._attributesToJSON = function () {
@@ -175,10 +175,10 @@ Tasks.Task.NAnt.fromJSON = function (data) {
 
 Tasks.Task.Exec = function (data) {
   Tasks.Task.call(this, "exec", data);
-  this.command          = m.prop(s.defaultToIfBlank(data.command, ''));
-  this.args             = m.prop(Argument.create(data.args, data.arguments));
-  this.workingDirectory = m.prop(s.defaultToIfBlank(data.workingDirectory, ''));
-  this.runIf            = m.prop(RunIfConditions.create(data.runIf));
+  this.command          = Stream(s.defaultToIfBlank(data.command, ''));
+  this.args             = Stream(Argument.create(data.args, data.arguments));
+  this.workingDirectory = Stream(s.defaultToIfBlank(data.workingDirectory, ''));
+  this.runIf            = Stream(RunIfConditions.create(data.runIf));
   this.onCancelTask     = Tasks.Task.onCancelTask(data.onCancelTask);
 
   this.validatePresenceOf('command');
@@ -225,10 +225,10 @@ Tasks.Task.Exec.fromJSON = function (data) {
 
 Tasks.Task.Rake = function (data) {
   Tasks.Task.call(this, "rake", data);
-  this.target           = m.prop(s.defaultToIfBlank(data.target, ''));
-  this.workingDirectory = m.prop(s.defaultToIfBlank(data.workingDirectory, ''));
-  this.buildFile        = m.prop(s.defaultToIfBlank(data.buildFile, ''));
-  this.runIf            = m.prop(RunIfConditions.create(data.runIf));
+  this.target           = Stream(s.defaultToIfBlank(data.target, ''));
+  this.workingDirectory = Stream(s.defaultToIfBlank(data.workingDirectory, ''));
+  this.buildFile        = Stream(s.defaultToIfBlank(data.buildFile, ''));
+  this.runIf            = Stream(RunIfConditions.create(data.runIf));
   this.onCancelTask     = Tasks.Task.onCancelTask(data.onCancelTask);
 
   this._attributesToJSON = function () {
@@ -274,13 +274,13 @@ Tasks.Task.Rake.fromJSON = function (data) {
 
 Tasks.Task.FetchArtifact = function (data) {
   Tasks.Task.call(this, "fetch", data);
-  this.pipeline      = m.prop(s.defaultToIfBlank(data.pipeline, ''));
-  this.stage         = m.prop(s.defaultToIfBlank(data.stage, ''));
-  this.job           = m.prop(s.defaultToIfBlank(data.job, ''));
-  this.source        = m.prop(s.defaultToIfBlank(data.source, ''));
-  this.isSourceAFile = m.prop(s.defaultToIfBlank(data.isSourceAFile, false));
-  this.destination   = m.prop(s.defaultToIfBlank(data.destination, ''));
-  this.runIf         = m.prop(RunIfConditions.create(data.runIf));
+  this.pipeline      = Stream(s.defaultToIfBlank(data.pipeline, ''));
+  this.stage         = Stream(s.defaultToIfBlank(data.stage, ''));
+  this.job           = Stream(s.defaultToIfBlank(data.job, ''));
+  this.source        = Stream(s.defaultToIfBlank(data.source, ''));
+  this.isSourceAFile = Stream(s.defaultToIfBlank(data.isSourceAFile, false));
+  this.destination   = Stream(s.defaultToIfBlank(data.destination, ''));
+  this.runIf         = Stream(RunIfConditions.create(data.runIf));
   this.onCancelTask  = Tasks.Task.onCancelTask(data.onCancelTask);
 
   this.validatePresenceOf('stage');
@@ -340,10 +340,10 @@ Tasks.Task.FetchArtifact.fromJSON = function (data) {
 Tasks.Task.PluginTask = function (data) {
   Tasks.Task.call(this, 'pluggable_task', data);
 
-  this.pluginId      = m.prop(s.defaultToIfBlank(data.pluginId, ''));
-  this.version       = m.prop(s.defaultToIfBlank(data.version, ''));
-  this.configuration = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.configuration, new Tasks.Task.PluginTask.Configurations())));
-  this.runIf         = m.prop(RunIfConditions.create(data.runIf));
+  this.pluginId      = Stream(s.defaultToIfBlank(data.pluginId, ''));
+  this.version       = Stream(s.defaultToIfBlank(data.version, ''));
+  this.configuration = s.collectionToJSON(Stream(s.defaultToIfBlank(data.configuration, new Tasks.Task.PluginTask.Configurations())));
+  this.runIf         = Stream(RunIfConditions.create(data.runIf));
   this.onCancelTask  = Tasks.Task.onCancelTask(data.onCancelTask);
 
   this.isEmpty = function () {

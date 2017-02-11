@@ -15,6 +15,7 @@
  */
 
 var m        = require('mithril');
+var Stream   = require('mithril/stream');
 var _        = require('lodash');
 var s        = require('string-plus');
 var Mixins   = require('models/model_mixins');
@@ -194,21 +195,21 @@ var toHumanReadable = function (freeSpace) {
 
 Agents.Agent = function (data) {
   var self               = this;
-  this.uuid              = m.prop(data.uuid);
-  this.hostname          = m.prop(data.hostname);
-  this.ipAddress         = m.prop(data.ipAddress);
-  this.sandbox           = m.prop(data.sandbox);
-  this.operatingSystem   = m.prop(data.operatingSystem);
-  this.freeSpace         = m.prop(data.freeSpace);
-  this.readableFreeSpace = m.prop(toHumanReadable(data.freeSpace));
-  this.agentConfigState  = m.prop(data.agentConfigState);
-  this.agentState        = m.prop(data.agentState);
-  this.buildState        = m.prop(data.buildState);
-  this.resources         = m.prop(s.defaultToIfBlank(data.resources, []));
-  this.environments      = m.prop(data.environments);
-  this.buildDetails      = m.prop(data.buildDetails);
-  this.elasticAgentId    = m.prop(data.elasticAgentId);
-  this.elasticPluginId   = m.prop(data.elasticPluginId);
+  this.uuid              = Stream(data.uuid);
+  this.hostname          = Stream(data.hostname);
+  this.ipAddress         = Stream(data.ipAddress);
+  this.sandbox           = Stream(data.sandbox);
+  this.operatingSystem   = Stream(data.operatingSystem);
+  this.freeSpace         = Stream(data.freeSpace);
+  this.readableFreeSpace = Stream(toHumanReadable(data.freeSpace));
+  this.agentConfigState  = Stream(data.agentConfigState);
+  this.agentState        = Stream(data.agentState);
+  this.buildState        = Stream(data.buildState);
+  this.resources         = Stream(s.defaultToIfBlank(data.resources, []));
+  this.environments      = Stream(data.environments);
+  this.buildDetails      = Stream(data.buildDetails);
+  this.elasticAgentId    = Stream(data.elasticAgentId);
+  this.elasticPluginId   = Stream(data.elasticPluginId);
   this.parent            = Mixins.GetterSetter();
 
   this.status = function () {
@@ -254,16 +255,16 @@ Agents.Agent = function (data) {
 };
 
 Agents.Agent.BuildDetails = function (data) {
-  this.isEmpty = m.prop(_.isNil(data));
+  this.isEmpty = Stream(_.isNil(data));
   if (this.isEmpty()) {
     return;
   }
-  this.pipelineName = m.prop(data.pipelineName);
-  this.pipelineUrl  = m.prop(data.pipelineUrl);
-  this.stageName    = m.prop(data.stageName);
-  this.stageUrl     = m.prop(data.stageUrl);
-  this.jobName      = m.prop(data.jobName);
-  this.jobUrl       = m.prop(data.jobUrl);
+  this.pipelineName = Stream(data.pipelineName);
+  this.pipelineUrl  = Stream(data.pipelineUrl);
+  this.stageName    = Stream(data.stageName);
+  this.stageUrl     = Stream(data.stageUrl);
+  this.jobName      = Stream(data.jobName);
+  this.jobUrl       = Stream(data.jobUrl);
 };
 
 Agents.Agent.BuildDetails.fromJSON = function (data) {

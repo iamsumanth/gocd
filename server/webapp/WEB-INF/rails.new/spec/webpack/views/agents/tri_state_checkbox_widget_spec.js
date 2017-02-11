@@ -15,12 +15,14 @@
  */
 describe("Resource Checkbox Widget", function () {
 
-  var $                      = require("jquery");
-  var m                      = require("mithril");
+  var $ = require("jquery");
+  var m = require("mithril");
+
   var TriStateCheckboxWidget = require("views/agents/tri_state_checkbox_widget");
   var TriStateCheckbox       = require("models/agents/tri_state_checkbox");
-  var $root                  = $('#mithril-mount-point'), root = $root.get(0);
-  var resources              = [['Firefox'], ['Firefox', 'Chrome']];
+
+  var $root     = $('#mithril-mount-point'), root = $root.get(0);
+  var resources = [['Firefox'], ['Firefox', 'Chrome']];
 
   afterEach(function () {
     unmount();

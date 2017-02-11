@@ -15,6 +15,7 @@
  */
 
 var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var f                    = require('helpers/form_helper');
 var ComponentMixins      = require('helpers/mithril_component_mixins');
@@ -22,8 +23,8 @@ var TestConnectionWidget = {
   Connection: {
     State: function () {
       var self          = this;
-      this.status       = m.prop('');
-      this.errorMessage = m.prop('');
+      this.status       = Stream('');
+      this.errorMessage = Stream('');
 
       this.markSuccess = function () {
         self.status('Success');

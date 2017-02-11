@@ -15,6 +15,7 @@
  */
 
 var m                      = require('mithril');
+var Stream                 = require('mithril/stream');
 var s                      = require('string-plus');
 var f                      = require('helpers/form_helper');
 var ComponentMixins        = require('helpers/mithril_component_mixins');
@@ -46,9 +47,9 @@ var PipelineConfigWidget = function (options) {
     controller: function () {
       var ctrl              = this;
       var self              = this;
-      self.pipeline         = m.prop();
-      self.currentSelection = m.prop();
-      self.etag             = m.prop();
+      self.pipeline         = Stream();
+      self.currentSelection = Stream();
+      self.etag             = Stream();
       self.url              = options.url;
       self.callback         = options.callback;
       self.elasticProfiles  = options.elasticProfiles;
@@ -61,7 +62,7 @@ var PipelineConfigWidget = function (options) {
         title:   'Unsaved Changes'
       });
 
-      window.pipelineConfigWidget = m.prop(this);
+      window.pipelineConfigWidget = Stream(this);
 
       self.setPipelineAndPreserveSelection = function (newPipeline) {
         var oldPipeline = self.pipeline();
@@ -81,7 +82,7 @@ var PipelineConfigWidget = function (options) {
 
       var extractEtag = function (xhr) {
         if (xhr.status === 200) {
-          self.etag = m.prop(xhr.getResponseHeader('ETag'));
+          self.etag = Stream(xhr.getResponseHeader('ETag'));
         }
         return xhr.responseText;
       };

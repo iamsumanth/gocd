@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m              = require('mithril');
+var Stream         = require('mithril/stream');
 var _              = require('lodash');
 var s              = require('string-plus');
 var Mixins         = require('models/model_mixins');
@@ -26,10 +26,10 @@ var EncryptedValue = function (data) {
     throw "You cannot initialize an encrypted value with both clear text and cipher text!";
   }
 
-  var _originalValue = m.prop(_.has(data, 'cipherText') ? data.cipherText : data.clearText);
-  var _value         = m.prop(_.has(data, 'cipherText') ? data.cipherText : data.clearText);
-  var _isEncrypted   = m.prop(_.has(data, 'cipherText'));
-  var _canEdit       = m.prop(!_isEncrypted());
+  var _originalValue = Stream(_.has(data, 'cipherText') ? data.cipherText : data.clearText);
+  var _value         = Stream(_.has(data, 'cipherText') ? data.cipherText : data.clearText);
+  var _isEncrypted   = Stream(_.has(data, 'cipherText'));
+  var _canEdit       = Stream(!_isEncrypted());
 
   this.value = function () {
     if (arguments.length) {

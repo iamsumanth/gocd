@@ -15,6 +15,7 @@
  */
 
 var m      = require('mithril');
+var Stream = require('mithril/stream');
 var _      = require('lodash');
 var $      = require('jquery');
 var f      = require('helpers/form_helper');
@@ -68,14 +69,14 @@ var LookupCommandWidget = {
 
     Snippet: function (data) {
       var self          = this;
-      self.name         = m.prop(data.name);
-      self.description  = m.prop(data.description);
-      self.author       = m.prop(data.author);
-      self.authorInfo   = m.prop(data.author_info);
-      self.moreInfo     = m.prop(data.more_info);
-      self.command      = m.prop(data.command);
-      self.arguments    = m.prop(data.arguments);
-      self.relativePath = m.prop(data.relative_path);
+      self.name         = Stream(data.name);
+      self.description  = Stream(data.description);
+      self.author       = Stream(data.author);
+      self.authorInfo   = Stream(data.author_info);
+      self.moreInfo     = Stream(data.more_info);
+      self.command      = Stream(data.command);
+      self.arguments    = Stream(data.arguments);
+      self.relativePath = Stream(data.relative_path);
     },
 
     Snippets: function (snippets) {

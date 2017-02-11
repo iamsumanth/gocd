@@ -15,6 +15,7 @@
  */
 
 var m                      = require('mithril');
+var Stream                 = require('mithril/stream');
 var f                      = require('helpers/form_helper');
 var SCMConfigAngularWidget = require('views/pipeline_configs/scm_config_angular_widget');
 var SCMs                   = require('models/pipeline_configs/scms');
@@ -45,7 +46,7 @@ var SCMGlobalCopyWarningWidget = {
   controller: function (args) {
     var self                = this;
     self.scm                = args.scm;
-    self.dependentPipelines = m.prop('');
+    self.dependentPipelines = Stream('');
 
     this.showAssociatedPipelines = function () {
       fetchDependentPipelines(self.scm.id()).then(self.dependentPipelines);

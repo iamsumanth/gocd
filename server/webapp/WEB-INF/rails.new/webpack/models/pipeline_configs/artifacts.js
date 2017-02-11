@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m           = require('mithril');
+var Stream      = require('mithril/stream');
 var _           = require('lodash');
 var s           = require('string-plus');
 var Mixins      = require('models/model_mixins');
@@ -31,9 +31,9 @@ Artifacts.Artifact = function (data) {
 
   this.parent = Mixins.GetterSetter();
 
-  this.type        = m.prop(s.defaultToIfBlank(data.type, 'build'));
-  this.source      = m.prop(s.defaultToIfBlank(data.source, ''));
-  this.destination = m.prop(s.defaultToIfBlank(data.destination, ''));
+  this.type        = Stream(s.defaultToIfBlank(data.type, 'build'));
+  this.source      = Stream(s.defaultToIfBlank(data.source, ''));
+  this.destination = Stream(s.defaultToIfBlank(data.destination, ''));
 
   this.isBlank = function () {
     return s.isBlank(this.source()) && s.isBlank(this.destination());

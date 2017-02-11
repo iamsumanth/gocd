@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-var $                   = require("jquery");
-var m                   = require("mithril");
-var Resources           = require('models/agents/resources');
-var ResourcesListWidget = require("views/agents/resources_list_widget");
-require("foundation-sites");
 describe("Resources List Widget", function () {
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require('jasmine-jquery');
+  require("foundation-sites");
+
+  var Resources           = require('models/agents/resources');
+  var ResourcesListWidget = require("views/agents/resources_list_widget");
 
   var $root = $('#mithril-mount-point'), root = $root.get(0);
 
@@ -28,7 +32,7 @@ describe("Resources List Widget", function () {
   };
 
   vm.dropdown = {
-    reset:  m.prop(true),
+    reset:  Stream(true),
     states: {},
     add:    function () {
     },
@@ -38,8 +42,8 @@ describe("Resources List Widget", function () {
     }
   };
 
-  vm.dropdown.states['environment'] = m.prop(false);
-  vm.dropdown.states['resource']    = m.prop(false);
+  vm.dropdown.states['environment'] = Stream(false);
+  vm.dropdown.states['resource']    = Stream(false);
 
   beforeAll(function () {
     jasmine.Ajax.install();
@@ -171,7 +175,7 @@ describe("Resources List Widget", function () {
       m(ResourcesListWidget, {
         'hideDropDown':      hideDropDown,
         'dropDownReset':     dropDownReset,
-        'onResourcesUpdate': m.prop()
+        'onResourcesUpdate': Stream()
       })
     );
     m.redraw(true);

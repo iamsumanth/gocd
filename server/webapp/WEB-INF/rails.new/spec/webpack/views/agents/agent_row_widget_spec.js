@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 describe("Agent Row Widget", function () {
-  var $               = require("jquery");
-  var m               = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+  require('jasmine-jquery');
+
   var Agents          = require('models/agents/agents');
   var AgentsRowWidget = require("views/agents/agent_row_widget");
   var AgentsVM        = require("views/agents/models/agents_widget_view_model");
-  require('jasmine-jquery');
 
   var $root    = $('#mithril-mount-point'), root = $root.get(0);
-  var agents   = m.prop();
+  var agents   = Stream();
   var allAgents;
   var agentsVM = new AgentsVM();
 
@@ -36,7 +38,7 @@ describe("Agent Row Widget", function () {
 
   it('should contain the agent information', function () {
     agents(allAgents);
-    var model = m.prop(true);
+    var model = Stream(true);
     mount(agents().firstAgent(), model, true);
 
     var row         = $root.find('tr')[0];
@@ -56,7 +58,7 @@ describe("Agent Row Widget", function () {
 
   it('should not contain link to job run history for non-admin user', function () {
     agents(allAgents);
-    var model = m.prop(true);
+    var model = Stream(true);
     mount(agents().firstAgent(), model, false);
 
     var row         = $root.find('tr')[0];
@@ -67,7 +69,7 @@ describe("Agent Row Widget", function () {
 
   it('should check the value based on the checkbox model', function () {
     agents(allAgents);
-    var model = m.prop(true);
+    var model = Stream(true);
     mount(agents().firstAgent(), model, true);
 
     var checkbox = $root.find('input')[0];
@@ -104,7 +106,7 @@ describe("Agent Row Widget", function () {
 
   it('should change the checkbox model when checkbox is clicked', function () {
     agents(allAgents);
-    var model = m.prop(false);
+    var model = Stream(false);
     mount(agents().firstAgent(), model, true);
     var row      = $root.find('tr')[0];
     var checkbox = $(row).find('input');
@@ -141,7 +143,7 @@ describe("Agent Row Widget", function () {
     m.redraw(true);
   };
 
-  var model = m.prop();
+  var model = Stream();
 
   var json = function () {
     return [

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m           = require('mithril');
+var Stream      = require('mithril/stream');
 var s           = require('string-plus');
 var Mixins      = require('models/model_mixins');
 var Validatable = require('models/validatable_mixin');
@@ -56,8 +56,8 @@ PluginConfigurations.Configuration = function (data) {
   this.parent                = Mixins.GetterSetter();
   this.constructor.modelType = 'plugin-configuration';
 
-  this.key   = m.prop(s.defaultToIfBlank(data.key, ''));
-  this.value = m.prop(s.defaultToIfBlank(data.value, ''));
+  this.key   = Stream(s.defaultToIfBlank(data.key, ''));
+  this.value = Stream(s.defaultToIfBlank(data.value, ''));
   Validatable.call(this, data);
 
   this.toJSON = function () {

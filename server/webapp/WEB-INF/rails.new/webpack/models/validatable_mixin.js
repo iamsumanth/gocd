@@ -124,8 +124,8 @@ var Validatable = function (data) {
     self.validate();
 
     return _.isEmpty(self.errors().errors()) && _.every(associationsToValidate, function (association) {
-      return self[association]() ? self[association]().isValid() : true;
-    });
+        return self[association]() ? self[association]().isValid() : true;
+      });
   };
 };
 

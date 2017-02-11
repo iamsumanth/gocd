@@ -15,6 +15,7 @@
  */
 
 var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var f                    = require('helpers/form_helper');
 var tt                   = require('helpers/pipeline_configs/tooltips');
@@ -101,8 +102,8 @@ var NewPluggabelSCMWidget = {
   controller: function (args) {
     var self      = this;
     self.material = args.material;
-    self.scms     = m.prop(SCMs.filterByPluginId(self.material.pluginInfo().id()));
-    self.selected = _.isEmpty(self.scms()) ? m.prop('default') : m.prop(_.head(self.scms()).id());
+    self.scms     = Stream(SCMs.filterByPluginId(self.material.pluginInfo().id()));
+    self.selected = _.isEmpty(self.scms()) ? Stream('default') : Stream(_.head(self.scms()).id());
     self.modal    = new Modal({
       title:   'ADD',
       subView: {component: SCMConfigNewWidget, args: {material: self.material}}

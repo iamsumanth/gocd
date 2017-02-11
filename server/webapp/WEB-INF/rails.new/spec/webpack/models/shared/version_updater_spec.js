@@ -16,6 +16,7 @@
 describe("VersionUpdater", function () {
 
   var VersionUpdater = require('models/shared/version_updater');
+
   describe('update', function () {
     beforeEach(function () {
       localStorage.clear();

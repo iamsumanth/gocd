@@ -15,8 +15,10 @@
  */
 describe('SCMs', function () {
 
-  var $    = require('jquery');
-  var m    = require('mithril');
+  var $      = require('jquery');
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
   var SCMs = require('models/pipeline_configs/scms');
   describe('init', function () {
     var requestArgs;
@@ -129,7 +131,7 @@ describe('SCMs', function () {
 
     it('should extract and cache etag for the scm', function () {
       var xhr = {
-        getResponseHeader: m.prop()
+        getResponseHeader: Stream()
       };
 
       spyOn(xhr, 'getResponseHeader').and.returnValue('etag2');
@@ -283,7 +285,7 @@ describe('SCMs', function () {
         SCMs.scmIdToEtag[scm.id()] = 'etag_before_update';
         var xhr                    = {
           status:            200,
-          getResponseHeader: m.prop()
+          getResponseHeader: Stream()
         };
 
         spyOn(xhr, 'getResponseHeader').and.returnValue('etag_after_update');
@@ -345,7 +347,7 @@ describe('SCMs', function () {
       it('should update etag cache on success', function () {
         var xhr = {
           status:            200,
-          getResponseHeader: m.prop(),
+          getResponseHeader: Stream(),
           responseText:      JSON.stringify({id: 'new_id'})
         };
 

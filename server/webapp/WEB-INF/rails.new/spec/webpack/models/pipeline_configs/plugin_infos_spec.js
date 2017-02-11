@@ -15,9 +15,11 @@
  */
 describe('PluginInfos', function () {
 
-  var $           = require('jquery');
-  var m           = require('mithril');
+  var $ = require('jquery');
+  var m = require('mithril');
+
   var PluginInfos = require("models/pipeline_configs/plugin_infos");
+
   describe('init', function () {
     var requestArgs, deferred;
 

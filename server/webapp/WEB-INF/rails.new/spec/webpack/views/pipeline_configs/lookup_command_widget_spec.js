@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 describe("Lookup Command Widget", function () {
+  var $ = require("jquery");
+  var m = require("mithril");
 
-  var $                   = require("jquery");
-  var m                   = require("mithril");
+  require('jasmine-jquery');
+
   var LookupCommandWidget = require("views/pipeline_configs/lookup_command_widget");
   var Tasks               = require("models/pipeline_configs/tasks");
-  var $root               = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   function mount(model, snippet) {
     m.mount(root,

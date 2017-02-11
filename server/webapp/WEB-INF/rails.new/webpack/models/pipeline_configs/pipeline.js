@@ -15,6 +15,7 @@
  */
 
 var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var s                    = require('string-plus');
 var Mixins               = require('models/model_mixins');
@@ -31,12 +32,12 @@ var Pipeline             = function (data) {
   Mixins.HasUUID.call(this);
   Validatable.call(this, data);
 
-  this.name                  = m.prop(data.name);
-  this.enablePipelineLocking = m.prop(data.enablePipelineLocking);
-  this.templateName          = m.prop(s.defaultToIfBlank(data.templateName, ''));
-  this.labelTemplate         = m.prop(s.defaultToIfBlank(data.labelTemplate, ''));
-  this.template              = m.prop(data.template);
-  this.timer                 = m.prop(s.defaultToIfBlank(data.timer, new Pipeline.Timer({})));
+  this.name                  = Stream(data.name);
+  this.enablePipelineLocking = Stream(data.enablePipelineLocking);
+  this.templateName          = Stream(s.defaultToIfBlank(data.templateName, ''));
+  this.labelTemplate         = Stream(s.defaultToIfBlank(data.labelTemplate, ''));
+  this.template              = Stream(data.template);
+  this.timer                 = Stream(s.defaultToIfBlank(data.timer, new Pipeline.Timer({})));
   this.timer.toJSON          = function () {
     var timer = this();
 
@@ -46,10 +47,10 @@ var Pipeline             = function (data) {
 
     return timer;
   };
-  this.environmentVariables  = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.environmentVariables, new EnvironmentVariables())));
-  this.parameters            = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.parameters, new Parameters())));
-  this.materials             = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.materials, new Materials())));
-  this.trackingTool          = m.prop(data.trackingTool);
+  this.environmentVariables  = s.collectionToJSON(Stream(s.defaultToIfBlank(data.environmentVariables, new EnvironmentVariables())));
+  this.parameters            = s.collectionToJSON(Stream(s.defaultToIfBlank(data.parameters, new Parameters())));
+  this.materials             = s.collectionToJSON(Stream(s.defaultToIfBlank(data.materials, new Materials())));
+  this.trackingTool          = Stream(data.trackingTool);
   this.trackingTool.toJSON   = function () {
     var value = this();
     if (value) {
@@ -58,7 +59,7 @@ var Pipeline             = function (data) {
       return null;
     }
   };
-  this.stages                = s.collectionToJSON(m.prop(s.defaultToIfBlank(data.stages, new Stages())));
+  this.stages                = s.collectionToJSON(Stream(s.defaultToIfBlank(data.stages, new Stages())));
 
   this.validatePresenceOf('labelTemplate');
   this.validateFormatOf('labelTemplate', {
@@ -115,8 +116,8 @@ Pipeline.Timer = function (data) {
   Mixins.HasUUID.call(this);
   Validatable.call(this, data);
 
-  this.spec          = m.prop(s.defaultToIfBlank(data.spec, ''));
-  this.onlyOnChanges = m.prop(data.onlyOnChanges);
+  this.spec          = Stream(s.defaultToIfBlank(data.spec, ''));
+  this.onlyOnChanges = Stream(data.onlyOnChanges);
 
   this.isBlank = function () {
     return s.isBlank(this.spec()) && !this.onlyOnChanges();
@@ -144,7 +145,7 @@ Pipeline.find = function (url, extract) {
 };
 
 Pipeline.vm = function () {
-  this.saveState = m.prop('');
+  this.saveState = Stream('');
   var errors     = [];
 
   this.updating = function () {

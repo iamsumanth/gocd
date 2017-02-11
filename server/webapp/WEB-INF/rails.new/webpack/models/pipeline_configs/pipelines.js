@@ -15,10 +15,11 @@
  */
 
 var m         = require('mithril');
+var Stream    = require('mithril/stream');
 var _         = require('lodash');
 var Routes    = require('js-routes');
 var mrequest  = require('helpers/mrequest');
-var Pipelines = m.prop([]);
+var Pipelines = Stream([]);
 
 Pipelines.Pipeline = function (data) {
   this.name   = data.name;

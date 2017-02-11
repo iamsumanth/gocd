@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-var m = require('mithril');
-var _ = require('lodash');
+var Stream = require('mithril/stream');
+var _      = require('lodash');
 
 var Argument = function (data) {
-  this.data = m.prop(data);
+  this.data = Stream(data);
 
   this.isList = function () {
     return _.isArray(this.data());

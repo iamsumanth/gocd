@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m           = require('mithril');
+var Stream      = require('mithril/stream');
 var _           = require('lodash');
 var s           = require('string-plus');
 var Mixins      = require('models/model_mixins');
@@ -37,9 +37,9 @@ Properties.Property = function (data) {
 
   this.parent = Mixins.GetterSetter();
 
-  this.name   = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.source = m.prop(s.defaultToIfBlank(data.source, ''));
-  this.xpath  = m.prop(s.defaultToIfBlank(data.xpath, ''));
+  this.name   = Stream(s.defaultToIfBlank(data.name, ''));
+  this.source = Stream(s.defaultToIfBlank(data.source, ''));
+  this.xpath  = Stream(s.defaultToIfBlank(data.xpath, ''));
 
   this.isBlank = function () {
     return s.isBlank(this.name()) && s.isBlank(this.source()) && s.isBlank(this.xpath());

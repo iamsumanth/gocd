@@ -74,8 +74,8 @@ var f = {
   column: {
     view: function (_ctrl, args, children) {
       var end       = deleteKeyAndReturnValue(args, 'end') ? 'end' : null,
-        size      = deleteKeyAndReturnValue(args, 'size', 6),
-        largeSize = deleteKeyAndReturnValue(args, 'largeSize', size);
+          size      = deleteKeyAndReturnValue(args, 'size', 6),
+          largeSize = deleteKeyAndReturnValue(args, 'largeSize', size);
 
       return (
         <div class={compactClasses(args, 'columns', 'medium-' + size, 'large-' + largeSize, end)}
@@ -100,13 +100,13 @@ var f = {
 
     view: function (ctrl, args) {
       var model       = deleteKeyAndReturnValue(args, 'model'),
-        attrName    = deleteKeyAndReturnValue(args, 'attrName'),
-        type        = deleteKeyAndReturnValue(args, 'type', 'text'),
-        placeholder = deleteKeyAndReturnValue(args, 'placeholder', ''),
-        modelType   = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
-        validate    = deleteKeyAndReturnValue(args, 'validate', false),
-        tooltip     = deleteKeyAndReturnValue(args, 'tooltip'),
-        onChange    = deleteKeyAndReturnValue(args, 'onChange');
+          attrName    = deleteKeyAndReturnValue(args, 'attrName'),
+          type        = deleteKeyAndReturnValue(args, 'type', 'text'),
+          placeholder = deleteKeyAndReturnValue(args, 'placeholder', ''),
+          modelType   = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
+          validate    = deleteKeyAndReturnValue(args, 'validate', false),
+          tooltip     = deleteKeyAndReturnValue(args, 'tooltip'),
+          onChange    = deleteKeyAndReturnValue(args, 'onChange');
 
       args.size      = args.size || 6;
       args.largeSize = args.largeSize || 4;
@@ -152,17 +152,17 @@ var f = {
 
     view: function (ctrl, args) {
       var model       = deleteKeyAndReturnValue(args, 'model'),
-        attrName    = deleteKeyAndReturnValue(args, 'attrName'),
-        type        = deleteKeyAndReturnValue(args, 'type', 'text'),
-        placeholder = deleteKeyAndReturnValue(args, 'placeholder', ''),
-        labelText   = deleteKeyAndReturnValue(args, 'label'),
-        onChange    = deleteKeyAndReturnValue(args, 'onChange'),
-        tooltip     = deleteKeyAndReturnValue(args, 'tooltip'),
-        modelType   = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
-        validate    = deleteKeyAndReturnValue(args, 'validate', false),
-        isRequired  = deleteKeyAndReturnValue(args, 'isRequired', false),
-        disabled    = deleteKeyAndReturnValue(args, 'disabled', false),
-        message     = deleteKeyAndReturnValue(args, 'message', '');
+          attrName    = deleteKeyAndReturnValue(args, 'attrName'),
+          type        = deleteKeyAndReturnValue(args, 'type', 'text'),
+          placeholder = deleteKeyAndReturnValue(args, 'placeholder', ''),
+          labelText   = deleteKeyAndReturnValue(args, 'label'),
+          onChange    = deleteKeyAndReturnValue(args, 'onChange'),
+          tooltip     = deleteKeyAndReturnValue(args, 'tooltip'),
+          modelType   = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
+          validate    = deleteKeyAndReturnValue(args, 'validate', false),
+          isRequired  = deleteKeyAndReturnValue(args, 'isRequired', false),
+          disabled    = deleteKeyAndReturnValue(args, 'disabled', false),
+          message     = deleteKeyAndReturnValue(args, 'message', '');
 
       args.size      = args.size || 6;
       args.largeSize = args.largeSize || 4;
@@ -232,13 +232,13 @@ var f = {
 
     view: function (ctrl, args) {
       var model       = deleteKeyAndReturnValue(args, 'model'),
-        attrName    = deleteKeyAndReturnValue(args, 'attrName'),
-        placeholder = deleteKeyAndReturnValue(args, 'placeholder', ''),
-        labelText   = deleteKeyAndReturnValue(args, 'label'),
-        onChange    = deleteKeyAndReturnValue(args, 'onChange'),
-        tooltip     = deleteKeyAndReturnValue(args, 'tooltip'),
-        modelType   = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
-        validate    = deleteKeyAndReturnValue(args, 'validate', false);
+          attrName    = deleteKeyAndReturnValue(args, 'attrName'),
+          placeholder = deleteKeyAndReturnValue(args, 'placeholder', ''),
+          labelText   = deleteKeyAndReturnValue(args, 'label'),
+          onChange    = deleteKeyAndReturnValue(args, 'onChange'),
+          tooltip     = deleteKeyAndReturnValue(args, 'tooltip'),
+          modelType   = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
+          validate    = deleteKeyAndReturnValue(args, 'validate', false);
 
       args.size = args.size || 3;
 
@@ -274,13 +274,13 @@ var f = {
   checkBox: {
     view: function (_ctrl, args) {
       var model      = deleteKeyAndReturnValue(args, 'model'),
-        attrName   = deleteKeyAndReturnValue(args, 'attrName'),
-        labelText  = deleteKeyAndReturnValue(args, 'label'),
-        disabled   = deleteKeyAndReturnValue(args, 'disabled'),
-        tooltip    = deleteKeyAndReturnValue(args, 'tooltip'),
-        addPadding = deleteKeyAndReturnValue(args, 'addPadding'),
-        id         = s.uuid(),
-        modelType  = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null));
+          attrName   = deleteKeyAndReturnValue(args, 'attrName'),
+          labelText  = deleteKeyAndReturnValue(args, 'label'),
+          disabled   = deleteKeyAndReturnValue(args, 'disabled'),
+          tooltip    = deleteKeyAndReturnValue(args, 'tooltip'),
+          addPadding = deleteKeyAndReturnValue(args, 'addPadding'),
+          id         = s.uuid(),
+          modelType  = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null));
 
       if (!args.size) {
         args.size = 3;
@@ -330,14 +330,14 @@ var f = {
 
     view: function (ctrl, args) {
       var model      = deleteKeyAndReturnValue(args, 'model'),
-        attrName   = deleteKeyAndReturnValue(args, 'attrName'),
-        value      = deleteKeyAndReturnValue(args, 'value'),
-        labelText  = deleteKeyAndReturnValue(args, 'label'),
-        disabled   = deleteKeyAndReturnValue(args, 'disabled'),
-        tooltip    = deleteKeyAndReturnValue(args, 'tooltip'),
-        addPadding = deleteKeyAndReturnValue(args, 'addPadding'),
-        id         = s.uuid(),
-        modelType  = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null));
+          attrName   = deleteKeyAndReturnValue(args, 'attrName'),
+          value      = deleteKeyAndReturnValue(args, 'value'),
+          labelText  = deleteKeyAndReturnValue(args, 'label'),
+          disabled   = deleteKeyAndReturnValue(args, 'disabled'),
+          tooltip    = deleteKeyAndReturnValue(args, 'tooltip'),
+          addPadding = deleteKeyAndReturnValue(args, 'addPadding'),
+          id         = s.uuid(),
+          modelType  = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null));
 
       if (!args.size) {
         args.size = 3;
@@ -467,14 +467,14 @@ var f = {
 
     view: function (_ctrl, args) {
       var items         = deleteKeyAndReturnValue(args, 'items', [{}]),
-        label         = deleteKeyAndReturnValue(args, 'label'),
-        model         = deleteKeyAndReturnValue(args, 'model'),
-        modelType     = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
-        attrName      = deleteKeyAndReturnValue(args, 'attrName'),
-        tooltip       = deleteKeyAndReturnValue(args, 'tooltip'),
-        disabled      = deleteKeyAndReturnValue(args, 'disabled', false),
-        receiveObject = deleteKeyAndReturnValue(args, 'receiveObject', false),
-        message       = deleteKeyAndReturnValue(args, 'message', '');
+          label         = deleteKeyAndReturnValue(args, 'label'),
+          model         = deleteKeyAndReturnValue(args, 'model'),
+          modelType     = deleteKeyAndReturnValue(args, 'modelType', (model.constructor ? model.constructor.modelType : null)),
+          attrName      = deleteKeyAndReturnValue(args, 'attrName'),
+          tooltip       = deleteKeyAndReturnValue(args, 'tooltip'),
+          disabled      = deleteKeyAndReturnValue(args, 'disabled', false),
+          receiveObject = deleteKeyAndReturnValue(args, 'receiveObject', false),
+          message       = deleteKeyAndReturnValue(args, 'message', '');
 
       if (!args.size) {
         args.size = 3;
@@ -618,10 +618,10 @@ var f = {
       }
 
       var direction = deleteKeyAndReturnValue(args.tooltip, 'direction', 'bottom'),
-        size      = deleteKeyAndReturnValue(args.tooltip, 'size', 'medium'),
-        content   = deleteKeyAndReturnValue(args.tooltip, 'content', children),
-        clazz     = deleteKeyAndReturnValue(args.tooltip, 'class', null),
-        tooltipId = 'help-tooltip-';
+          size      = deleteKeyAndReturnValue(args.tooltip, 'size', 'medium'),
+          content   = deleteKeyAndReturnValue(args.tooltip, 'content', children),
+          clazz     = deleteKeyAndReturnValue(args.tooltip, 'class', null),
+          tooltipId = 'help-tooltip-';
 
       if (args.model && args.model.uuid) {
         tooltipId += (args.model.uuid() + '-' + args.attrName);
@@ -675,7 +675,7 @@ var f = {
   infoToolTip: {
     view: function (_ctrl, args) {
       var content   = deleteKeyAndReturnValue(args, 'content'),
-        tooltipId = 'info-tooltip-' + s.uuid();
+          tooltipId = 'info-tooltip-' + s.uuid();
       return (
         <span class={_.compact(['info-wrapper']).join(' ')}>
           <a href='javascript:void(0)'

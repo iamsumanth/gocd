@@ -48,8 +48,8 @@ ComponentMixins.ManagesCollection = function (options) {
   var associationNamePluralCapitalized = s.camelcase(s.defaultToIfBlank(options.plural, options.as + 's'));
 
   this.add = options.add || function () {
-    this.args[associationNamePlural]()['create' + associationName]();
-  };
+      this.args[associationNamePlural]()['create' + associationName]();
+    };
 
   this.remove = function (thing) {
     this.args[associationNamePlural]()['remove' + associationName](thing);
@@ -57,8 +57,8 @@ ComponentMixins.ManagesCollection = function (options) {
   };
 
   this.last = options.last || function () {
-    return this.args[associationNamePlural]()['last' + associationName]();
-  };
+      return this.args[associationNamePlural]()['last' + associationName]();
+    };
 
   this.changed = function () {
     var last = this.last();
@@ -74,10 +74,10 @@ ComponentMixins.ManagesCollection = function (options) {
   };
 
   this.map = options.map || function (callback) {
-    return this.args[associationNamePlural]()['map' + associationNamePluralCapitalized](function (thing, index) {
-      return callback(thing, index);
-    });
-  };
+      return this.args[associationNamePlural]()['map' + associationNamePluralCapitalized](function (thing, index) {
+        return callback(thing, index);
+      });
+    };
 
   options.onInitialize && options.onInitialize.call(this);
 };

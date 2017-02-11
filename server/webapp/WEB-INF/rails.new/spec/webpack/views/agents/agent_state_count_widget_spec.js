@@ -16,13 +16,18 @@
 
 describe("Agent State Count Widget", function () {
 
-  var $                     = require("jquery");
-  var m                     = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require("jasmine-jquery");
+
   var Agents                = require('models/agents/agents');
   var AgentStateCountWidget = require("views/agents/agent_state_count_widget");
-  var $root                 = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   beforeAll(function () {
-    var agents    = m.prop();
+    var agents    = Stream();
     var allAgents = Agents.fromJSON(json());
     agents(allAgents);
     mount(agents);

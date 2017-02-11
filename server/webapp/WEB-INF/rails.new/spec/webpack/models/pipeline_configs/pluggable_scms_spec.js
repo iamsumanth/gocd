@@ -15,10 +15,12 @@
  */
 describe('PluggableTasks', function () {
 
-  var _             = require('lodash');
+  var _ = require('lodash');
+
   var PluggableSCMs = require('models/pipeline_configs/pluggable_scms');
   var PluginInfos   = require('models/pipeline_configs/plugin_infos');
   var Materials     = require('models/pipeline_configs/materials');
+
   describe('init', function () {
     it('should build pluggable scm types from plugins', function () {
       var dockerTaskPlugin = new PluginInfos.PluginInfo({

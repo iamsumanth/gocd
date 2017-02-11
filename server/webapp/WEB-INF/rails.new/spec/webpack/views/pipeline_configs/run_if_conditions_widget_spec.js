@@ -16,11 +16,13 @@
 
 describe("RunIfConditions Widget", function () {
 
-  var $                     = require('jquery');
-  var m                     = require("mithril");
+  var $ = require('jquery');
+  var m = require("mithril");
+
   var RunIfConditionsWidget = require("views/pipeline_configs/run_if_conditions_widget");
   var Tasks                 = require("models/pipeline_configs/tasks");
-  var $root                 = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   function mount(task) {
     m.mount(root,

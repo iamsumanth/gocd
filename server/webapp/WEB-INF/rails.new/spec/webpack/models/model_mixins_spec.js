@@ -15,13 +15,13 @@
  */
 describe("Model Mixins", function () {
 
-  var m     = require('mithril');
-  var Mixin = require('models/model_mixins');
+  var Stream = require('mithril/stream');
+  var Mixin  = require('models/model_mixins');
 
   describe("TogglingGetterSetter", function () {
     var model;
     beforeEach(function () {
-      model = Mixin.TogglingGetterSetter(m.prop('foo'));
+      model = Mixin.TogglingGetterSetter(Stream('foo'));
     });
 
     it("should set a value for the first time", function () {

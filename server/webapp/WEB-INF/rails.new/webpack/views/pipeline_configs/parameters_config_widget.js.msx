@@ -15,6 +15,7 @@
  */
 
 var m               = require('mithril');
+var Stream          = require('mithril/stream');
 var f               = require('helpers/form_helper');
 var ComponentMixins = require('helpers/mithril_component_mixins');
 var tt              = require('helpers/pipeline_configs/tooltips');
@@ -35,11 +36,11 @@ var ParametersConfigWidget = {
     return (
       <f.accordion accordionTitles={[
         (
-        <span>Parameters<f.tooltip tooltip={{content: tt.pipeline.parameters.main}}/></span>
+          <span>Parameters<f.tooltip tooltip={{content: tt.pipeline.parameters.main}}/></span>
         )
       ]}
                    accordionKeys={['parameters']}
-                   selectedIndex={ctrl.vmState('parametersSelected', m.prop(-1))}
+                   selectedIndex={ctrl.vmState('parametersSelected', Stream(-1))}
                    class='parameters accordion-inner'>
         <div>
           {ctrl.map(function (parameter) {

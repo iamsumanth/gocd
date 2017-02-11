@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m      = require('mithril');
+var Stream = require('mithril/stream');
 var s      = require('string-plus');
 var Mixins = require('models/model_mixins');
 
@@ -22,8 +22,8 @@ var Approval = function (data) {
   this.constructor.modelType = 'approval';
   Mixins.HasUUID.call(this);
 
-  this.type          = m.prop(s.defaultToIfBlank(data.type, 'success'));
-  this.authorization = m.prop(s.defaultToIfBlank(data.authorization, new Approval.AuthConfig({})));
+  this.type          = Stream(s.defaultToIfBlank(data.type, 'success'));
+  this.authorization = Stream(s.defaultToIfBlank(data.authorization, new Approval.AuthConfig({})));
 
   this.isManual = function () {
     return this.type() === 'manual';
@@ -46,8 +46,8 @@ Approval.AuthConfig = function (data) {
   this.constructor.modelType = 'approvalAuthorization';
   Mixins.HasUUID.call(this);
 
-  this.roles = s.withNewJSONImpl(m.prop(s.defaultToIfBlank(data.roles, '')), s.stringToArray);
-  this.users = s.withNewJSONImpl(m.prop(s.defaultToIfBlank(data.users, '')), s.stringToArray);
+  this.roles = s.withNewJSONImpl(Stream(s.defaultToIfBlank(data.roles, '')), s.stringToArray);
+  this.users = s.withNewJSONImpl(Stream(s.defaultToIfBlank(data.users, '')), s.stringToArray);
 };
 
 Approval.AuthConfig.fromJSON = function (data) {

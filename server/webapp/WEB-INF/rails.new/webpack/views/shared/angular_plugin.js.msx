@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 var m       = require('mithril');
+var Stream  = require('mithril/stream');
 var _       = require('lodash');
 var $       = require('jquery');
 var angular = require('angular');
@@ -115,7 +116,7 @@ var AngularPlugin = {
   },
 
   controller: function () {
-    this.$scope = m.prop();
+    this.$scope = Stream();
   },
 
   view: function (ctrl, args) {

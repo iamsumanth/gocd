@@ -15,8 +15,10 @@
  */
 describe("Task Model", function () {
 
-  var Tasks       = require("models/pipeline_configs/tasks");
-  var s           = require("string-plus");
+  var s = require("string-plus");
+
+  var Tasks = require("models/pipeline_configs/tasks");
+
   var PluginInfos = require('models/pipeline_configs/plugin_infos');
   var task;
   describe("Ant", function () {

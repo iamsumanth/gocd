@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-var m     = require('mithril');
-var Image = function (contentType, data) {
-  this.contentType = m.prop(contentType);
-  this.data        = m.prop(data);
+var Stream = require('mithril/stream');
+var Image  = function (contentType, data) {
+  this.contentType = Stream(contentType);
+  this.data        = Stream(data);
 
   this.toDataURI = function () {
     return "data:" + this.contentType() + ";base64," + this.data();

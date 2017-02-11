@@ -16,6 +16,7 @@
 
 var $                    = require('jquery');
 var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var PluggableTasks       = require('models/pipeline_configs/pluggable_tasks');
 var Resources            = require('models/pipeline_configs/resources');
 var Users                = require('models/pipeline_configs/users');
@@ -44,7 +45,7 @@ $(function () {
     PluggableTasks.init();
     PluggableSCMs.init();
 
-    m.mount(pipelineConfigElem.get(0), PipelineConfigWidget({url: m.prop(url), elasticProfiles: m.prop(args[2])}));
+    m.mount(pipelineConfigElem.get(0), PipelineConfigWidget({url: Stream(url), elasticProfiles: Stream(args[2])}));
     $(document).foundation();
   });
 

@@ -128,7 +128,8 @@ module.exports = function (env) {
       }),
       jasmineCssFiles: _.map(jasmineFiles.cssFiles, function (file) {
         return '__jasmine/' + file;
-      })
+      }),
+      excludeChunks:   _.keys(entries)
     };
 
     config.plugins.push(new HtmlWebpackPlugin(jasmineIndexPage));

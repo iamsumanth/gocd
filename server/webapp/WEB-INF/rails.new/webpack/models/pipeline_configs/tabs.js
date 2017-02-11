@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-var m           = require('mithril');
+var Stream      = require('mithril/stream');
 var _           = require('lodash');
 var s           = require('string-plus');
 var Mixins      = require('models/model_mixins');
@@ -30,8 +30,8 @@ Tabs.Tab = function (data) {
 
   this.parent = Mixins.GetterSetter();
 
-  this.name = m.prop(s.defaultToIfBlank(data.name, ''));
-  this.path = m.prop(s.defaultToIfBlank(data.path, ''));
+  this.name = Stream(s.defaultToIfBlank(data.name, ''));
+  this.path = Stream(s.defaultToIfBlank(data.path, ''));
 
   this.isBlank = function () {
     return s.isBlank(this.name()) && s.isBlank(this.path());

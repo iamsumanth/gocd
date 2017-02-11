@@ -18,6 +18,7 @@ describe("Tabs Model", function () {
 
   var Tabs = require('models/pipeline_configs/tabs');
   var tabs, tab;
+
   beforeEach(function () {
     tabs = new Tabs();
 

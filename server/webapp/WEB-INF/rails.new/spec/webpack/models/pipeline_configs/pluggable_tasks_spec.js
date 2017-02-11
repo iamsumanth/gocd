@@ -15,7 +15,8 @@
  */
 describe('PluggableTasks', function () {
 
-  var _              = require('lodash');
+  var _ = require('lodash');
+
   var PluggableTasks = require('models/pipeline_configs/pluggable_tasks');
   var PluginInfos    = require('models/pipeline_configs/plugin_infos');
   var Tasks          = require('models/pipeline_configs/tasks');

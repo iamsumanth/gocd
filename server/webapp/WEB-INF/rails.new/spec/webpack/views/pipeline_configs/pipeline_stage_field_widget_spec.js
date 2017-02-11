@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-var $                        = require("jquery");
-var m                        = require("mithril");
-var _                        = require("lodash");
-var PipelineStageFieldWidget = require("views/pipeline_configs/pipeline_stage_field_widget");
-var Pipelines                = require("models/pipeline_configs/pipelines");
-var Materials                = require("models/pipeline_configs/materials");
 describe("PipelineStageField Widget", function () {
+  var $ = require("jquery");
+  var m = require("mithril");
+  var _ = require("lodash");
+
+  require('jasmine-jquery');
+
+  var PipelineStageFieldWidget = require("views/pipeline_configs/pipeline_stage_field_widget");
+  var Pipelines                = require("models/pipeline_configs/pipelines");
+  var Materials                = require("models/pipeline_configs/materials");
+
   var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   function mount(material, pipelines) {

@@ -15,6 +15,7 @@
  */
 
 var m                       = require('mithril');
+var Stream                  = require('mithril/stream');
 var _                       = require('lodash');
 var s                       = require('string-plus');
 var f                       = require('helpers/form_helper');
@@ -56,9 +57,9 @@ var ElasticProfilesWidget = {
     ComponentMixins.HasViewModel.call(this);
 
     this.modal    = null;
-    this.profiles = m.prop(new ElasticProfiles());
+    this.profiles = Stream(new ElasticProfiles());
 
-    this.message = m.prop({type: undefined, message: undefined});
+    this.message = Stream({type: undefined, message: undefined});
 
     this.clearMessage = function () {
       this.message({});
@@ -75,10 +76,10 @@ var ElasticProfilesWidget = {
     this.reloadPage();
 
     this.edit = function (profile) {
-      var newProfile   = m.prop();
-      var pluginInfo   = m.prop();
-      var saveDisabled = m.prop(false);
-      var errorMessage = m.prop();
+      var newProfile   = Stream();
+      var pluginInfo   = Stream();
+      var saveDisabled = Stream(false);
+      var errorMessage = Stream();
 
       ctrl.clearMessage();
 
@@ -133,9 +134,9 @@ var ElasticProfilesWidget = {
     };
 
     this.add = function () {
-      var newProfile    = m.prop(new ElasticProfiles.Profile({}));
-      var newPluginInfo = m.prop(null);
-      var saveDisabled  = m.prop(true);
+      var newProfile    = Stream(new ElasticProfiles.Profile({}));
+      var newPluginInfo = Stream(null);
+      var saveDisabled  = Stream(true);
 
       var modal = new Modal({
         size:    'large',
@@ -161,7 +162,7 @@ var ElasticProfilesWidget = {
       modal.render();
     };
 
-    var deleteInProgress = m.prop(false);
+    var deleteInProgress = Stream(false);
 
     var performDelete = function (modal, profile) {
       var onSuccess = function (message) {

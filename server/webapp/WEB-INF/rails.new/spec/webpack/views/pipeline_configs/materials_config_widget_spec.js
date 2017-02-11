@@ -15,11 +15,16 @@
  */
 describe("Material Widget", function () {
 
-  var $                     = require("jquery");
-  var m                     = require("mithril");
+  var $      = require("jquery");
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
+  require('jasmine-jquery');
+
   var Materials             = require("models/pipeline_configs/materials");
   var MaterialsConfigWidget = require("views/pipeline_configs/materials_config_widget");
-  var $root                 = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
   beforeAll(function () {
     spyOn(m, 'request').and.callFake(function () {
       return $.Deferred().promise();
@@ -404,7 +409,7 @@ describe("Material Widget", function () {
 
   function mount(materials) {
     m.mount(root,
-      m.component(MaterialsConfigWidget, {materials: m.prop(materials), pipelineName: m.prop('testPipeLine')})
+      m.component(MaterialsConfigWidget, {materials: Stream(materials), pipelineName: Stream('testPipeLine')})
     );
     m.redraw(true);
   }

@@ -15,11 +15,12 @@
  */
 describe('Validatable', function () {
 
-  var m           = require('mithril');
+  var Stream      = require('mithril/stream');
   var _           = require('lodash');
   var s           = require('string-plus');
   var Validatable = require('models/validatable_mixin');
   var Mixins      = require('models/model_mixins');
+
   describe('errors', function () {
     var Material = function (data) {
       Validatable.call(this, data);
@@ -36,7 +37,7 @@ describe('Validatable', function () {
   describe('validatePresenceOf', function () {
     var Material = function (data) {
       Validatable.call(this, data);
-      this.name = m.prop('');
+      this.name = Stream('');
 
       this.validatePresenceOf('name');
     };
@@ -53,8 +54,8 @@ describe('Validatable', function () {
     it('should be conditional', function () {
       var EnvVariable = function (data) {
         Validatable.call(this, data);
-        this.name  = m.prop('');
-        this.value = m.prop('');
+        this.name  = Stream('');
+        this.value = Stream('');
 
         this.validatePresenceOf('value', {
           condition: function (variable) {
@@ -84,7 +85,7 @@ describe('Validatable', function () {
     Variables.Variable = function (data) {
       Validatable.call(this, data);
 
-      this.key    = m.prop(data.key);
+      this.key    = Stream(data.key);
       this.parent = Mixins.GetterSetter();
 
       this.validateUniquenessOf('key');
@@ -127,7 +128,7 @@ describe('Validatable', function () {
   describe('validateUrlPattern', function () {
     var Material = function (data) {
       Validatable.call(this, data);
-      this.url = m.prop(data.url);
+      this.url = Stream(data.url);
 
       this.validateUrlPattern('url');
     };
@@ -153,7 +154,7 @@ describe('Validatable', function () {
   describe('validateFormatOf', function () {
     var Material = function (data) {
       Validatable.call(this, data);
-      this.url = m.prop(data.url);
+      this.url = Stream(data.url);
 
       this.validateFormatOf('url', {format: /^http(s)?:\/\/.+/, message: 'Url format is invalid'});
     };
@@ -179,8 +180,8 @@ describe('Validatable', function () {
   describe('validateWith', function () {
     var Material = function (data) {
       Validatable.call(this, data);
-      this.name = m.prop(data.name);
-      this.url  = m.prop(data.url);
+      this.name = Stream(data.name);
+      this.url  = Stream(data.url);
 
       var UrlValidator = function () {
         this.validate = function (entity) {
@@ -216,14 +217,14 @@ describe('Validatable', function () {
   describe('validateAssociated', function () {
     var Material = function (data) {
       Validatable.call(this, data);
-      this.url = m.prop(data.url);
+      this.url = Stream(data.url);
 
       this.validatePresenceOf('url');
     };
 
     var Pipeline = function (data) {
       Validatable.call(this, data);
-      this.material = m.prop(new Material(data.material));
+      this.material = Stream(new Material(data.material));
 
       this.validateAssociated('material');
     };
@@ -243,8 +244,8 @@ describe('Validatable', function () {
   describe('validate', function () {
     var Material = function (data) {
       Validatable.call(this, data);
-      this.username = m.prop('');
-      this.password = m.prop('');
+      this.username = Stream('');
+      this.password = Stream('');
 
       this.validatePresenceOf('username');
       this.validatePresenceOf('password');
@@ -315,8 +316,8 @@ describe('Validatable', function () {
     Variables.Variable = function (data) {
       Validatable.call(this, data);
 
-      this.key    = m.prop(data.key);
-      this.name   = m.prop();
+      this.key    = Stream(data.key);
+      this.name   = Stream();
       this.parent = Mixins.GetterSetter();
 
       this.validatePresenceOf('name');
@@ -340,22 +341,22 @@ describe('Validatable', function () {
     it('should be invalid if associated attributes are invalid', function () {
       var Material = function (data) {
         Validatable.call(this, data);
-        this.url = m.prop(data.url);
+        this.url = Stream(data.url);
 
         this.validatePresenceOf('url');
       };
 
       var Task = function (data) {
         Validatable.call(this, data);
-        this.command = m.prop(data.command);
+        this.command = Stream(data.command);
 
         this.validatePresenceOf('command');
       };
 
       var Pipeline = function (data) {
         Validatable.call(this, data);
-        this.material = m.prop(new Material(data.material));
-        this.task     = m.prop(new Task(data.task));
+        this.material = Stream(new Material(data.material));
+        this.task     = Stream(new Task(data.task));
 
         this.validateAssociated('material');
         this.validateAssociated('task');

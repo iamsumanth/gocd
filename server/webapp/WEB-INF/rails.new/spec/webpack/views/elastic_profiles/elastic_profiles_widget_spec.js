@@ -15,12 +15,14 @@
  */
 describe("ElasticProfilesWidget", function () {
 
-  var $                     = require("jquery");
-  var m                     = require("mithril");
+  var $ = require("jquery");
+  var m = require("mithril");
+
+  require('jasmine-jquery');
+
   var ElasticProfilesWidget = require("views/elastic_profiles/elastic_profiles_widget");
   var PluginInfos           = require('models/pipeline_configs/plugin_infos');
   var Modal                 = require('views/shared/new_modal');
-  require('jasmine-jquery');
 
   var $root = $('#mithril-mount-point'), root = $root.get(0);
 

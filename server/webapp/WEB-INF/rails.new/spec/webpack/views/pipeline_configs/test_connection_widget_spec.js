@@ -15,10 +15,13 @@
  */
 describe("Test Connection Widget", function () {
 
-  var $                    = require('jquery');
-  var m                    = require("mithril");
+  var $      = require('jquery');
+  var m      = require('mithril');
+  var Stream = require('mithril/stream');
+
   var Materials            = require("models/pipeline_configs/materials");
   var TestConnectionWidget = require("views/pipeline_configs/test_connection_widget");
+
   describe('view', function () {
     var $root = $('#mithril-mount-point'), root = $root.get(0);
     var material;
@@ -69,7 +72,7 @@ describe("Test Connection Widget", function () {
         type: 'git',
         url:  "http://git.example.com/git/myProject"
       });
-      pipelineName = m.prop('testPipeLine');
+      pipelineName = Stream('testPipeLine');
       vm           = new TestConnectionWidget.Connection.State();
       controller   = new TestConnectionWidget.controller({
         material:     material,

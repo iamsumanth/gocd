@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-var $                      = require("jquery");
-var m                      = require("mithril");
-var Environments           = require('models/agents/environments');
-var EnvironmentsListWidget = require("views/agents/environments_list_widget");
-require("foundation-sites");
 describe("Environments List Widget", function () {
+  var $ = require("jquery");
+  var m = require("mithril");
+
+  require("foundation-sites");
+  require("jasmine-jquery");
+
+  var Environments           = require('models/agents/environments');
+  var EnvironmentsListWidget = require("views/agents/environments_list_widget");
+
   var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   beforeAll(function () {

@@ -15,10 +15,12 @@
  */
 describe("Agent Table Header Widget", function () {
 
-  var $                 = require("jquery");
-  var m                 = require("mithril");
+  var $ = require("jquery");
+  var m = require("mithril");
+
   var AgentsTableHeader = require("views/agents/agent_table_header");
-  var $root             = $('#mithril-mount-point'), root = $root.get(0);
+
+  var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   beforeEach(function () {
     route(true);

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-var _ = require('lodash');
-var s = require('string-plus');
-var m = require('mithril');
+var _      = require('lodash');
+var s      = require('string-plus');
+var Stream = require('mithril/stream');
 
 var Mixins = {};
 
@@ -26,8 +26,8 @@ Mixins.HasUUID = function () {
 
 Mixins.HasEncryptedAttribute = function (options) {
   var _value          = options.attribute,
-    name            = options.name,
-    capitalizedName = _.upperFirst(name);
+      name            = options.name,
+      capitalizedName = _.upperFirst(name);
 
   this[name] = function () {
     return _value().value.apply(_value(), arguments);
@@ -72,7 +72,7 @@ Mixins.HasMany = function (options) {
   var associationName       = options.as;
   var associationNamePlural = s.defaultToIfBlank(options.plural, options.as + 's');
   var uniqueOn              = options.uniqueOn;
-  var collection            = m.prop(s.defaultToIfBlank(options.collection, []));
+  var collection            = Stream(s.defaultToIfBlank(options.collection, []));
 
   this.toJSON = function () {
     return _(collection()).map(function (item) {
@@ -207,7 +207,7 @@ Mixins.fromJSONCollection = function (options) {
   };
 };
 
-// copy of mithri's m.prop without the toJSON on the getterSetter.
+// copy of mithri's Stream without the toJSON on the getterSetter.
 Mixins.GetterSetter = function (store) {
   return function () {
     if (arguments.length) {

@@ -15,9 +15,11 @@
  */
 describe("Stages Model", function () {
 
+  var s = require("string-plus");
+
   var Stages   = require("models/pipeline_configs/stages");
   var Approval = require('models/pipeline_configs/approval');
-  var s        = require("string-plus");
+
   var stages, stage;
   beforeEach(function () {
     stages = new Stages();

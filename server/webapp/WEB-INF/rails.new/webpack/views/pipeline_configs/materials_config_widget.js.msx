@@ -15,6 +15,7 @@
  */
 
 var m                    = require('mithril');
+var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var s                    = require('string-plus');
 var f                    = require('helpers/form_helper');
@@ -176,7 +177,7 @@ var MaterialViews = {
         <f.accordion class="material-definitions accordion-inner"
                      accordionTitles={[title()]}
                      accordionKeys={[args.material.uuid()]}
-                     selectedIndex={ctrl.vmState('selectedMaterialIndex', m.prop(-1))}>
+                     selectedIndex={ctrl.vmState('selectedMaterialIndex', Stream(-1))}>
 
           <div class="material-definition">
             <f.removeButton onclick={args.onRemove.bind(this, args.material)} class="remove-material"/>
@@ -396,7 +397,7 @@ var MaterialViews = {
 
 var MaterialTypeSelector = {
   controller: function () {
-    this.selected = m.prop('git');
+    this.selected = Stream('git');
   },
 
   view: function (ctrl, args) {
@@ -442,7 +443,7 @@ var MaterialsConfigWidget = {
           : materials().createMaterial({type: type(), pluginInfo: PluginInfos.findById(type())});
 
         var indexOfMaterial = materials().indexOfMaterial(newMaterial);
-        self.vmState('material-' + indexOfMaterial, {selectedMaterialIndex: m.prop(0)});
+        self.vmState('material-' + indexOfMaterial, {selectedMaterialIndex: Stream(0)});
       };
     };
   },
@@ -451,12 +452,12 @@ var MaterialsConfigWidget = {
     return (
       <f.accordion accordionTitles={[
         (
-        <span>Materials</span>
+          <span>Materials</span>
         )
       ]}
                    accordionKeys={['materials']}
                    class='materials'
-                   selectedIndex={ctrl.vmState('materialsSelected', m.prop(-1))}>
+                   selectedIndex={ctrl.vmState('materialsSelected', Stream(-1))}>
         <div>
           {args.materials().mapMaterials(function (material, index) {
             var materialView = MaterialViews[material.type()];

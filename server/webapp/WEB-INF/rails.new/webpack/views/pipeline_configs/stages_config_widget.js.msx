@@ -15,6 +15,7 @@
  */
 
 var m                                = require('mithril');
+var Stream                           = require('mithril/stream');
 var s                                = require('string-plus');
 var $                                = require('jquery');
 var f                                = require('helpers/form_helper');
@@ -69,7 +70,7 @@ var ApprovalWidget = {
     return (
       <f.accordion accordionTitles={[(<span>Stage Operate Permissions</span>)]}
                    accordionKeys={['stagePermissions']}
-                   selectedIndex={ctrl.vmState('stagePermissionsSelected', m.prop(-1))}
+                   selectedIndex={ctrl.vmState('stagePermissionsSelected', Stream(-1))}
                    class='accordion-inner'>
         <div>
           <f.row>
@@ -104,7 +105,7 @@ var SettingsWidget = {
     return (
       <f.accordion accordionTitles={[(<span>Stage Settings</span>)]}
                    accordionKeys={['stageSettings']}
-                   selectedIndex={ctrl.vmState('stageSettingsSelected', m.prop(settingSelected))}
+                   selectedIndex={ctrl.vmState('stageSettingsSelected', Stream(settingSelected))}
                    class='accordion-inner'>
         <f.row>
           <f.column size={4}>
