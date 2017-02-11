@@ -33,7 +33,7 @@ describe("Parameter Widget", function () {
     ]));
 
     m.mount(root,
-      m.component(ParametersConfigWidget, {parameters: parameters})
+      m(ParametersConfigWidget, {parameters: parameters})
     );
     m.redraw(true);
 

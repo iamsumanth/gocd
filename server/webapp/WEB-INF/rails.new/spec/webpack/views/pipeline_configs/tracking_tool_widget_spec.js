@@ -31,7 +31,7 @@ describe("Tracking Tool Widget", function () {
     trackingToolProp = Stream();
 
     m.mount(root,
-      m.component(TrackingToolWidget, {trackingTool: trackingToolProp})
+      m(TrackingToolWidget, {trackingTool: trackingToolProp})
     );
 
     m.redraw(true);

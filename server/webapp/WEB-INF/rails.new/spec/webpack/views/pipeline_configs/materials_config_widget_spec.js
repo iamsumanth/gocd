@@ -409,7 +409,7 @@ describe("Material Widget", function () {
 
   function mount(materials) {
     m.mount(root,
-      m.component(MaterialsConfigWidget, {materials: Stream(materials), pipelineName: Stream('testPipeLine')})
+      m(MaterialsConfigWidget, {materials: Stream(materials), pipelineName: Stream('testPipeLine')})
     );
     m.redraw(true);
   }

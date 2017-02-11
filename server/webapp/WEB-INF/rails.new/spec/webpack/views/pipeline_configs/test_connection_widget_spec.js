@@ -51,7 +51,7 @@ describe("Test Connection Widget", function () {
 
     function mount(material, vm) {
       m.mount(root,
-        m.component(TestConnectionWidget, {material: material, pipelineName: 'testPipeLine', vm: vm})
+        m(TestConnectionWidget, {material: material, pipelineName: 'testPipeLine', vm: vm})
       );
       m.redraw(true);
     }

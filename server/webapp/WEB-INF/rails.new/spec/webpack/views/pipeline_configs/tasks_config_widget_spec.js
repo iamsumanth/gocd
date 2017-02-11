@@ -354,7 +354,7 @@ describe("Tasks Widget", function () {
 
   var mount = function (tasks) {
     m.mount(root,
-      m.component(TasksConfigWidget, {tasks: tasks})
+      m(TasksConfigWidget, {tasks: tasks})
     );
     m.redraw(true);
   };

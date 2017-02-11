@@ -26,7 +26,7 @@ describe("Lookup Command Widget", function () {
 
   function mount(model, snippet) {
     m.mount(root,
-      m.component(LookupCommandWidget, {model: model, snippet: snippet})
+      m(LookupCommandWidget, {model: model, snippet: snippet})
     );
     m.redraw(true);
   }

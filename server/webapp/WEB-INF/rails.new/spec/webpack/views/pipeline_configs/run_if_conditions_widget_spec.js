@@ -26,7 +26,7 @@ describe("RunIfConditions Widget", function () {
 
   function mount(task) {
     m.mount(root,
-      m.component(RunIfConditionsWidget, {task: task})
+      m(RunIfConditionsWidget, {task: task})
     );
     m.redraw(true);
   }

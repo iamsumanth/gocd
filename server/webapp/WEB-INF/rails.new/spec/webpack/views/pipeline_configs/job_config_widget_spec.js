@@ -65,7 +65,7 @@ describe("JobsConfig Widget", function () {
 
   function mount() {
     m.mount(root,
-      m.component(JobsConfigWidget, {jobs: jobs, key: jobs().uuid(), elasticProfiles: elasticProfiles})
+      m(JobsConfigWidget, {jobs: jobs, key: jobs().uuid(), elasticProfiles: elasticProfiles})
     );
     m.redraw(true);
   }

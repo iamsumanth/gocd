@@ -29,7 +29,7 @@ describe("PipelineStageField Widget", function () {
 
   function mount(material, pipelines) {
     m.mount(root,
-      m.component(PipelineStageFieldWidget, {material: material, pipelines: pipelines})
+      m(PipelineStageFieldWidget, {material: material, pipelines: pipelines})
     );
     m.redraw(true);
   }

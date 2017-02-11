@@ -133,7 +133,7 @@ describe("Pluggable SCM Widget", function () {
 
   function mount(pluggableMaterial) {
     m.mount(root,
-      m.component(PluggableSCMWidget, {material: pluggableMaterial})
+      m(PluggableSCMWidget, {material: pluggableMaterial})
     );
     m.redraw(true);
   }
