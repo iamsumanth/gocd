@@ -25,7 +25,6 @@ var _           = require('lodash');
 var path        = require('path');
 var webpack     = require('webpack');
 var StatsPlugin = require('stats-webpack-plugin');
-var glob        = require('glob');
 
 var singlePageAppModuleDir = path.join(__dirname, '..', 'webpack', 'single_page_apps');
 
@@ -153,16 +152,7 @@ module.exports = function (env) {
 
     var jasminePath = resolveJasmineDir(jasmineFiles.path);
 
-    var specFiles   = glob.sync('spec/webpack/**/*[sS]pec.js');
-    var specHelpers = glob.sync('spec/webpack/helpers/**/*.js');
-
-    var specEntries = _.reduce(specFiles.concat(specHelpers), function (memo, file) {
-      var moduleName   = _.split(file, '.')[0];
-      memo[moduleName] = path.join(__dirname, '..', file);
-      return memo;
-    }, {});
-
-    config.entry = _.merge(config.entry, specEntries);
+    config.entry['specRoot'] = path.join(__dirname, '..', 'spec', 'webpack', 'specRoot.js');
 
     var MyPlugin = function (options) {
       this.apply = function (compiler) {
