@@ -64,14 +64,18 @@ describe("Agent State Count Widget", function () {
 
   var mount = function (agents) {
     m.mount(root,
-      m(AgentStateCountWidget, {agents: agents})
+      {
+        view: function () {
+          return m(AgentStateCountWidget, {agents: agents})
+        }
+      }
     );
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
   var unmount = function () {
     m.mount(root, null);
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
   var json = function () {

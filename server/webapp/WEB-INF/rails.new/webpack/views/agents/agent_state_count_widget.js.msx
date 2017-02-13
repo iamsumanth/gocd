@@ -16,7 +16,9 @@
 
 var m                     = require('mithril');
 var AgentStateCountWidget = {
-  view: function (_ctrl, args) {
+  view: function (vnode) {
+    var args = vnode.attrs;
+
     return (
 
       <ul class="search-summary">
