@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-/*global __dirname module */
-/*eslint no-undef: "error"*/
+/* global __dirname */
 
 'use strict';
 
@@ -40,6 +39,49 @@ module.exports = function (env) {
     return memo;
   }, {});
 
+  var assetsDir = path.join(__dirname, '..', 'webpack');
+
+  var plugins = [];
+  plugins.push(new StatsPlugin('manifest.json', {
+    chunkModules: false,
+    source:       false,
+    chunks:       false,
+    modules:      false,
+    assets:       true
+  }));
+  plugins.push(new webpack.ProvidePlugin({
+    $:               "jquery",
+    jQuery:          "jquery",
+    "window.jQuery": "jquery"
+  }));
+  plugins.push(new webpack.optimize.CommonsChunkPlugin({
+    name:      "vendor-and-helpers.chunk",
+    filename:  production ? '[name]-[chunkhash].js' : '[name].js',
+    minChunks: function (module, _count) {
+      function isFromNPM() {
+        return new RegExp(`node_modules`).test(module.resource);
+      }
+
+      function isInside() {
+        return fs.realpathSync(module.resource).indexOf(fs.realpathSync(path.join(assetsDir, ..._(Array.prototype.concat.apply([], arguments)).flattenDeep().compact().value()))) === 0;
+      }
+
+      return module.resource && (isFromNPM() || isInside('helpers') || isInside('gen') || isInside('models', 'shared') || isInside('models', 'mixins') || isInside('views', 'shared'));
+    },
+  }));
+
+  if (production) {
+    plugins.push(new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      },
+      sourceMap:  false
+    }));
+    plugins.push(new webpack.LoaderOptionsPlugin({minimize: true}));
+    plugins.push(new webpack.DefinePlugin({'process.env': {NODE_ENV: JSON.stringify('production')}}));
+    plugins.push(new webpack.NoEmitOnErrorsPlugin());
+  }
+
   var config = {
     cache:     true,
     bail:      true,
@@ -50,35 +92,19 @@ module.exports = function (env) {
       filename:   production ? '[name]-[chunkhash].js' : '[name].js'
     },
     resolve:   {
-      modules:    [path.join(__dirname, '..', 'webpack'), 'node_modules'],
+      modules:    [assetsDir, 'node_modules'],
       extensions: ['.js', '.js.msx', '.msx', '.es6'],
       alias:      {
-        'string-plus':         'helpers/string-plus',
-        'string':              'underscore.string',
-        'jQuery':              'jquery',
-        'jquery.textcomplete': 'jquery-textcomplete',
-        'js-routes':           'gen/js-routes'
+        'string-plus': 'helpers/string-plus',
+        'string':      'underscore.string',
+        'jQuery':      'jquery',
       }
     },
     devServer: {
       hot:    false,
       inline: false
     },
-    plugins:   [
-      new StatsPlugin('manifest.json', {
-        chunkModules: false,
-        source:       false,
-        chunks:       false,
-        modules:      false,
-        assets:       true
-      }),
-      new webpack.ProvidePlugin({
-        $:               "jquery",
-        jQuery:          "jquery",
-        "window.jQuery": "jquery"
-      }),
-      new webpack.NoEmitOnErrorsPlugin()
-    ],
+    plugins:   plugins,
     module:    {
       rules: [
         {
@@ -95,31 +121,18 @@ module.exports = function (env) {
 
   if (production) {
     fsExtra.removeSync(config.output.path);
-
-    config.plugins.push(new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        warnings: false
-      },
-      sourceMap:  false
-    }));
-
-    config.plugins.push(new webpack.LoaderOptionsPlugin({
-      minimize: true
-    }));
-
-    config.plugins.push(new webpack.DefinePlugin({
-      'process.env': {NODE_ENV: JSON.stringify('production')}
-    }));
   } else {
     config.devtool = "inline-source-map";
-    config.resolve.modules.push(path.join(__dirname, '..'));
+
+    config.resolve.modules.push(path.join(__dirname, 'spec', 'webpack'));
+
     var jasmineCore  = require('jasmine-core');
     var jasmineFiles = jasmineCore.files;
 
     var HtmlWebpackPlugin = require('html-webpack-plugin');
 
     var jasmineIndexPage = {
-      inject:          'head',
+      inject:          true,
       xhtml:           true,
       filename:        '_specRunner.html',
       template:        path.join(__dirname, '..', 'spec', 'webpack', '_specRunner.html.ejs'),
@@ -176,6 +189,7 @@ module.exports = function (env) {
     };
 
     config.plugins.push(new MyPlugin());
+
   }
 
   return config;

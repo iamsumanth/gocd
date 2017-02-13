@@ -43,18 +43,18 @@ describe("EnvironmentVariable Widget", function () {
       m(EnvironmentVariableWidget, {variables: variables})
     );
 
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var accordion = $root.find('.environment-variables .accordion-item > a').get(0);
     var evObj     = document.createEvent('MouseEvents');
     evObj.initEvent('click', true, false);
     accordion.onclick(evObj);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   afterEach(function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   it("should display environment variables", function () {
@@ -82,7 +82,7 @@ describe("EnvironmentVariable Widget", function () {
     var evObj = document.createEvent('MouseEvents');
     evObj.initEvent('click', true, false);
     editLink.get(0).onclick(evObj);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($('button.edit-secure-variable').length).toBe(0);
   });

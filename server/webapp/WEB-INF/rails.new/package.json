@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "license": "Apache-2.0",
   "scripts": {
+    "webpack-watch": "webpack --config config/webpack.config.js --debug --verbose --watch",
     "webpack-dev": "webpack --config config/webpack.config.js --debug --verbose",
     "webpack-prod": "webpack --config config/webpack.config.js --debug --verbose --env.production=true"
   },
@@ -30,6 +31,7 @@
     "jasmine-ajax": "^3.3.1",
     "jasmine-core": "^2.5.2",
     "jasmine-jquery": "^2.1.1",
+    "sourcemapped-stacktrace": "^1.1.5",
     "stats-webpack-plugin": "^0.4.3",
     "synchronize": "^2.0.0",
     "webpack": "^2.2.1",

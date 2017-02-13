@@ -17,6 +17,8 @@ describe('Resources Model', function () {
 
   var Resources = require('models/agents/resources');
 
+  require('jasmine-ajax');
+
   beforeAll(function () {
     jasmine.Ajax.install();
     jasmine.Ajax.stubRequest(/\/api\/admin\/internal\/resources/).andReturn({

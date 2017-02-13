@@ -17,7 +17,7 @@
 var m      = require('mithril');
 var _      = require('lodash');
 var f      = require('helpers/form_helper');
-var Routes = require('js-routes');
+var Routes = require('gen/js-routes');
 
 var UseThis = {
   view: function (_ctrl, args) {

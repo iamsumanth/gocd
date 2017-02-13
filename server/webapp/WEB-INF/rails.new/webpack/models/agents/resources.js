@@ -19,7 +19,7 @@ var Stream           = require('mithril/stream');
 var _                = require('lodash');
 var mrequest         = require('helpers/mrequest');
 var TriStateCheckbox = require('models/agents/tri_state_checkbox');
-var Routes           = require('js-routes');
+var Routes           = require('gen/js-routes');
 var Resources        = {};
 Resources.list       = Stream([]);
 

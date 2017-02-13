@@ -345,7 +345,7 @@ describe("Tasks Widget", function () {
       var evObj         = document.createEvent('MouseEvents');
       evObj.initEvent('click', true, false);
       addTaskButton.onclick(evObj);
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect(tasks().countTask()).toBe(6);
       expect($root.find('.task-definition')).toHaveLength(6);
@@ -356,12 +356,12 @@ describe("Tasks Widget", function () {
     m.mount(root,
       m(TasksConfigWidget, {tasks: tasks})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
 });

@@ -40,9 +40,9 @@ describe("PipelineConfigWidget", function () {
 
     // needed because the widget needs to fetch data via ajax, and complete rendering
     var reallyDone = _.after(2, function () {
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       $root.find('.pipeline-settings>.accordion-item>a')[0].click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       done();
     });
 
@@ -60,7 +60,7 @@ describe("PipelineConfigWidget", function () {
 
   afterAll(function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   function inputFieldFor(propName, modelType) {
@@ -111,7 +111,7 @@ describe("PipelineConfigWidget", function () {
     var evObj = document.createEvent('MouseEvents');
     evObj.initEvent('click', true, false);
     accordion.onclick(evObj);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($root.find('.parameters .parameter')).toHaveLength(3);
 
@@ -129,7 +129,7 @@ describe("PipelineConfigWidget", function () {
     var evObj = document.createEvent('MouseEvents');
     evObj.initEvent('click', true, false);
     accordion.onclick(evObj);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($root.find('.environment-variables .environment-variable[data-variable-type=plain]')).toHaveLength(2);
     expect($root.find('.environment-variables .environment-variable[data-variable-type=secure]')).toHaveLength(2);

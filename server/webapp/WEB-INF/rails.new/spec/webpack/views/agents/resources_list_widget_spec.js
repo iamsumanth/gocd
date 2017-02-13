@@ -21,6 +21,7 @@ describe("Resources List Widget", function () {
 
   require('jasmine-jquery');
   require("foundation-sites");
+  require('jasmine-ajax');
 
   var Resources           = require('models/agents/resources');
   var ResourcesListWidget = require("views/agents/resources_list_widget");
@@ -134,7 +135,7 @@ describe("Resources List Widget", function () {
 
     var addButton = $root.find('.add-resource :button')[0];
     addButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     allResources = $root.find('.resources-items :checkbox');
     expect(allResources).toHaveLength(5);
@@ -148,7 +149,7 @@ describe("Resources List Widget", function () {
     expect(inputBox).toHaveValue('Chrome');
     var addButton = $root.find('.add-resource button')[0];
     addButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     inputBox = $root.find('.add-resource input');
     expect(inputBox).toHaveValue('');
@@ -164,7 +165,7 @@ describe("Resources List Widget", function () {
 
     var addButton = $root.find('.add-resource :button')[1];
     addButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     allResources = $root.find('.resources-items input[type="Checkbox"]');
     expect(allResources).toHaveLength(4);
@@ -178,7 +179,7 @@ describe("Resources List Widget", function () {
         'onResourcesUpdate': Stream()
       })
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var hideDropDown = function () {
@@ -189,7 +190,7 @@ describe("Resources List Widget", function () {
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
 });

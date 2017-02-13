@@ -18,11 +18,11 @@ var m              = require('mithril');
 var Stream         = require('mithril/stream');
 var _              = require('lodash');
 var s              = require('string-plus');
-var Mixins         = require('models/model_mixins');
+var Mixins         = require('models/mixins/model_mixins');
 var EncryptedValue = require('models/pipeline_configs/encrypted_value');
 var SCMs           = require('models/pipeline_configs/scms');
-var Validatable    = require('models/validatable_mixin');
-var Routes         = require('js-routes');
+var Validatable    = require('models/mixins/validatable_mixin');
+var Routes         = require('gen/js-routes');
 
 function plainOrCipherValue(data) {
   if (data.encryptedPassword) {

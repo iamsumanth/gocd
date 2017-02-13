@@ -32,14 +32,21 @@ $(function () {
 
   $(document).foundation();
 
-  m.route.prefix("#!");
+  m.route.prefix("#");
 
   var agents = Stream(new Agents());
 
   var agentsViewModel = new AgentsVM();
+
+  var component = {
+    view: function () {
+      return m(AgentsWidget, {vm: agentsViewModel, allAgents: agents, isUserAdmin: isUserAdmin})
+    }
+  };
+
   m.route(agentsDOMElement, '', {
-    '':                  m(AgentsWidget, {vm: agentsViewModel, allAgents: agents, isUserAdmin: isUserAdmin}),
-    '/:sortBy/:orderBy': m(AgentsWidget, {vm: agentsViewModel, allAgents: agents, isUserAdmin: isUserAdmin})
+    '':                  component,
+    '/:sortBy/:orderBy': component
   });
 });
 

@@ -28,16 +28,16 @@ module Webpack
         def asset_paths(source)
           raise WebpackError, manifest["errors"] unless manifest_bundled?
 
-          paths = manifest["assetsByChunkName"][source]
-          if paths
-            # Can be either a string or an array of strings.
-            # Do not include source maps as they are not javascript
+          if manifest["entrypoints"][source] && paths = manifest["entrypoints"][source]['assets']
+            # # Can be either a string or an array of strings.
+            # # Do not include source maps as they are not javascript
             [paths].flatten.reject { |p| p =~ /.*\.map$/ }.map do |p|
               "/#{::Rails.configuration.webpack.public_path}/#{p}"
             end
           else
             raise EntryPointMissingError, "Can't find entry point '#{source}' in webpack manifest"
           end
+
         end
 
         private

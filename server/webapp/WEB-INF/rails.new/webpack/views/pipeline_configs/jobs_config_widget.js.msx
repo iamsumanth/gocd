@@ -28,7 +28,7 @@ var TasksConfigWidget                = require('views/pipeline_configs/tasks_con
 var ArtifactsConfigWidget            = require('views/pipeline_configs/artifacts_config_widget');
 var PropertiesConfigWidget           = require('views/pipeline_configs/properties_config_widget');
 var TabsConfigWidget                 = require('views/pipeline_configs/tabs_config_widget');
-require('jquery.textcomplete');
+require('jquery-textcomplete');
 
 
 var resourceReplaceFunc = function (word) {

@@ -34,17 +34,17 @@ describe("Tracking Tool Widget", function () {
       m(TrackingToolWidget, {trackingTool: trackingToolProp})
     );
 
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     var accordion = $root.find('.tracking-tool .accordion-item > a').get(0);
     var evObj     = document.createEvent('MouseEvents');
     evObj.initEvent('click', true, false);
     accordion.onclick(evObj);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   afterEach(function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   it("should select none tracking tool when none is selected", function () {
@@ -57,7 +57,7 @@ describe("Tracking Tool Widget", function () {
       var evObj       = document.createEvent('MouseEvents');
       evObj.initEvent('click', true, false);
       radioButton.onclick(evObj);
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect(trackingToolProp().type()).toBe(type);
       expect(radioButton).toBeChecked();

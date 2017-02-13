@@ -31,12 +31,12 @@ describe("PipelineStageField Widget", function () {
     m.mount(root,
       m(PipelineStageFieldWidget, {material: material, pipelines: pipelines})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   describe('view', function () {
@@ -76,7 +76,7 @@ describe("PipelineStageField Widget", function () {
 
       $root.find("input[name='pipeline-stage']").val('pipeline [stage]');
       $root.find("input[name='pipeline-stage']").blur();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect(material.pipeline()).toBe('pipeline');
       expect(material.stage()).toBe('stage');
@@ -93,7 +93,7 @@ describe("PipelineStageField Widget", function () {
 
       $root.find("input[name='pipeline-stage']").val('invalid-input');
       $root.find("input[name='pipeline-stage']").blur();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find("input[name='pipeline-stage']")).toHaveValue('invalid-input');
       expect($root.find(".form-error")).toHaveText("'invalid-input' should conform to the pattern 'pipeline [stage]'");
@@ -111,13 +111,13 @@ describe("PipelineStageField Widget", function () {
 
       $root.find("input[name='pipeline-stage']").val('invalid-input');
       $root.find("input[name='pipeline-stage']").blur();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find(".form-error")).toHaveText("'invalid-input' should conform to the pattern 'pipeline [stage]'");
 
       $root.find("input[name='pipeline-stage']").val('pipeline [stage]');
       $root.find("input[name='pipeline-stage']").blur();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find("input[name='pipeline-stage']")).toHaveValue('pipeline [stage]');
       expect(_.isEmpty($root.find(".form-error"))).toBe(true);
@@ -160,7 +160,7 @@ describe("PipelineStageField Widget", function () {
 
       $root.find("input[name='pipeline-stage']").val('pipeline [stage]');
       $root.find("input[name='pipeline-stage']").blur();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find("input[name='pipeline-stage']")).toHaveValue('pipeline [stage]');
       expect(_.isEmpty($root.find(".form-error"))).toBe(true);

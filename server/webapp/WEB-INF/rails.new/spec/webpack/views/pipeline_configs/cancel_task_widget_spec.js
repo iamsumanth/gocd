@@ -108,7 +108,7 @@ describe('Cancel Task Widget', function () {
       mount(task);
 
       $root.find("input[type=checkbox][data-prop-name=checked]").click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find("select :checked")).toHaveValue('exec');
       expect(task.onCancelTask.type()).toBe('exec');
@@ -142,7 +142,7 @@ describe('Cancel Task Widget', function () {
 
       $root.find('.on-cancel select').val('exec');
       $root.find('.on-cancel select').change();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect(task.onCancelTask.type()).toBe('exec');
       expect($root.find("input[data-prop-name='command']")).toHaveValue(task.onCancelTask.command());
@@ -154,14 +154,14 @@ describe('Cancel Task Widget', function () {
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var mount = function (task) {
     m.mount(root,
       m(CancelTaskWidget, {task: task})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
 });

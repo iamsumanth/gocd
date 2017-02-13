@@ -16,11 +16,11 @@
 
 var Stream               = require('mithril/stream');
 var s                    = require('string-plus');
-var Mixins               = require('models/model_mixins');
+var Mixins               = require('models/mixins/model_mixins');
 var Jobs                 = require('models/pipeline_configs/jobs');
 var EnvironmentVariables = require('models/pipeline_configs/environment_variables');
 var Approval             = require('models/pipeline_configs/approval');
-var Validatable          = require('models/validatable_mixin');
+var Validatable          = require('models/mixins/validatable_mixin');
 
 var Stages = function (data) {
   Mixins.HasMany.call(this, {factory: Stages.Stage.create, as: 'Stage', collection: data, uniqueOn: 'name'});

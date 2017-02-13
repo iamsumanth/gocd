@@ -112,7 +112,7 @@ describe("Agent Row Widget", function () {
     var checkbox = $(row).find('input');
     expect(model()).toBe(false);
     $(checkbox).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     expect(model()).toBe(true);
   });
 
@@ -135,12 +135,12 @@ describe("Agent Row Widget", function () {
         'isUserAdmin':   isUserAdmin
       })
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var model = Stream();

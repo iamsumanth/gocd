@@ -17,7 +17,7 @@
 var m        = require('mithril');
 var _        = require('lodash');
 var mrequest = require('helpers/mrequest');
-var Routes   = require('js-routes');
+var Routes   = require('gen/js-routes');
 
 var VersionUpdater = function () {
   this.update = function () {
@@ -46,9 +46,8 @@ var VersionUpdater = function () {
         xhr.setRequestHeader("Accept", "application/vnd.update.go.cd.v1+json");
       }
     }).then(function (data) {
-        updateLatestVersion(data);
-      }
-    );
+      updateLatestVersion(data);
+    });
   };
 
   var updateLatestVersion = function (data) {

@@ -25,7 +25,7 @@ var Users                            = require('models/pipeline_configs/users');
 var Roles                            = require('models/pipeline_configs/roles');
 var EnvironmentVariablesConfigWidget = require('views/pipeline_configs/environment_variables_config_widget');
 var JobsConfigWidget                 = require('views/pipeline_configs/jobs_config_widget');
-require('jquery.textcomplete');
+require('jquery-textcomplete');
 
 var autoComplete = function (values, model, attrName) {
   return function (elem, isInitialized, context) {

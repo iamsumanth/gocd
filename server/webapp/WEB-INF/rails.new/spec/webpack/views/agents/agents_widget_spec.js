@@ -21,6 +21,7 @@ describe("Agents Widget", function () {
   var _      = require('lodash');
 
   require('jasmine-jquery');
+  require('jasmine-ajax');
 
   var Agents       = require('models/agents/agents');
   var AgentsWidget = require("views/agents/agents_widget");
@@ -38,15 +39,15 @@ describe("Agents Widget", function () {
       '':                  m(AgentsWidget, {vm: agentsVM, allAgents: agents, isUserAdmin: isUserAdmin}),
       '/:sortBy/:orderBy': m(AgentsWidget, {vm: agentsVM, allAgents: agents, isUserAdmin: isUserAdmin})
     });
-    m.route('');
-    m.redraw(true);
+    m.route.set('');
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var unmount = function () {
-    m.route('');
+    m.route.set('');
     m.route.prefix("#!");
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   beforeEach(function () {
@@ -103,7 +104,7 @@ describe("Agents Widget", function () {
     expect(allBoxes[1]).not.toBeChecked();
 
     $(selectAllCheckbox).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect(allBoxes[0]).toBeChecked();
     expect(allBoxes[1]).toBeChecked();
@@ -119,7 +120,7 @@ describe("Agents Widget", function () {
 
     $(allBoxes[0]).click();
     $(allBoxes[1]).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect(selectAllCheckbox[0]).toBeChecked();
   });
@@ -129,13 +130,13 @@ describe("Agents Widget", function () {
 
     var resourceButton = $root.find("button:contains('Resources')");
     resourceButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($(resourceButton).parent().attr('class')).toContain('is-open');
 
     var body = $root.find('.search-panel');
     $(body).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($(resourceButton).parent().attr('class')).not.toContain('is-open');
   });
@@ -145,7 +146,7 @@ describe("Agents Widget", function () {
 
     var resourceButton = $root.find("button:contains('Resources')");
     $(resourceButton).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($(resourceButton).parent().attr('class')).toContain('is-open');
 
@@ -175,7 +176,7 @@ describe("Agents Widget", function () {
 
   it('should show message after enabling the agents', function () {
     clickAllAgents();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var enableButton = $root.find("button:contains('Enable')");
     var message      = $root.find('.callout');
@@ -203,7 +204,7 @@ describe("Agents Widget", function () {
     clickAllAgents();
     var resourceButton = $root.find("button:contains('Resources')");
     $(resourceButton).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var resource      = $root.find('.add-resource');
     var applyResource = resource.find('button')[1];
@@ -218,7 +219,7 @@ describe("Agents Widget", function () {
     clickAllAgents();
     var environmentButton = $root.find("button:contains('Environments')");
     $(environmentButton).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var environment      = $root.find('.env-dropdown');
     var applyEnvironment = environment.find('button');
@@ -235,7 +236,7 @@ describe("Agents Widget", function () {
     expect(agentsCountOnPage).toHaveLength(2);
 
     $(searchField).val('host-2').trigger('input');
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($(searchField)).toHaveValue('host-2');
     agentsCountOnPage = $root.find('table tbody tr');
@@ -245,13 +246,13 @@ describe("Agents Widget", function () {
   it('should filter the agents based on filter text value', function () {
     var searchField = $root.find('#filter-agent')[0];
     $(searchField).val('').trigger('input');
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var agentsCountOnPage = $root.find('table tbody tr');
     expect(agentsCountOnPage).toHaveLength(2);
 
     $(searchField).val('invalidtextnotvalid').trigger('input');
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($(searchField)).toHaveValue('invalidtextnotvalid');
 
@@ -259,7 +260,7 @@ describe("Agents Widget", function () {
     expect(agentsCountOnPage).toHaveLength(0);
 
     $(searchField).val('').trigger('input');
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($(searchField)).toHaveValue('');
 
@@ -271,7 +272,7 @@ describe("Agents Widget", function () {
     var searchField = $root.find('#filter-agent')[0];
 
     $(searchField).val('host-1').trigger('input');
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var allBoxes = $root.find('.go-table tbody tr input[type="checkbox"]');
 
@@ -280,7 +281,7 @@ describe("Agents Widget", function () {
     expect(allBoxes[0]).toBeChecked();
 
     $(searchField).val('').trigger('input');
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     allBoxes = $root.find('.go-table tbody tr input[type="checkbox"]');
     expect(allBoxes).toHaveLength(2);
@@ -292,7 +293,7 @@ describe("Agents Widget", function () {
 
     var agentNameHeader = $root.find("label:contains('Agent Name')");
     $(agentNameHeader).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var hostnameCells = $root.find(".go-table tbody td:nth-child(2)");
 
@@ -306,10 +307,10 @@ describe("Agents Widget", function () {
   it('should sort the agents in descending order based on hostname', function () {
     var agentNameHeader = $root.find("label:contains('Agent Name')");
     $(agentNameHeader).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     agentNameHeader = $root.find("label:contains('Agent Name')");
     $(agentNameHeader).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var hostnameCells = $root.find(".go-table tbody td:nth-child(2)");
 
@@ -328,13 +329,13 @@ describe("Agents Widget", function () {
     expect(resourcesList.classList).not.toContain('is-open');
 
     $(resourceButton).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     resourcesList = $root.find('.has-dropdown')[0];
     expect(resourcesList.classList).toContain('is-open');
 
     resourceButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     expect(resourcesList.classList).not.toContain('is-open');
   });
 
@@ -346,12 +347,12 @@ describe("Agents Widget", function () {
     expect(environmentsList.classList).not.toContain('is-open');
 
     $(environmentButton).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     environmentsList = $root.find('.has-dropdown')[1];
     expect(environmentsList.classList).toContain('is-open');
 
     environmentButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     expect(environmentsList.classList).not.toContain('is-open');
   });
 
@@ -363,12 +364,12 @@ describe("Agents Widget", function () {
     var resourcesDropdown = $root.find("button:contains('Resources')").parent()[0];
 
     resourcesButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect(resourcesDropdown.classList).toContain('is-open');
 
     environmentButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect(resourcesDropdown.classList).not.toContain('is-open');
 
@@ -382,12 +383,12 @@ describe("Agents Widget", function () {
     var environmentsDropdown = $root.find("button:contains('Environments')").parent()[0];
 
     environmentButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect(environmentsDropdown.classList).toContain('is-open');
 
     resourcesButton.click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect(environmentsDropdown.classList).not.toContain('is-open');
 
@@ -398,7 +399,7 @@ describe("Agents Widget", function () {
     clickAllAgents();
     var resourceButton = $root.find("button:contains('Resources')");
     $(resourceButton).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var resource      = $root.find('.add-resource');
     var applyResource = resource.find('button')[1];
@@ -417,7 +418,7 @@ describe("Agents Widget", function () {
     var buildingDetailsLink = $(buildingAgentStatus).find('.has-build-details-drop-down')[0];
 
     $(buildingDetailsLink).click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     buildingAgentStatus = $root.find(".agents-table tbody td:nth-child(6)")[0];
     expect(buildingAgentStatus).toHaveClass('is-open');
@@ -428,12 +429,12 @@ describe("Agents Widget", function () {
     _.forEach(uuids, function (uuid) {
       agentsVM.agents.checkboxFor(uuid)(true);
     });
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var hideAllDropDowns = function () {
     agentsVM.dropdown.hideAllDropDowns();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var mockAjaxCalWithErrorOnUpdatingElasticAgentResource = function () {

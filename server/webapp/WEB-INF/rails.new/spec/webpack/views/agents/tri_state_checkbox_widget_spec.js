@@ -18,6 +18,8 @@ describe("Resource Checkbox Widget", function () {
   var $ = require("jquery");
   var m = require("mithril");
 
+  require('jasmine-jquery');
+
   var TriStateCheckboxWidget = require("views/agents/tri_state_checkbox_widget");
   var TriStateCheckbox       = require("models/agents/tri_state_checkbox");
 
@@ -54,13 +56,13 @@ describe("Resource Checkbox Widget", function () {
 
   var mount = function (triStateCheckbox) {
     m.mount(root,
-      m(TriStateCheckboxWidget, {'triStateCheckbox': triStateCheckbox, 'index': 1})
+      {view: function () {return m(TriStateCheckboxWidget, {'triStateCheckbox': triStateCheckbox, 'index': 1})}}
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 });

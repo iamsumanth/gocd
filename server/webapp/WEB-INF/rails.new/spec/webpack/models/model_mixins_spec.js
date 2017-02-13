@@ -16,7 +16,7 @@
 describe("Model Mixins", function () {
 
   var Stream = require('mithril/stream');
-  var Mixin  = require('models/model_mixins');
+  var Mixin  = require('models/mixins/model_mixins');
 
   describe("TogglingGetterSetter", function () {
     var model;

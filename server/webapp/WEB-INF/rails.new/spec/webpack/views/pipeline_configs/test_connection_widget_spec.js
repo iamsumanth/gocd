@@ -53,12 +53,12 @@ describe("Test Connection Widget", function () {
       m.mount(root,
         m(TestConnectionWidget, {material: material, pipelineName: 'testPipeLine', vm: vm})
       );
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     }
 
     afterEach(function () {
       m.mount(root, null);
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     });
   });
 

@@ -24,12 +24,9 @@ var dragulaConfig = function (elem, options) {
   var drake = dragula([elem], opts);
 
   drake.on('drop', function () {
-    m.startComputation();
     try {
       options.onDropCallback();
-    } finally {
-      m.endComputation();
-    }
+    } finally {}
   });
 };
 

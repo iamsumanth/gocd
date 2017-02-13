@@ -16,11 +16,11 @@
 
 var Stream               = require('mithril/stream');
 var s                    = require('string-plus');
-var Mixins               = require('models/model_mixins');
+var Mixins               = require('models/mixins/model_mixins');
 var PluginConfigurations = require('models/shared/plugin_configurations');
-var Routes               = require('js-routes');
-var Validatable          = require('models/validatable_mixin');
-var CrudMixins           = require('models/crud_mixins');
+var Routes               = require('gen/js-routes');
+var Validatable          = require('models/mixins/validatable_mixin');
+var CrudMixins           = require('models/mixins/crud_mixins');
 
 var ElasticProfiles = function (data) {
   Mixins.HasMany.call(this, {

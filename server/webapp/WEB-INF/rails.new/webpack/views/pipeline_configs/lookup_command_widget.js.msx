@@ -19,9 +19,9 @@ var Stream = require('mithril/stream');
 var _      = require('lodash');
 var $      = require('jquery');
 var f      = require('helpers/form_helper');
-var Routes = require('js-routes');
+var Routes = require('gen/js-routes');
 var tt     = require('helpers/pipeline_configs/tooltips');
-require('jquery.textcomplete');
+require('jquery-textcomplete');
 var LookupCommandWidget = {
   Command: {
     textComplete: function (attrName, selectSnippet, searchSnippets) {

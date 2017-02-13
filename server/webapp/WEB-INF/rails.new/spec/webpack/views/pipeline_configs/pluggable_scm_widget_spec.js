@@ -135,12 +135,12 @@ describe("Pluggable SCM Widget", function () {
     m.mount(root,
       m(PluggableSCMWidget, {material: pluggableMaterial})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
 });

@@ -20,7 +20,7 @@ var _           = require('lodash');
 var s           = require('string-plus');
 var mrequest    = require('helpers/mrequest');
 var Image       = require('models/shared/image');
-var Routes      = require('js-routes');
+var Routes      = require('gen/js-routes');
 var PluginInfos = Stream([]);
 
 PluginInfos.init = function (type) {

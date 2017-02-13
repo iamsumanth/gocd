@@ -26,7 +26,8 @@ var ButtonRowWidget       = require('views/agents/button_row_widget');
 var Agents                = require('models/agents/agents');
 
 var AgentsWidget = {
-  controller: function (args) {
+  oninit: function (vnode) {
+    var args = vnode.attrs;
 
     var clearAllCheckboxes = function () {
       args.vm.agents.clearAllCheckboxes();
@@ -41,9 +42,9 @@ var AgentsWidget = {
       return args.isUserAdmin;
     };
 
-    var ctrl = {
+    var ctrl = this
+    var _ctrl = {
       message: Stream(),
-
       type: Stream(),
 
       allAgents: args.allAgents,
@@ -206,12 +207,17 @@ var AgentsWidget = {
     };
 
     m.redraw(true);     //freezes rendering of the page until the ajax call to agents completes
-    ctrl.refresh();
 
-    return ctrl;
+    _.assign(this, _ctrl);
+    this.refresh();
+
+    //return ctrl;
   },
 
-  view: function (ctrl, args) {
+  view: function (vnode) {
+    var ctrl = vnode.state;
+    var args = vnode.attrs;
+
     var filterText                     = args.vm.filterText();
     var filteredAgents                 = ctrl.filteredAndSortedAgents();
     var message                        = ctrl.message();

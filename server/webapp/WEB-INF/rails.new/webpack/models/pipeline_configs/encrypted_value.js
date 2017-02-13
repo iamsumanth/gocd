@@ -17,7 +17,7 @@
 var Stream         = require('mithril/stream');
 var _              = require('lodash');
 var s              = require('string-plus');
-var Mixins         = require('models/model_mixins');
+var Mixins         = require('models/mixins/model_mixins');
 var EncryptedValue = function (data) {
   this.constructor.modelType = 'encryptedValue';
   Mixins.HasUUID.call(this);

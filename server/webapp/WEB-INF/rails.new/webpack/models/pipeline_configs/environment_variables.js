@@ -16,9 +16,9 @@
 
 var Stream         = require('mithril/stream');
 var s              = require('string-plus');
-var Mixins         = require('models/model_mixins');
+var Mixins         = require('models/mixins/model_mixins');
 var EncryptedValue = require('models/pipeline_configs/encrypted_value');
-var Validatable    = require('models/validatable_mixin');
+var Validatable    = require('models/mixins/validatable_mixin');
 
 var EnvironmentVariables = function (data) {
   Mixins.HasMany.call(this, {

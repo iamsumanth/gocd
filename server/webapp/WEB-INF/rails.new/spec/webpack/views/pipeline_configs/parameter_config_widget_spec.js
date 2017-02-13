@@ -35,18 +35,18 @@ describe("Parameter Widget", function () {
     m.mount(root,
       m(ParametersConfigWidget, {parameters: parameters})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     var accordion = $root.find('.parameters .accordion-item > a').get(0);
     var evObj     = document.createEvent('MouseEvents');
     evObj.initEvent('click', true, false);
     accordion.onclick(evObj);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   afterEach(function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   it("should display parameters", function () {

@@ -28,12 +28,12 @@ describe("Lookup Command Widget", function () {
     m.mount(root,
       m(LookupCommandWidget, {model: model, snippet: snippet})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   describe("view", function () {

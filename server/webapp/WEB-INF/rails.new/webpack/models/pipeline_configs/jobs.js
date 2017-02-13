@@ -17,13 +17,13 @@
 var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var s                    = require('string-plus');
-var Mixins               = require('models/model_mixins');
+var Mixins               = require('models/mixins/model_mixins');
 var EnvironmentVariables = require('models/pipeline_configs/environment_variables');
 var Tasks                = require('models/pipeline_configs/tasks');
 var Artifacts            = require('models/pipeline_configs/artifacts');
 var Tabs                 = require('models/pipeline_configs/tabs');
 var Properties           = require('models/pipeline_configs/properties');
-var Validatable          = require('models/validatable_mixin');
+var Validatable          = require('models/mixins/validatable_mixin');
 
 var Jobs = function (data) {
   Mixins.HasMany.call(this, {factory: Jobs.Job.create, as: 'Job', collection: data, uniqueOn: 'name'});
@@ -75,7 +75,7 @@ Jobs.Job = function (data) {
     }
   };
 
-  this.elasticProfileId.toJSON = _elasticProfileId.toJSON;
+  this.elasticProfileId.toJSON = _elasticProfileId.toJSON.bind(_elasticProfileId);
 
   this.isRunOnAllAgents = function () {
     return this.runInstanceCount() === 'all';

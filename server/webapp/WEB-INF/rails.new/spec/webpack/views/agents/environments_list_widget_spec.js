@@ -20,6 +20,7 @@ describe("Environments List Widget", function () {
 
   require("foundation-sites");
   require("jasmine-jquery");
+  require('jasmine-ajax');
 
   var Environments           = require('models/agents/environments');
   var EnvironmentsListWidget = require("views/agents/environments_list_widget");
@@ -97,7 +98,7 @@ describe("Environments List Widget", function () {
         onEnvironmentsUpdate: onEnvironmentsUpdate,
       })
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var hideDropDown         = function () {
@@ -109,7 +110,7 @@ describe("Environments List Widget", function () {
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
 });

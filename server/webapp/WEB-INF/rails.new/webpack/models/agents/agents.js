@@ -18,10 +18,10 @@ var m        = require('mithril');
 var Stream   = require('mithril/stream');
 var _        = require('lodash');
 var s        = require('string-plus');
-var Mixins   = require('models/model_mixins');
+var Mixins   = require('models/mixins/model_mixins');
 var filesize = require('filesize');
 var mrequest = require('helpers/mrequest');
-var Routes   = require('js-routes');
+var Routes   = require('gen/js-routes');
 require('lodash-inflection');
 var statusComparator = _.memoize(function (agent) {
   var rank = {

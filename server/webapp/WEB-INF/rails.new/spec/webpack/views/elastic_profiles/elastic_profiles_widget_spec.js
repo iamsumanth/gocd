@@ -19,6 +19,7 @@ describe("ElasticProfilesWidget", function () {
   var m = require("mithril");
 
   require('jasmine-jquery');
+  require('jasmine-ajax');
 
   var ElasticProfilesWidget = require("views/elastic_profiles/elastic_profiles_widget");
   var PluginInfos           = require('models/pipeline_configs/plugin_infos');
@@ -123,7 +124,7 @@ describe("ElasticProfilesWidget", function () {
     PluginInfos.init('elastic-agent');
 
     m.mount(root, m(ElasticProfilesWidget));
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   afterEach(function () {
@@ -131,7 +132,7 @@ describe("ElasticProfilesWidget", function () {
     PluginInfos([]);
 
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
     expect($('.new-modal-container .reveal')).not.toExist('Did you forget to close the modal before the test?');
   });
@@ -149,7 +150,7 @@ describe("ElasticProfilesWidget", function () {
       });
 
       m.mount(root, m(ElasticProfilesWidget));
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find('.alert.callout')).toContainText('Boom!');
     });
@@ -161,14 +162,14 @@ describe("ElasticProfilesWidget", function () {
     it("should popup a new modal to allow adding a profile", function () {
       expect($root.find('.reveal:visible')).not.toBeInDOM();
       $root.find('.add-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       expect($('.reveal:visible')).toBeInDOM();
       expect($('.reveal:visible input[data-prop-name]')).not.toBeDisabled();
     });
 
     it("should allow saving a profile if save is successful", function () {
       $root.find('.add-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($('.reveal:visible .modal-buttons').find('.save')).toBeDisabled();
 
@@ -182,7 +183,7 @@ describe("ElasticProfilesWidget", function () {
       e = $.Event('input', {currentTarget: pluginId.get(0)});
       pluginId.trigger(e);
 
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($('.reveal:visible .modal-buttons').find('.save')).not.toBeDisabled();
 
@@ -192,7 +193,7 @@ describe("ElasticProfilesWidget", function () {
       });
 
       $('.reveal:visible .modal-buttons').find('.save').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       var request = jasmine.Ajax.requests.at(jasmine.Ajax.requests.count() - 2);
       expect(request.url).toBe('/go/api/elastic/profiles');
@@ -203,7 +204,7 @@ describe("ElasticProfilesWidget", function () {
 
     it("should display error message", function () {
       $root.find('.add-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       var profileId = $('.reveal:visible .modal-body').find('[data-prop-name="id"]').val("unit-test");
       profileId.val("unit-test");
@@ -216,7 +217,7 @@ describe("ElasticProfilesWidget", function () {
       e = $.Event('input', {currentTarget: pluginId.get(0)});
 
       pluginId.trigger(e);
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       jasmine.Ajax.stubRequest('/go/api/elastic/profiles', undefined, 'POST').andReturn({
         responseText: JSON.stringify({message: 'Boom!'}),
@@ -224,7 +225,7 @@ describe("ElasticProfilesWidget", function () {
       });
 
       $('.reveal:visible .modal-buttons').find('.save').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       var request = jasmine.Ajax.requests.at(jasmine.Ajax.requests.count() - 1);
       expect(request.url).toBe('/go/api/elastic/profiles');
@@ -244,7 +245,7 @@ describe("ElasticProfilesWidget", function () {
       expect($root.find('.reveal:visible')).not.toBeInDOM();
 
       $root.find('.edit-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       expect($('.reveal:visible')).toBeInDOM();
       expect($('.reveal:visible input[data-prop-name]')).toBeDisabled();
     });
@@ -256,7 +257,7 @@ describe("ElasticProfilesWidget", function () {
       });
 
       $root.find('.edit-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($('.alert')).toContainText('Boom!');
     });
@@ -270,14 +271,14 @@ describe("ElasticProfilesWidget", function () {
 
       expect($root.find('.plugin-config-read-only')).not.toHaveClass('show');
       $root.find('.elastic-profile-header').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       expect($root.find('.plugin-config-read-only')).toHaveClass('show');
 
       $root.find('.edit-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       $root.find('.reveal:visible .close-button span').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       expect($root.find('.plugin-config-read-only')).toHaveClass('show');
     });
   });
@@ -287,7 +288,7 @@ describe("ElasticProfilesWidget", function () {
 
     it("should show confirm modal when deleting a profile", function () {
       $('.delete-profile-confirm').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       expect($('.reveal:visible .modal-title')).toHaveText('Are you sure?');
     });
 
@@ -298,9 +299,9 @@ describe("ElasticProfilesWidget", function () {
       });
 
       $('.delete-profile-confirm').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       $('.reveal:visible .delete-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($('.success')).toContainText('Success!');
     });
@@ -312,9 +313,9 @@ describe("ElasticProfilesWidget", function () {
       });
 
       $('.delete-profile-confirm').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
       $('.reveal:visible .delete-profile').click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($('.alert')).toContainText('Boom!');
     });

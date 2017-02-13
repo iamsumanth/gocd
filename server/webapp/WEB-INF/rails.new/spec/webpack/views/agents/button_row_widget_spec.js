@@ -57,7 +57,7 @@ describe("Button Row Widget", function () {
   });
 
   beforeEach(function () {
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   describe('Heading Row', function () {
@@ -117,12 +117,12 @@ describe("Button Row Widget", function () {
         onEnvironmentsUpdate: updateEnvironments
       })
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var json = function () {

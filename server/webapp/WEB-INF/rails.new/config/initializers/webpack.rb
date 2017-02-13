@@ -15,7 +15,7 @@
 ##########################################################################
 
 unless Rails.env.production?
-  Rails.application.middleware.insert_before ActionDispatch::Static, WebpackMiddleware
+  # Rails.application.middleware.insert_after Rack::Lock, WebpackMiddleware
 
   module Webpack
     module Rails

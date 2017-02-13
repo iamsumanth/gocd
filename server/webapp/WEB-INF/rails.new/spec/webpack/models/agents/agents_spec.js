@@ -18,6 +18,8 @@ describe('Agent Model', function () {
 
   var s = require('string-plus');
 
+  require('jasmine-ajax');
+
   var Agents = require('models/agents/agents');
 
   function ajaxCall(agentData) {

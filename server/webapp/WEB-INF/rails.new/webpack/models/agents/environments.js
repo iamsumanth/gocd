@@ -18,7 +18,7 @@ var m                = require('mithril');
 var _                = require('lodash');
 var mrequest         = require('helpers/mrequest');
 var TriStateCheckbox = require('models/agents/tri_state_checkbox');
-var Routes           = require('js-routes');
+var Routes           = require('gen/js-routes');
 var Environments     = {};
 Environments.list    = [];
 
@@ -37,9 +37,8 @@ Environments.init = function (selectedAgents) {
     method:        'GET',
     url:           Routes.apiv1AdminInternalEnvironmentsPath(),
     config:        mrequest.xhrConfig.v1,
-    unwrapSuccess: function (responseBody) {
-      Environments.list = getSortedEnvironments(responseBody, selectedAgents);
-    }
+  }).then(function (responseBody) {
+    Environments.list = getSortedEnvironments(responseBody, selectedAgents);
   });
 };
 

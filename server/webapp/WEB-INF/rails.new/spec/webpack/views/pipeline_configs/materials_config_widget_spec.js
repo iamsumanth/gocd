@@ -33,7 +33,7 @@ describe("Material Widget", function () {
 
   afterAll(function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   });
 
   describe('SVN View', function () {
@@ -411,18 +411,18 @@ describe("Material Widget", function () {
     m.mount(root,
       m(MaterialsConfigWidget, {materials: Stream(materials), pipelineName: Stream('testPipeLine')})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   function viewMaterial() {
     $root.find(".materials>.accordion-item>a")[0].click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     $root.find('.material-definitions>.accordion-item>a')[0].click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 });

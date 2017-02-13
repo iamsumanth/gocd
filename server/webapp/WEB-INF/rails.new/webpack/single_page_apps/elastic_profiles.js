@@ -36,5 +36,5 @@ $(function () {
     );
   };
 
-  m.sync([PluginInfos.init('elastic-agent')]).then(onSuccess, onFailure);
+  Promise.all([PluginInfos.init('elastic-agent')]).then(onSuccess, onFailure);
 });

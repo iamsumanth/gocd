@@ -17,11 +17,11 @@
 var Stream               = require('mithril/stream');
 var _                    = require('lodash');
 var s                    = require('string-plus');
-var Mixins               = require('models/model_mixins');
+var Mixins               = require('models/mixins/model_mixins');
 var Argument             = require('models/pipeline_configs/argument');
 var RunIfConditions      = require('models/pipeline_configs/run_if_conditions');
 var PluginConfigurations = require('models/shared/plugin_configurations');
-var Validatable          = require('models/validatable_mixin');
+var Validatable          = require('models/mixins/validatable_mixin');
 
 var Tasks = function (data) {
   Mixins.HasMany.call(this, {factory: Tasks.createByType, as: 'Task', collection: data});

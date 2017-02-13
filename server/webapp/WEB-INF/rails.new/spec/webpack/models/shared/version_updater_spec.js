@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 describe("VersionUpdater", function () {
 
   var VersionUpdater = require('models/shared/version_updater');
+  require('jasmine-ajax');
 
   describe('update', function () {
     beforeEach(function () {

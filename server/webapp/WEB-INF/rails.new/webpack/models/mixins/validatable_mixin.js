@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 ThoughtWorks, Inc.
+ * Copyright 2017 ThoughtWorks, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@
 
 var _                 = require('lodash');
 var s                 = require('string-plus');
-var Errors            = require('models/errors');
-var Mixins            = require('models/model_mixins');
+var Errors            = require('models/mixins/errors');
+var Mixins            = require('models/mixins/model_mixins');
 var PresenceValidator = function (options) {
   this.validate = function (entity, attr) {
     if (options.condition && (!options.condition(entity))) {

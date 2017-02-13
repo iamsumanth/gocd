@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-describe('Environments Model', function () {
+describe('Agent Environments Model', function () {
 
   var Environments = require('models/agents/environments');
+
+  require('jasmine-ajax');
 
   beforeAll(function () {
     jasmine.Ajax.install();

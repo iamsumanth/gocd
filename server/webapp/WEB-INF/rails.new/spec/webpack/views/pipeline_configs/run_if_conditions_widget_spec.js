@@ -28,12 +28,12 @@ describe("RunIfConditions Widget", function () {
     m.mount(root,
       m(RunIfConditionsWidget, {task: task})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   describe("View", function () {
@@ -70,7 +70,7 @@ describe("RunIfConditions Widget", function () {
       expect($root.find("input[type=checkbox][value=any]")).not.toBeChecked();
 
       $root.find("input[type=checkbox][value=any]").click();
-      m.redraw(true);
+      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
 
       expect($root.find("input[type=checkbox][value=passed]")).not.toBeChecked();
       expect($root.find("input[type=checkbox][value=failed]")).not.toBeChecked();

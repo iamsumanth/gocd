@@ -20,20 +20,20 @@ describe("Argument", function () {
 
   describe('Argument create', function () {
     it('should create from a list of arguments', function () {
-      var arguments = ['arg1', 'arg2'];
+      var args = ['arg1', 'arg2'];
 
-      var argument = Argument.create(undefined, arguments);
+      var argument = Argument.create(undefined, args);
 
-      expect(argument.data()).toBe(arguments);
+      expect(argument.data()).toBe(args);
       expect(argument.isList()).toBe(true);
     });
 
     it('should create from a string argument', function () {
-      var arguments = "args";
+      var args = "args";
 
-      var argument = Argument.create(arguments, undefined);
+      var argument = Argument.create(args, undefined);
 
-      expect(argument.data()).toBe(arguments);
+      expect(argument.data()).toBe(args);
       expect(argument.isList()).toBe(false);
     });
 
@@ -47,19 +47,19 @@ describe("Argument", function () {
 
   describe('Argument toJSON', function () {
     it('should give json representation of list type', function () {
-      var arguments = ['arg1', 'arg2'];
+      var args = ['arg1', 'arg2'];
 
-      var argument = Argument.create(undefined, arguments);
+      var argument = Argument.create(undefined, args);
 
-      expect(argument.toJSON()).toEqual({arguments: arguments});
+      expect(argument.toJSON()).toEqual({arguments: args});
     });
 
     it('should convert argument object of type string to json', function () {
-      var arguments = "arg";
+      var args = "arg";
 
-      var argument = Argument.create(arguments, undefined);
+      var argument = Argument.create(args, undefined);
 
-      expect(argument.toJSON()).toEqual({args: arguments});
+      expect(argument.toJSON()).toEqual({args: args});
     });
 
     it('should be empty in absence of data', function () {

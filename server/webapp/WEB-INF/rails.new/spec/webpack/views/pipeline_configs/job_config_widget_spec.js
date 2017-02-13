@@ -55,19 +55,19 @@ describe("JobsConfig Widget", function () {
 
   function viewJob() {
     $root.find(".job-definition .accordion-item>a")[0].click();
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   function mount() {
     m.mount(root,
       m(JobsConfigWidget, {jobs: jobs, key: jobs().uuid(), elasticProfiles: elasticProfiles})
     );
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   }
 
   var data = {

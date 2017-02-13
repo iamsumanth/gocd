@@ -25,7 +25,7 @@ var ElasticProfiles         = require('models/elastic_profiles/elastic_profiles'
 var PluginInfos             = require('models/pipeline_configs/plugin_infos');
 var ElasticProfileWidget    = require('views/elastic_profiles/elastic_profile_widget');
 var ElasticProfileModalBody = require('views/elastic_profiles/elastic_profile_modal_body');
-require('jquery.textcomplete');
+require('jquery-textcomplete');
 
 function showErrors(modal, ctrl, newProfile) {
   module.exports = function (errorMessageOrProfileWithErrors) {

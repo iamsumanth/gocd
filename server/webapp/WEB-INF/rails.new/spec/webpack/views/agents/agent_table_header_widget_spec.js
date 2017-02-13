@@ -18,6 +18,8 @@ describe("Agent Table Header Widget", function () {
   var $ = require("jquery");
   var m = require("mithril");
 
+  require('jasmine-jquery');
+
   var AgentsTableHeader = require("views/agents/agent_table_header");
 
   var $root = $('#mithril-mount-point'), root = $root.get(0);
@@ -36,15 +38,15 @@ describe("Agent Table Header Widget", function () {
       '':                  agentTableHeaderComponent(isUserAdmin),
       '/:sortBy/:orderBy': agentTableHeaderComponent(isUserAdmin)
     });
-    m.route('');
-    m.redraw(true);
+    m.route.set('');
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
   var unmount = function () {
-    m.route('');
+    m.route.set('');
     m.route.prefix("#!");
     m.mount(root, null);
-    m.redraw(true);
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
   };
 
 
@@ -54,22 +56,21 @@ describe("Agent Table Header Widget", function () {
   });
 
   it('should not display checkbox for non-admin user', function () {
-    route(false);
-    expect('thead input').not.toBeInDOM();
+    expect($('thead input')).not.toBeInDOM();
   });
 
 
   it('should add the ascending css class to table header cell attribute when table is sorted ascending on the corresponding attribute', function () {
-    m.route('/agentState/asc');
-    m.redraw(true);
+    m.route.set('/agentState/asc');
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     var headerAttribute = $root.find("th:contains('Status') .sort");
     expect(headerAttribute).toHaveClass('asc');
   });
 
 
   it('should add the descending css class to table header cell attribute when table is sorted descending on the corresponding attribute', function () {
-    m.route('/agentState/desc');
-    m.redraw(true);
+    m.route.set('/agentState/desc');
+    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
     var headerAttribute = $root.find("th:contains('Status') .sort");
     expect(headerAttribute).toHaveClass('desc');
   });

@@ -16,8 +16,8 @@
 
 var Stream      = require('mithril/stream');
 var s           = require('string-plus');
-var Mixins      = require('models/model_mixins');
-var Validatable = require('models/validatable_mixin');
+var Mixins      = require('models/mixins/model_mixins');
+var Validatable = require('models/mixins/validatable_mixin');
 
 var PluginConfigurations = function (data) {
   this.constructor.modelType = 'plugin-configurations';

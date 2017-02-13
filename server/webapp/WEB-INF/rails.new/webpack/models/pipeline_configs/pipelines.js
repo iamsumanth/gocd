@@ -17,7 +17,7 @@
 var m         = require('mithril');
 var Stream    = require('mithril/stream');
 var _         = require('lodash');
-var Routes    = require('js-routes');
+var Routes    = require('gen/js-routes');
 var mrequest  = require('helpers/mrequest');
 var Pipelines = Stream([]);
 

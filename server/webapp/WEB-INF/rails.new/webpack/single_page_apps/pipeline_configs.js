@@ -40,7 +40,7 @@ $(function () {
   Users.initializeWith(allUserNames);
   Roles.initializeWith(allRoleNames);
   new VersionUpdater().update();
-  m.sync([PluginInfos.init(), SCMs.init(), ElasticProfiles.all()]).then(function (args) {
+  Promise.all([PluginInfos.init(), SCMs.init(), ElasticProfiles.all()]).then(function (args) {
 
     PluggableTasks.init();
     PluggableSCMs.init();
