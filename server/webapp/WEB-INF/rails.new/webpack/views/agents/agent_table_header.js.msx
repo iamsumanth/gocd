@@ -18,10 +18,11 @@ var m = require('mithril');
 var s = require('string-plus');
 
 var SortHeaderWidget = {
-  view: function (ctrl, args) {
+  view: function (vnode) {
     return (
-      <label class="agents-table-header" onclick={args.toggleSortingOrder.bind(ctrl, args.attrName)}>{args.attrLabel}
-        <div class={"sort " + args.sortClass(args.attrName)}>
+      <label class="agents-table-header"
+             onclick={vnode.attrs.toggleSortingOrder.bind(vnode.state, vnode.attrs.attrName)}>{vnode.attrs.attrLabel}
+        <div class={"sort " + vnode.attrs.sortClass(vnode.attrs.attrName)}>
           <span class="up"/>
           <span class="down"/>
         </div>
@@ -32,7 +33,7 @@ var SortHeaderWidget = {
 
 var AgentsTableHeader = {
 
-  controller: function (args) {
+  oninit: function (vnode) {
 
     var currentlySortedOn = function () {
       return s.defaultToIfBlank(m.route.param('sortBy'), 'agentState');
@@ -46,31 +47,29 @@ var AgentsTableHeader = {
       return currentlySortedOn() === attrName;
     }
 
-    return {
-      sortClass: function (attrName) {
-        return tableSortedOnAttribute(attrName) ? currentlyOrderdOn() : '';
-      },
-
-      toggleSortingOrder: function (attrName) {
-        var sortingOrder = 'asc';
-
-        if (tableSortedOnAttribute(attrName) && currentlyOrderdOn() === 'asc') {
-          sortingOrder = 'desc';
-        }
-
-        args.sortBy(attrName, sortingOrder);
-      }
+    this.sortClass = function (attrName) {
+      return tableSortedOnAttribute(attrName) ? currentlyOrderdOn() : '';
     };
+
+    this.toggleSortingOrder = function (attrName) {
+      var sortingOrder = 'asc';
+
+      if (tableSortedOnAttribute(attrName) && currentlyOrderdOn() === 'asc') {
+        sortingOrder = 'desc';
+      }
+
+      vnode.attrs.sortBy(attrName, sortingOrder);
+    }
   },
 
-  view: function (ctrl, args) {
+  view: function (vnode) {
     var selectAllAgentsCheckbox;
-    if (args.isUserAdmin) {
+    if (vnode.attrs.isUserAdmin) {
       selectAllAgentsCheckbox = (
         <input type="checkbox"
                class="select-agent"
-               checked={args.checkboxValue()}
-               onclick={m.withAttr('checked', args.onCheckboxClick)}/>
+               checked={vnode.attrs.checkboxValue()}
+               onclick={m.withAttr('checked', vnode.attrs.onCheckboxClick)}/>
       );
     }
     return (
@@ -80,44 +79,44 @@ var AgentsTableHeader = {
           {selectAllAgentsCheckbox}
         </th>
         <th>
-          <SortHeaderWidget attrName='hostname' attrLabel='Agent Name' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='hostname' attrLabel='Agent Name' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='sandbox' attrLabel='Sandbox' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='sandbox' attrLabel='Sandbox' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='operatingSystem' attrLabel='OS' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='operatingSystem' attrLabel='OS' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='ipAddress' attrLabel='IP Address' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='ipAddress' attrLabel='IP Address' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='agentState' attrLabel='Status' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='agentState' attrLabel='Status' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='freeSpace' attrLabel='Free Space' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='freeSpace' attrLabel='Free Space' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='resources' attrLabel='Resources' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='resources' attrLabel='Resources' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
         <th>
-          <SortHeaderWidget attrName='environments' attrLabel='Environments' sortBy={args.sortBy}
-                            sortClass={ctrl.sortClass}
-                            toggleSortingOrder={ctrl.toggleSortingOrder}/>
+          <SortHeaderWidget attrName='environments' attrLabel='Environments' sortBy={vnode.attrs.sortBy}
+                            sortClass={vnode.state.sortClass}
+                            toggleSortingOrder={vnode.state.toggleSortingOrder}/>
         </th>
       </tr>
       </thead>

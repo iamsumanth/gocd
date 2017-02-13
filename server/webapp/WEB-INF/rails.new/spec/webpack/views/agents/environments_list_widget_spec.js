@@ -29,7 +29,7 @@ describe("Environments List Widget", function () {
 
   beforeAll(function () {
     jasmine.Ajax.install();
-    jasmine.Ajax.stubRequest(/\/api\/admin\/internal\/environments/).andReturn({
+    jasmine.Ajax.stubRequest(/\/api\/admin\/internal\/environments/).andRetur({
       "responseText": JSON.stringify(['Dev', 'Build', 'Testing', 'Deploy']),
       "status":       200
     });

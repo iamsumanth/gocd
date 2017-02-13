@@ -40,4 +40,5 @@ var BuildDetailsWidget = {
     );
   }
 };
-module.exports         = BuildDetailsWidget;
+
+module.exports = BuildDetailsWidget;

@@ -28,67 +28,65 @@ var NewResourceVM = {
 };
 
 var ResourcesListWidget = {
-  controller: function (args) {
-    return {
-      addNewResource: function () {
-        var currentResources = Resources.list();
+  oninit: function (vnode) {
+    this.addNewResource = function () {
+      var currentResources = Resources.list();
 
-        var isDuplicateResource = function (newResource) {
-          return _.some(currentResources, function (resource) {
-            return _.isEqual(resource.name().toLowerCase(), newResource.toLowerCase());
-          });
-        };
-
-        var newResource       = _.trim(NewResourceVM.newResource());
-        var duplicateResource = isDuplicateResource(newResource);
-
-        if (duplicateResource) {
-          NewResourceVM.error("duplicate resource");
-        }
-
-        if ((!duplicateResource) && !(_.isEqual('', newResource))) {
-          currentResources.push(new TriStateCheckbox(newResource, []));
-          Resources.list(currentResources);
-          NewResourceVM.newResource('');
-          NewResourceVM.error('');
-        }
-      },
-
-      updateResource: function (callback) {
-        args.hideDropDown('resource');
-
-        var resourcesToBeAdded = _.filter(Resources.list(), function (resource) {
-          return resource.isChecked();
-        }).map(function (resource) {
-          return resource.name();
+      var isDuplicateResource = function (newResource) {
+        return _.some(currentResources, function (resource) {
+          return _.isEqual(resource.name().toLowerCase(), newResource.toLowerCase());
         });
+      };
 
-        var resourcesToBeRemoved = _.filter(Resources.list(), function (resource) {
-          return !resource.isIndeterminate() && !resource.isChecked();
-        }).map(function (resource) {
-          return resource.name();
-        });
+      var newResource       = _.trim(NewResourceVM.newResource());
+      var duplicateResource = isDuplicateResource(newResource);
 
+      if (duplicateResource) {
+        NewResourceVM.error("duplicate resource");
+      }
 
-        callback(resourcesToBeAdded, resourcesToBeRemoved);
-
+      if ((!duplicateResource) && !(_.isEqual('', newResource))) {
+        currentResources.push(new TriStateCheckbox(newResource, []));
+        Resources.list(currentResources);
         NewResourceVM.newResource('');
-      },
-
-      closeDropdown: function () {
-        args.dropDownReset(false);
-      },
-
-      newResourceInputValue: function (value) {
-        NewResourceVM.newResource(value);
         NewResourceVM.error('');
       }
     };
+
+    this.updateResource = function (callback) {
+      vnode.attrs.hideDropDown('resource');
+
+      var resourcesToBeAdded = _.filter(Resources.list(), function (resource) {
+        return resource.isChecked();
+      }).map(function (resource) {
+        return resource.name();
+      });
+
+      var resourcesToBeRemoved = _.filter(Resources.list(), function (resource) {
+        return !resource.isIndeterminate() && !resource.isChecked();
+      }).map(function (resource) {
+        return resource.name();
+      });
+
+
+      callback(resourcesToBeAdded, resourcesToBeRemoved);
+
+      NewResourceVM.newResource('');
+    };
+
+    this.closeDropdown = function () {
+      vnode.attrs.dropDownReset(false);
+    };
+
+    this.newResourceInputValue = function (value) {
+      NewResourceVM.newResource(value);
+      NewResourceVM.error('');
+    }
   },
 
-  view: function (ctrl, args) {
+  view: function (vnode) {
     return (
-      <div class="agent-button-group-dropdown resource-dropdown" onclick={ctrl.closeDropdown}>
+      <div class="agent-button-group-dropdown resource-dropdown" onclick={vnode.state.closeDropdown}>
         <ul class="resources-items">
 
           {
@@ -102,20 +100,21 @@ var ResourcesListWidget = {
             {_.isEqual('', NewResourceVM.error()) ? "" : <span class="resource-error">{NewResourceVM.error()}</span> }
             <div class="small-9 columns">
               <input type="text"
-                     oninput={m.withAttr("value", ctrl.newResourceInputValue)}
+                     oninput={m.withAttr("value", vnode.state.newResourceInputValue)}
                      value={NewResourceVM.newResource()}
                      placeholder="Add resource" class="add-resource-input"/>
             </div>
             <div class="small-3 columns">
-              <f.button onclick={ctrl.addNewResource.bind(ctrl)}
-                        href="#" class="add-resource-btn">
+              <f.button onclick={vnode.state.addNewResource.bind(vnode.state)}
+                        href="#"
+                        class="add-resource-btn">
                 Add
               </f.button>
             </div>
 
           </div>
           <f.button
-            onclick={ ctrl.updateResource.bind(ctrl, args.onResourcesUpdate) }
+            onclick={ vnode.state.updateResource.bind(vnode.state, vnode.attrs.onResourcesUpdate) }
             class="btn-apply tiny"
             data-toggle="resources-list">
             Apply

@@ -59,7 +59,10 @@ function setValue(items, cb) {
 
 var f = {
   row: {
-    view: function (_ctrl, args, children) {
+    view: function (vnode) {
+      var args     = vnode.args;
+      var children = vnode.children;
+
       var collapse = deleteKeyAndReturnValue(args, 'collapse') ? 'collapse' : null;
       return (
         <div
@@ -72,7 +75,10 @@ var f = {
   },
 
   column: {
-    view: function (_ctrl, args, children) {
+    view: function (vnode) {
+      var args     = vnode.args;
+      var children = vnode.children;
+
       var end       = deleteKeyAndReturnValue(args, 'end') ? 'end' : null,
           size      = deleteKeyAndReturnValue(args, 'size', 6),
           largeSize = deleteKeyAndReturnValue(args, 'largeSize', size);
@@ -313,7 +319,8 @@ var f = {
   },
 
   multiSelectionBox: {
-    controller: function (args) {
+    oninit: function (vnode) {
+      var args  = vnode.attrs;
       this.attr = args.model[args.attrName];
 
       this.onChange = function (e) {
@@ -328,7 +335,10 @@ var f = {
       };
     },
 
-    view: function (ctrl, args) {
+    view: function (vnode) {
+      var args = vnode.attrs;
+      var ctrl = vnode.state;
+
       var model      = deleteKeyAndReturnValue(args, 'model'),
           attrName   = deleteKeyAndReturnValue(args, 'attrName'),
           value      = deleteKeyAndReturnValue(args, 'value'),
@@ -461,11 +471,13 @@ var f = {
   },
 
   select: {
-    controller: function (args) {
-      this.value = s.coerceToMprop(args.value, '');
+    oninit: function (vnode) {
+      this.value = s.coerceToMprop(vnode.attrs.value, '');
     },
 
-    view: function (_ctrl, args) {
+    view: function (vnode) {
+      var args = vnode.attrs;
+
       var items         = deleteKeyAndReturnValue(args, 'items', [{}]),
           label         = deleteKeyAndReturnValue(args, 'label'),
           model         = deleteKeyAndReturnValue(args, 'model'),
@@ -528,8 +540,8 @@ var f = {
   },
 
   accordion: {
-    controller: function (args) {
-      this.selectedIndex = Mixin.TogglingGetterSetter(s.coerceToMprop(args.selectedIndex || 0));
+    oninit: function (vnode) {
+      this.selectedIndex = Mixin.TogglingGetterSetter(s.coerceToMprop(vnode.attrs.selectedIndex || 0));
 
       this.classNameForAccordionIndex = function (tabIndex) {
         return this.selectedIndex() === tabIndex ? 'is-active' : null;
@@ -540,7 +552,11 @@ var f = {
       };
     },
 
-    view: function (ctrl, args, children) {
+    view: function (vnode) {
+      var ctrl     = vnode.state;
+      var args     = vnode.attrs;
+      var children = vnode.children;
+
       return (
         <ul class={compactClasses(args, 'accordion')} data-accordion data-multi-expand="true">
           {_.map(_.flatten(children), function (child, index) {
@@ -598,9 +614,13 @@ var f = {
   },
 
   button: {
-    view: function (_ctrl, args, children) {
+    view: function (vnode) {
       return (
-        <button type="button" class={compactClasses(args, 'button')} {...args}>{children}</button>
+        <button type="button"
+                class={compactClasses(vnode.attrs, 'button')}
+                {...vnode.attrs}>
+          {vnode.children}
+        </button>
       );
     }
   },
@@ -612,7 +632,10 @@ var f = {
   },
 
   tooltip: {
-    view: function (_ctrl, args, children) {
+    view: function (vnode) {
+      var args     = vnode.attrs;
+      var children = vnode.children;
+
       if (!args.tooltip && _.isEmpty(children)) {
         return <noscript/>;
       }

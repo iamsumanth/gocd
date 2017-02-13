@@ -34,19 +34,29 @@ describe("Agent Table Header Widget", function () {
 
   var route = function (isUserAdmin) {
     m.route.prefix("#!");
+
     m.route(root, '', {
-      '':                  agentTableHeaderComponent(isUserAdmin),
-      '/:sortBy/:orderBy': agentTableHeaderComponent(isUserAdmin)
+      '':                  {
+        view: function () {
+          return agentTableHeaderComponent(isUserAdmin)
+        }
+      },
+      '/:sortBy/:orderBy': {
+        view: function () {
+          return agentTableHeaderComponent(isUserAdmin)
+        }
+      }
     });
+
     m.route.set('');
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
   var unmount = function () {
     m.route.set('');
     m.route.prefix("#!");
     m.mount(root, null);
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
 
@@ -56,13 +66,14 @@ describe("Agent Table Header Widget", function () {
   });
 
   it('should not display checkbox for non-admin user', function () {
+    route(false);
     expect($('thead input')).not.toBeInDOM();
   });
 
 
   it('should add the ascending css class to table header cell attribute when table is sorted ascending on the corresponding attribute', function () {
     m.route.set('/agentState/asc');
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
     var headerAttribute = $root.find("th:contains('Status') .sort");
     expect(headerAttribute).toHaveClass('asc');
   });
@@ -70,7 +81,7 @@ describe("Agent Table Header Widget", function () {
 
   it('should add the descending css class to table header cell attribute when table is sorted descending on the corresponding attribute', function () {
     m.route.set('/agentState/desc');
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
     var headerAttribute = $root.find("th:contains('Status') .sort");
     expect(headerAttribute).toHaveClass('desc');
   });

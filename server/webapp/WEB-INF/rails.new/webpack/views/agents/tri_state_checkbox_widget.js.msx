@@ -17,10 +17,12 @@
 var m                      = require('mithril');
 var _                      = require('lodash');
 var TriStateCheckboxWidget = {
-  view: function (_ctrl, args) {
+  view: function (vnode) {
+    var args = vnode.attrs;
+
     return (
       <li>
-        <input type="checkbox"
+        <input type="checkbox"  
                id={"checkbox-" + args.index.toString()}
                class="select-resource"
                key={args.triStateCheckbox.name()}

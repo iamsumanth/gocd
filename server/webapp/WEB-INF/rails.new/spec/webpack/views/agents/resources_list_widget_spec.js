@@ -15,13 +15,11 @@
  */
 
 describe("Resources List Widget", function () {
-  var $      = require("jquery");
-  var m      = require('mithril');
-  var Stream = require('mithril/stream');
-
-  require('jasmine-jquery');
+  var $                = require("jquery");
+  var m                = require('mithril');
+  var Stream           = require('mithril/stream');
+  var TriStateCheckbox = require('models/agents/tri_state_checkbox');
   require("foundation-sites");
-  require('jasmine-ajax');
 
   var Resources           = require('models/agents/resources');
   var ResourcesListWidget = require("views/agents/resources_list_widget");
@@ -47,11 +45,8 @@ describe("Resources List Widget", function () {
   vm.dropdown.states['resource']    = Stream(false);
 
   beforeAll(function () {
+
     jasmine.Ajax.install();
-    jasmine.Ajax.stubRequest(/\/api\/admin\/internal\/resources/).andReturn({
-      "responseText": JSON.stringify(['Linux', 'Gauge', 'Java', 'Windows']),
-      "status":       200
-    });
     jasmine.Ajax.stubRequest(/\/api\/agents/).andReturn({"status": 304});
   });
 
@@ -71,8 +66,18 @@ describe("Resources List Widget", function () {
       }
     ];
 
-    Resources.init(selectedAgents);
+    var selectedAgentsResources = _.map(selectedAgents, function (agent) {
+      return agent.resources();
+    });
 
+    var allResources = [
+      new TriStateCheckbox('Gauge', selectedAgentsResources),
+      new TriStateCheckbox('Java', selectedAgentsResources),
+      new TriStateCheckbox('Linux', selectedAgentsResources),
+      new TriStateCheckbox('Windows', selectedAgentsResources),
+    ];
+
+    Resources.list(allResources);
     mount();
   });
 
@@ -126,16 +131,17 @@ describe("Resources List Widget", function () {
   });
 
   it('should add resource after invoking add button', function () {
-    var allResources = $root.find('.resources-items :checkbox');
+    //Todo: Ganesh did this, issue with redraws
+    var allResources = $root.find('.resources-items');
     expect(allResources).toHaveLength(4);
 
-    var inputBox = $root.find('.add-resource :text')[0];
-    $(inputBox).val('Chrome').trigger('input');
+    var inputBox = $root.find('.add-resource input');
+    $(inputBox).val('Chrome').trigger('change');
 
-
-    var addButton = $root.find('.add-resource :button')[0];
+    expect(inputBox).toHaveValue('Chrome');
+    var addButton = $root.find('.add-resource button')[0];
     addButton.click();
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
 
     allResources = $root.find('.resources-items :checkbox');
     expect(allResources).toHaveLength(5);
@@ -143,13 +149,14 @@ describe("Resources List Widget", function () {
 
 
   it('should clear input-text box after adding resource', function () {
+    //Todo: Ganesh did this, issue with redraws
     var inputBox = $root.find('.add-resource input');
     $(inputBox).val('Chrome').trigger('change');
 
     expect(inputBox).toHaveValue('Chrome');
     var addButton = $root.find('.add-resource button')[0];
     addButton.click();
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
 
     inputBox = $root.find('.add-resource input');
     expect(inputBox).toHaveValue('');
@@ -165,21 +172,24 @@ describe("Resources List Widget", function () {
 
     var addButton = $root.find('.add-resource :button')[1];
     addButton.click();
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
 
     allResources = $root.find('.resources-items input[type="Checkbox"]');
     expect(allResources).toHaveLength(4);
   });
 
   var mount = function () {
-    m.mount(root,
-      m(ResourcesListWidget, {
-        'hideDropDown':      hideDropDown,
-        'dropDownReset':     dropDownReset,
-        'onResourcesUpdate': Stream()
-      })
-    );
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.mount(root, {
+      view: function (vnode) {
+        return m(ResourcesListWidget, {
+          'hideDropDown':      hideDropDown,
+          'dropDownReset':     dropDownReset,
+          'onResourcesUpdate': Stream()
+        })
+      }
+    });
+
+    m.redraw();
   };
 
   var hideDropDown = function () {
@@ -190,7 +200,7 @@ describe("Resources List Widget", function () {
 
   var unmount = function () {
     m.mount(root, null);
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
 });

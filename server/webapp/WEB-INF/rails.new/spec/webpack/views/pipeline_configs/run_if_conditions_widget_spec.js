@@ -25,15 +25,17 @@ describe("RunIfConditions Widget", function () {
   var $root = $('#mithril-mount-point'), root = $root.get(0);
 
   function mount(task) {
-    m.mount(root,
-      m(RunIfConditionsWidget, {task: task})
-    );
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.mount(root, {
+      view: function () {
+        return m(RunIfConditionsWidget, {task: task});
+      }
+    });
+    m.redraw(true);
   }
 
   var unmount = function () {
     m.mount(root, null);
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw(true);
   };
 
   describe("View", function () {
@@ -61,7 +63,7 @@ describe("RunIfConditions Widget", function () {
   });
 
   describe("Selection", function () {
-    it("should be either 'any' or 'passed || failed'", function () {
+    it("should be either 'any' or 'passed || failed'", function (done) {
       var task = new Tasks.Task.Exec({runIf: ['passed', 'failed']});
       mount(task);
 
@@ -70,14 +72,18 @@ describe("RunIfConditions Widget", function () {
       expect($root.find("input[type=checkbox][value=any]")).not.toBeChecked();
 
       $root.find("input[type=checkbox][value=any]").click();
-      console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+      m.redraw();
 
-      expect($root.find("input[type=checkbox][value=passed]")).not.toBeChecked();
-      expect($root.find("input[type=checkbox][value=failed]")).not.toBeChecked();
-      expect($root.find("input[type=checkbox][value=any]")).toBeChecked();
-      expect(task.runIf().data()).toEqual(['any']);
+      setTimeout(function () {
+        expect($root.find("input[type=checkbox][value=passed]")).not.toBeChecked();
+        expect($root.find("input[type=checkbox][value=failed]")).not.toBeChecked();
+        expect($root.find("input[type=checkbox][value=any]")).toBeChecked();
+        expect(task.runIf().data()).toEqual(['any']);
 
-      unmount();
+        unmount();
+        done();
+      }, 60);
+
     });
   });
 });

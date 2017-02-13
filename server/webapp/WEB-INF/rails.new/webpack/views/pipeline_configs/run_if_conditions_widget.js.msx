@@ -17,7 +17,8 @@
 var m                     = require('mithril');
 var f                     = require('helpers/form_helper');
 var RunIfConditionsWidget = {
-  view: function (_ctrl, args) {
+  view: function (vnode) {
+    var args = vnode.attrs;
     var task = args.task;
     return (
       <div class='runif'>
