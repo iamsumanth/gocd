@@ -22,9 +22,10 @@ var Resources              = require('models/agents/resources');
 var Environments           = require('models/agents/environments');
 
 var ButtonRowWidget = {
-  controller: function (args) {
+  oninit: function (vnode) {
+    var args = vnode.attrs;
 
-    var ctrl = {
+    var _ctrl = {
       dropdownClass:             function (name) {
         return args.dropdown.isDropDownOpen(name) ? 'has-dropdown is-open' : 'has-dropdown';
       },
@@ -40,10 +41,14 @@ var ButtonRowWidget = {
       }
     };
 
-    return ctrl;
+    _.assign(this, _ctrl);
+
   },
 
-  view: function (ctrl, args) {
+  view: function (vnode) {
+    var ctrl = vnode.state;
+    var args = vnode.attrs;
+
     return (
       <header class="page-header">
         <f.row>

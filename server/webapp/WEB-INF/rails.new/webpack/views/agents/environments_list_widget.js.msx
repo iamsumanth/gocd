@@ -21,8 +21,10 @@ var TriStateCheckboxWidget = require('views/agents/tri_state_checkbox_widget');
 var Environments           = require('models/agents/environments');
 
 var EnvironmentsListWidget = {
-  controller: function (args) {
-    return {
+  oninit: function (vnode) {
+    var args = vnode.attrs;
+
+    var _ctrl = {
       updateEnvironments: function (callback) {
         function hideEnvironmentsDropDown() {
           args.hideDropDown('environment');
@@ -49,9 +51,14 @@ var EnvironmentsListWidget = {
         args.dropDownReset(false);
       }
     };
+    _.assign(this, _ctrl);
+
   },
 
-  view: function (ctrl, args) {
+  view: function (vnode) {
+
+    var ctrl = vnode.state;
+    var args = vnode.attrs;
 
     var isEnvironmentsEmpty      = _.isEmpty(Environments.list);
     var environmentDropDownClass = "agent-button-group-dropdown env-dropdown ";
@@ -70,8 +77,10 @@ var EnvironmentsListWidget = {
         </ul>
 
         {isEnvironmentsEmpty ? (<span class="no-environment">No environments are defined</span>) :
-          <f.button data-toggle="environments-list" class="btn-apply"
-                    onclick={ctrl.updateEnvironments.bind(ctrl, args.onEnvironmentsUpdate)}>
+          <f.button
+            onclick={ctrl.updateEnvironments.bind(ctrl, args.onEnvironmentsUpdate)}
+            class="btn-apply"
+            data-toggle="environments-list">
             Apply
           </f.button>
         }

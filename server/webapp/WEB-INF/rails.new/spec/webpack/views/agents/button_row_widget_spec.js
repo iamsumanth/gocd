@@ -57,7 +57,7 @@ describe("Button Row Widget", function () {
   });
 
   beforeEach(function () {
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   });
 
   describe('Heading Row', function () {
@@ -69,16 +69,17 @@ describe("Button Row Widget", function () {
 
   describe('Button Group', function () {
     it('should contain the row elements', function () {
-      var rowElements = $root.find('.header-panel-button-group button');
-      expect(rowElements).toHaveLength(8);
-      expect(rowElements[0]).toHaveText("Delete");
-      expect(rowElements[1]).toHaveText("Disable");
-      expect(rowElements[2]).toHaveText("Enable");
-      expect(rowElements[3]).toHaveText("Resources");
-      expect(rowElements[4]).toHaveText("Add");
-      expect(rowElements[5]).toHaveText("Apply");
-      expect(rowElements[6]).toHaveText("Environments");
-      expect(rowElements[7]).toHaveText("Apply");
+      var rowElementButtons = $root.find('.header-panel-button-group button');
+      expect(rowElementButtons).toHaveLength(7);
+      expect(rowElementButtons[0]).toHaveText("Delete");
+      expect(rowElementButtons[1]).toHaveText("Disable");
+      expect(rowElementButtons[2]).toHaveText("Enable");
+      expect(rowElementButtons[3]).toHaveText("Resources");
+      expect(rowElementButtons[4]).toHaveText("Add");
+      expect(rowElementButtons[5]).toHaveText("Apply");
+      expect(rowElementButtons[6]).toHaveText("Environments");
+      var rowElementText = $root.find('.header-panel-button-group .no-environment');
+      expect(rowElementText[0]).toHaveText("No environments are defined");
     });
 
     it('should disable the buttons if agents are not selected', function () {
@@ -105,24 +106,27 @@ describe("Button Row Widget", function () {
   });
 
   var mount = function (areOperationsAllowed) {
-    m.mount(root,
-      m(ButtonRowWidget, {
-        areOperationsAllowed: areOperationsAllowed,
-        dropdown:             agentsVM.dropdown,
-        selectedAgents:       selectedAgents,
-        onDisable:            disableAgents,
-        onEnable:             enableAgents,
-        onDelete:             deleteAgents,
-        onResourcesUpdate:    updateResources,
-        onEnvironmentsUpdate: updateEnvironments
-      })
+    m.mount(root, {
+        view: function () {
+          return m(ButtonRowWidget, {
+            areOperationsAllowed: areOperationsAllowed,
+            dropdown:             agentsVM.dropdown,
+            selectedAgents:       selectedAgents,
+            onDisable:            disableAgents,
+            onEnable:             enableAgents,
+            onDelete:             deleteAgents,
+            onResourcesUpdate:    updateResources,
+            onEnvironmentsUpdate: updateEnvironments
+          })
+        }
+      }
     );
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
   var unmount = function () {
     m.mount(root, null);
-    console.warn("m.redraw ignores arguments in mithril 1.0") || m.redraw(true);
+    m.redraw();
   };
 
   var json = function () {
